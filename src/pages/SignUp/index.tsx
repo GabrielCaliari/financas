@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useContext} from 'react';
 
 import {
   Background,
@@ -8,9 +8,16 @@ import {
   SubmitText,
   Container,
 } from './styled';
-import {Platform} from 'react-native';
+import {Alert, Platform} from 'react-native';
+import {AuthContext} from '../../contexts/auth';
 
 const SignUp = () => {
+  const {user} = useContext(AuthContext);
+
+  function handleName() {
+    console.log(user);
+  }
+
   return (
     <Background>
       <Container behavior={Platform.OS === 'ios' ? 'padding' : ''} enabled>
@@ -24,7 +31,7 @@ const SignUp = () => {
           <Input placeholder="Sua senha" />
         </AreaInput>
 
-        <SubmitButton activeOpacity={0.7}>
+        <SubmitButton activeOpacity={0.7} onPress={handleName}>
           <SubmitText>Cadastrar</SubmitText>
         </SubmitButton>
       </Container>
