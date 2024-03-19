@@ -8,11 +8,11 @@ import {
   SubmitText,
   Container,
 } from './styled';
-import {Alert, Platform} from 'react-native';
+import {Alert, Platform, ActivityIndicator} from 'react-native';
 import {AuthContext} from '../../contexts/auth';
 
 const SignUp = () => {
-  const {signUp} = useContext(AuthContext);
+  const {signUp, loading} = useContext(AuthContext);
   const [nome, setNome] = useState('');
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
@@ -48,7 +48,11 @@ const SignUp = () => {
         </AreaInput>
 
         <SubmitButton activeOpacity={0.7} onPress={handleSignUp}>
-          <SubmitText>Cadastrar</SubmitText>
+          {loading ? (
+            <ActivityIndicator size={20} color="white" />
+          ) : (
+            <SubmitText>Cadastrar </SubmitText>
+          )}
         </SubmitButton>
       </Container>
     </Background>

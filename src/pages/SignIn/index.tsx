@@ -1,5 +1,5 @@
-import React from 'react';
-import {Platform} from 'react-native';
+import React, {useContext} from 'react';
+import {Platform, ActivityIndicator} from 'react-native';
 import {useNavigation} from '@react-navigation/native';
 import {
   Background,
@@ -12,9 +12,11 @@ import {
   SubmitButton,
   SubmitText,
 } from './styled';
+import {AuthContext} from '../../contexts/auth';
 
 const SignIn = () => {
   const navigation = useNavigation();
+  const {loading} = useContext(AuthContext);
 
   return (
     <Background>
@@ -28,7 +30,11 @@ const SignIn = () => {
         </AreaInput>
 
         <SubmitButton activeOpacity={0.7}>
-          <SubmitText>Acessar</SubmitText>
+          {loading ? (
+            <ActivityIndicator size={20} color="white" />
+          ) : (
+            <SubmitText>Cadastrar </SubmitText>
+          )}
         </SubmitButton>
         <Link onPress={() => navigation.navigate('SignUp')}>
           <LinkText>Criar uma conta!</LinkText>
