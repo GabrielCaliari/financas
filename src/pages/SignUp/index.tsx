@@ -18,6 +18,10 @@ const SignUp = () => {
   const [password, setPassword] = useState('');
 
   function handleSignUp() {
+    if (nome === '' || email === '' || password === '') {
+      return;
+    }
+
     signUp(email, password, nome);
   }
 
