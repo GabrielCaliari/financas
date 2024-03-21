@@ -33,7 +33,7 @@ const Home = () => {
     getMovements();
 
     return () => (isActive = false);
-  }, [isFocused]);
+  }, [dateMovements, isFocused]);
 
   return (
     <Background>
