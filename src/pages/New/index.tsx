@@ -11,7 +11,6 @@ import RegisterType from '../../components/RegisterTypes';
 import api from '../../services/api';
 import {format} from 'date-fns';
 import {useNavigation} from '@react-navigation/native';
-import Home from '../Home';
 
 const New = () => {
   const navigation = useNavigation();

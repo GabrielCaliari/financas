@@ -1,13 +1,13 @@
-import Reac, {useContext, useEffect, useState} from 'react';
-import {Text, View, Button} from 'react-native';
-import {AuthContext} from '../../contexts/auth';
-import {Background, ListBalance} from './styled';
+import React, {useContext, useEffect, useState} from 'react';
+import {Background, ListBalance, Area, Title, List} from './styled';
 import Header from '../../components/Header';
-import React from 'react';
 import {format} from 'date-fns';
 import api from '../../services/api';
 import {useIsFocused} from '@react-navigation/native';
 import BalanceItem from '../../components/BalanceItem';
+import {TouchableOpacity} from 'react-native';
+import Icon from 'react-native-vector-icons/MaterialIcons';
+import HistoricList from '../../components/HistoricList';
 
 const Home = () => {
   // const {signOut, user} = useContext(AuthContext);
@@ -46,6 +46,18 @@ const Home = () => {
         keyExtractor={item => item.tag}
         renderItem={({item}) => <BalanceItem data={item} />}
       />
+      <Area>
+        <TouchableOpacity>
+          <Icon name="event" color="black" size={30} />
+        </TouchableOpacity>
+        <Title>Ultimas movimentações</Title>
+        <List
+          data={[]}
+          keyExtractor={item => item.id}
+          renderItem={({item}) => <HistoricList />}
+          showsVerticalScrollIndicator={false}
+        />
+      </Area>
     </Background>
   );
 };
