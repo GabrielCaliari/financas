@@ -5,7 +5,7 @@ import {format} from 'date-fns';
 import api from '../../services/api';
 import {useIsFocused} from '@react-navigation/native';
 import BalanceItem from '../../components/BalanceItem';
-import {TouchableOpacity} from 'react-native';
+import {Alert, TouchableOpacity} from 'react-native';
 import Icon from 'react-native-vector-icons/MaterialIcons';
 import HistoricList from '../../components/HistoricList';
 
@@ -43,6 +43,19 @@ const Home = () => {
     return () => (isActive = false);
   }, [dateMovements, isFocused]);
 
+  async function handleDelete(id) {
+    try {
+      await api.delete('/receives/delete', {
+        params: {
+          item_id: id,
+        },
+      });
+      setDateMovements(new Date());
+    } catch (err) {
+      console.log(err);
+    }
+  }
+
   return (
     <Background>
       <Header titulo="Minhas movimentações" />
@@ -63,7 +76,9 @@ const Home = () => {
       <List
         data={movements}
         keyExtractor={item => item.id}
-        renderItem={({item}) => <HistoricList data={item} />}
+        renderItem={({item}) => (
+          <HistoricList data={item} deleteItem={handleDelete} />
+        )}
         showsVerticalScrollIndicator={false}
         contentContainerStyle={{paddingBottom: 20}}
       />
