@@ -21,5 +21,5 @@ export const Label = styled.Text`
 export const Balance = styled.Text`
   margin-top: 5px;
   font-size: 30px;
-  color: #fff;
+  color: #f0f4ff;
 `;

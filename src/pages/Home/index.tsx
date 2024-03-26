@@ -14,6 +14,7 @@ const Home = () => {
   const [listBalnce, setListBalance] = useState([]);
   const [dateMovements, setDateMovements] = useState(new Date());
   const isFocused = useIsFocused();
+  const [movements, setMovevents] = useState([]);
 
   useEffect(() => {
     let isActive = true;
@@ -21,12 +22,19 @@ const Home = () => {
     async function getMovements() {
       let dateFormated = format(dateMovements, 'dd/MM/yyyy');
 
+      const receives = await api.get('/receives', {
+        params: {
+          date: dateFormated,
+        },
+      });
+
       const balance = await api.get('/balance', {
         params: {
           date: dateFormated,
         },
       });
       if (isActive) {
+        setMovevents(receives.data);
         setListBalance(balance.data);
       }
     }
@@ -51,13 +59,14 @@ const Home = () => {
           <Icon name="event" color="black" size={30} />
         </TouchableOpacity>
         <Title>Ultimas movimentações</Title>
-        <List
-          data={[]}
-          keyExtractor={item => item.id}
-          renderItem={({item}) => <HistoricList />}
-          showsVerticalScrollIndicator={false}
-        />
       </Area>
+      <List
+        data={movements}
+        keyExtractor={item => item.id}
+        renderItem={({item}) => <HistoricList data={item} />}
+        showsVerticalScrollIndicator={false}
+        contentContainerStyle={{paddingBottom: 20}}
+      />
     </Background>
   );
 };
