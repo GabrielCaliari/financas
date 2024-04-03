@@ -8,6 +8,10 @@ import {
 } from './styled';
 
 import {Calendar, LocaleConfig} from 'react-native-calendars';
+import {ptBR} from './localeCalendar';
+
+LocaleConfig.locales['pt-br'] = ptBR;
+LocaleConfig.defaultLocale = 'pt-br';
 
 const CalendarModal = ({setVisible, handleFilter}) => {
   const [dateNow, setDateNow] = useState(new Date());
