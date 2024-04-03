@@ -18,12 +18,13 @@ export const Area = styled.View`
   padding-left: 14px;
   padding-right: 14px;
   padding-top: 14px;
-  align-items: baseline;
+  align-items: flex-start;
 `;
 
 export const Title = styled.Text`
   margin-left: 4px;
   color: #121212;
+  margin-top: 5px;
   margin-bottom: 14px;
   font-weight: bold;
   font-size: 18px;
