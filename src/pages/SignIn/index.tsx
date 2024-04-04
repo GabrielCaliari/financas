@@ -40,6 +40,7 @@ const SignIn = () => {
             placeholder="Sua senha"
             value={password}
             onChangeText={text => setPassword(text)}
+            secureTextEntry={true}
           />
         </AreaInput>
 
