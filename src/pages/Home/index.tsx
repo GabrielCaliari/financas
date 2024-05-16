@@ -9,6 +9,7 @@ import {Modal, TouchableOpacity} from 'react-native';
 import Icon from 'react-native-vector-icons/MaterialIcons';
 import HistoricList from '../../components/HistoricList';
 import CalendarModal from '../../components/CalendarModal';
+import notifee, {AuthorizationStatus} from '@notifee/react-native';
 
 const Home = () => {
   // const {signOut, user} = useContext(AuthContext);
@@ -17,6 +18,20 @@ const Home = () => {
   const [dateMovements, setDateMovements] = useState(new Date());
   const isFocused = useIsFocused();
   const [movements, setMovevents] = useState([]);
+  const [statusNotification, setStatusNotification] = useState(true);
+
+  useEffect(() => {
+    async function getPermission() {
+      const settings = await notifee.requestPermission();
+      if (settings.authorizationStatus >= AuthorizationStatus.AUTHORIZED) {
+        console.log('Permission:', settings.authorizationStatus);
+      } else {
+        console.log('Usuario negou a permissao!');
+        setStatusNotification(false);
+      }
+    }
+    getPermission();
+  }, []);
 
   useEffect(() => {
     let isActive = true;
