@@ -1,13 +1,8 @@
 import styled from 'styled-components/native';
 
-export const Background = styled.View`
-  flex: 1;
-  background-color: #f0f4ff;
-`;
-
 export const Container = styled.KeyboardAvoidingView`
   flex: 1;
-  align-items: center;
+  background-color: #38a69d;
   justify-content: center;
 `;
 
@@ -30,17 +25,18 @@ export const Input = styled.TextInput`
 `;
 
 export const SubmitButton = styled.TouchableOpacity`
-  width: 90%;
-  height: 45px;
-  border-radius: 8px;
-  background-color: #3b3bbf;
-  margin-top: 10px;
-  align-items: center;
+  background-color: #38a68d;
   justify-content: center;
+  align-items: center;
+  bottom: 15%;
+  width: 100%;
+  border-radius: 4px;
+  padding-top: 10px;
+  padding-bottom: 10px;
+  margin-top: 40px;
 `;
 
 export const SubmitText = styled.Text`
-  font-size: 20px;
   color: white;
 `;
 
@@ -51,4 +47,27 @@ export const Link = styled.TouchableOpacity`
 
 export const LinkText = styled.Text`
   color: #171717;
+`;
+
+export const MidText = styled.Text`
+  font-size: 25px;
+  padding-top: 15px;
+`;
+
+export const TextInput = styled.TextInput`
+  font-size: 15px;
+  padding-top: 10px;
+  border-bottom-width: 1px;
+`;
+
+export const Header = styled.View`
+  margin-top: 10%;
+  margin-bottom: 8%;
+  padding-inline-start: 5%;
+`;
+
+export const HeaderText = styled.Text`
+  font-size: 28px;
+  font-weight: bold;
+  color: #fff;
 `;

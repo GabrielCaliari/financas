@@ -4,8 +4,6 @@ import {useNavigation} from '@react-navigation/native';
 import * as Animatable from 'react-native-animatable';
 import {
   Container,
-  AreaInput,
-  Input,
   Link,
   LinkText,
   SubmitButton,

@@ -1,14 +1,15 @@
 import React, {useContext, useState} from 'react';
-
+import * as Animatable from 'react-native-animatable';
 import {
-  Background,
-  AreaInput,
-  Input,
   SubmitButton,
   SubmitText,
   Container,
+  MidText,
+  TextInput,
+  Header,
+  HeaderText,
 } from './styled';
-import {Alert, Platform, ActivityIndicator} from 'react-native';
+import {Platform, ActivityIndicator, View} from 'react-native';
 import {AuthContext} from '../../contexts/auth';
 
 const SignUp = () => {
@@ -26,40 +27,55 @@ const SignUp = () => {
   }
 
   return (
-    <Background>
-      <Container behavior={Platform.OS === 'ios' ? 'padding' : ''} enabled>
-        <AreaInput>
-          <Input
-            placeholder="Nome"
-            value={nome}
-            onChangeText={text => setNome(text)}
-          />
-        </AreaInput>
-        <AreaInput>
-          <Input
-            placeholder="Seu email"
-            value={email}
-            onChangeText={text => setEmail(text)}
-          />
-        </AreaInput>
-        <AreaInput>
-          <Input
-            placeholder="Sua senha"
-            value={password}
-            onChangeText={text => setPassword(text)}
-            secureTextEntry={true}
-          />
-        </AreaInput>
+    <Container behavior={Platform.OS === 'ios' ? 'padding' : ''} enabled>
+      <Header>
+        <HeaderText> Cadastrar</HeaderText>
+      </Header>
 
-        <SubmitButton activeOpacity={0.7} onPress={handleSignUp}>
-          {loading ? (
-            <ActivityIndicator size={20} color="white" />
-          ) : (
-            <SubmitText>Cadastrar </SubmitText>
-          )}
-        </SubmitButton>
-      </Container>
-    </Background>
+      <Animatable.View
+        animation="fadeInUp"
+        // eslint-disable-next-line react-native/no-inline-styles
+        style={{
+          flex: 1,
+          backgroundColor: '#fff',
+          borderTopLeftRadius: 15,
+          borderTopRightRadius: 15,
+          paddingStart: '5%',
+          paddingEnd: '5%',
+        }}>
+        <MidText>Seu nome</MidText>
+        <TextInput
+          placeholder="Digite seu nome"
+          value={nome}
+          onChangeText={text => setNome(text)}
+        />
+
+        <MidText>Seu email</MidText>
+        <TextInput
+          placeholder="Digite seu email..."
+          value={email}
+          onChangeText={text => setEmail(text)}
+        />
+
+        <MidText>Sua senha</MidText>
+        <TextInput
+          placeholder="Digite sua senha..."
+          value={password}
+          onChangeText={text => setPassword(text)}
+          secureTextEntry={true}
+        />
+
+        <View>
+          <SubmitButton activeOpacity={0.7} onPress={handleSignUp}>
+            {loading ? (
+              <ActivityIndicator size={20} color="white" />
+            ) : (
+              <SubmitText>Cadastrar </SubmitText>
+            )}
+          </SubmitButton>
+        </View>
+      </Animatable.View>
+    </Container>
   );
 };
 
