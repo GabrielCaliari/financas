@@ -52,3 +52,43 @@ export const Link = styled.TouchableOpacity`
 export const LinkText = styled.Text`
   color: #171717;
 `;
+
+// import styled from 'styled-components/native';
+
+// export const Container = styled.View`
+//   flex: 1;
+//   background-color: #38a69d;
+// `;
+
+// export const Header = styled.View`
+//   margin-top: 14%;
+//   margin-bottom: 8%;
+//   padding-inline-start: 5%;
+// `;
+
+// export const MidText = styled.Text`
+//   font-size: 25px;
+//   padding-top: 15px;
+// `;
+
+// export const Input = styled.TextInput`
+//   font-size: 15px;
+//   padding-top: 10px;
+//   border-bottom-width: 1px;
+// `;
+
+// export const Button = styled.TouchableOpacity`
+//   background-color: #38a68d;
+//   justify-content: center;
+//   align-items: center;
+//   bottom: 15%;
+//   width: 100%;
+//   border-radius: 4px;
+//   padding-top: 20px;
+//   padding-bottom: 20px;
+//   margin-top: 4px;
+// `;
+
+// export const ButtonText = styled.Text`
+//   color: white;
+// `;
