@@ -1,16 +1,19 @@
 import React, {useContext, useState} from 'react';
-import {Platform, ActivityIndicator} from 'react-native';
+import {Platform, ActivityIndicator, View} from 'react-native';
 import {useNavigation} from '@react-navigation/native';
+import * as Animatable from 'react-native-animatable';
 import {
-  Background,
   Container,
-  Logo,
   AreaInput,
   Input,
   Link,
   LinkText,
   SubmitButton,
   SubmitText,
+  Header,
+  HeaderText,
+  MidText,
+  TextInput,
 } from './styled';
 import {AuthContext} from '../../contexts/auth';
 
@@ -25,37 +28,51 @@ const SignIn = () => {
   }
 
   return (
-    <Background>
-      <Container behavior={Platform.OS === 'ios' ? 'padding' : ''} enabled>
-        <Logo source={require('../../assets/Logo.png')} />
-        <AreaInput>
-          <Input
-            placeholder="Seu email"
-            value={email}
-            onChangeText={text => setEmail(text)}
-          />
-        </AreaInput>
-        <AreaInput>
-          <Input
-            placeholder="Sua senha"
-            value={password}
-            onChangeText={text => setPassword(text)}
-            secureTextEntry={true}
-          />
-        </AreaInput>
+    <Container behavior={Platform.OS === 'ios' ? 'padding' : ''} enabled>
+      <Header>
+        <HeaderText> Bem vindo(a)</HeaderText>
+      </Header>
 
-        <SubmitButton activeOpacity={0.7} onPress={handleLogin}>
-          {loading ? (
-            <ActivityIndicator size={20} color="white" />
-          ) : (
-            <SubmitText>Acessar </SubmitText>
-          )}
-        </SubmitButton>
+      <Animatable.View
+        animation="fadeInUp"
+        // eslint-disable-next-line react-native/no-inline-styles
+        style={{
+          flex: 1,
+          backgroundColor: '#fff',
+          borderTopLeftRadius: 15,
+          borderTopRightRadius: 15,
+          paddingStart: '5%',
+          paddingEnd: '5%',
+        }}>
+        <MidText> Email</MidText>
+        <TextInput
+          placeholder="Digite seu email..."
+          value={email}
+          onChangeText={text => setEmail(text)}
+        />
+
+        <MidText> Senha</MidText>
+        <TextInput
+          placeholder="Sua senha"
+          value={password}
+          onChangeText={text => setPassword(text)}
+          secureTextEntry={true}
+        />
+
+        <View>
+          <SubmitButton activeOpacity={0.7} onPress={handleLogin}>
+            {loading ? (
+              <ActivityIndicator size={20} color="white" />
+            ) : (
+              <SubmitText>Acessar </SubmitText>
+            )}
+          </SubmitButton>
+        </View>
         <Link onPress={() => navigation.navigate('SignUp')}>
-          <LinkText>Criar uma conta!</LinkText>
+          <LinkText>Não possui uma conta? Registre-se agora</LinkText>
         </Link>
-      </Container>
-    </Background>
+      </Animatable.View>
+    </Container>
   );
 };
 
