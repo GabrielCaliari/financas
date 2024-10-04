@@ -1,9 +1,9 @@
 import styled from 'styled-components/native';
+import Feather from 'react-native-vector-icons/Feather';
 
 export const Container = styled.KeyboardAvoidingView`
   flex: 1;
   background-color: #38a69d;
-  justify-content: center;
 `;
 
 export const Logo = styled.Image`
@@ -70,4 +70,10 @@ export const HeaderText = styled.Text`
   font-size: 28px;
   font-weight: bold;
   color: #fff;
+`;
+
+export const IconEye = styled(Feather)`
+  position: absolute;
+  right: 14px;
+  top: 16px;
 `;

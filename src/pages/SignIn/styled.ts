@@ -1,4 +1,5 @@
 import styled from 'styled-components/native';
+import Feather from 'react-native-vector-icons/Feather';
 
 export const Container = styled.KeyboardAvoidingView`
   flex: 1;
@@ -72,4 +73,10 @@ export const TextInput = styled.TextInput`
   font-size: 15px;
   padding-top: 10px;
   border-bottom-width: 1px;
+`;
+
+export const IconEye = styled(Feather)`
+  position: absolute;
+  right: 14px;
+  top: 16px;
 `;

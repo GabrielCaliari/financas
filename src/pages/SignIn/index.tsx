@@ -1,5 +1,5 @@
 import React, {useContext, useState} from 'react';
-import {Platform, ActivityIndicator, View} from 'react-native';
+import {Platform, ActivityIndicator, View, TextInputProps} from 'react-native';
 import {useNavigation} from '@react-navigation/native';
 import * as Animatable from 'react-native-animatable';
 import {
@@ -12,21 +12,38 @@ import {
   HeaderText,
   MidText,
   TextInput,
+  IconEye,
 } from './styled';
 import {AuthContext} from '../../contexts/auth';
+import {KeyboardAwareScrollView} from 'react-native-keyboard-aware-scroll-view';
 
-const SignIn = () => {
+interface InputProps extends TextInputProps {
+  secureTextEntry?: boolean;
+}
+
+const SignIn = ({secureTextEntry}: InputProps) => {
   const {signIn, loading} = useContext(AuthContext);
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const navigation = useNavigation();
+  const [currentSecure, setCurrentSecure] = useState<boolean>(
+    !!secureTextEntry,
+  );
 
   function handleLogin() {
     signIn(email, password);
   }
 
+  const handleOnPressEye = () => {
+    setCurrentSecure(current => !current);
+  };
+
   return (
-    <Container behavior={Platform.OS === 'ios' ? 'padding' : ''} enabled>
+    <KeyboardAwareScrollView
+      style={{flex: 1, backgroundColor: '#38a69d'}}
+      contentContainerStyle={{flexGrow: 1, justifyContent: 'center'}}
+      enableOnAndroid={true}
+      extraHeight={150}>
       <Header>
         <HeaderText> Bem vindo(a)</HeaderText>
       </Header>
@@ -50,12 +67,20 @@ const SignIn = () => {
         />
 
         <MidText> Senha</MidText>
-        <TextInput
-          placeholder="Sua senha"
-          value={password}
-          onChangeText={text => setPassword(text)}
-          secureTextEntry={true}
-        />
+        <View>
+          <TextInput
+            placeholder="Sua senha"
+            value={password}
+            onChangeText={text => setPassword(text)}
+            secureTextEntry={currentSecure}
+          />
+          <IconEye
+            onPress={handleOnPressEye}
+            name={currentSecure ? 'eye-off' : 'eye'}
+            size={20}
+            color="black"
+          />
+        </View>
 
         <View>
           <SubmitButton activeOpacity={0.7} onPress={handleLogin}>
@@ -70,7 +95,7 @@ const SignIn = () => {
           <LinkText>Não possui uma conta? Registre-se agora</LinkText>
         </Link>
       </Animatable.View>
-    </Container>
+    </KeyboardAwareScrollView>
   );
 };
 

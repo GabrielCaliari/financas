@@ -8,15 +8,24 @@ import {
   TextInput,
   Header,
   HeaderText,
+  IconEye,
 } from './styled';
-import {Platform, ActivityIndicator, View} from 'react-native';
+import {Platform, ActivityIndicator, View, TextInputProps} from 'react-native';
 import {AuthContext} from '../../contexts/auth';
+import {KeyboardAwareScrollView} from 'react-native-keyboard-aware-scroll-view';
 
-const SignUp = () => {
+interface InputProps extends TextInputProps {
+  secureTextEntry?: boolean;
+}
+
+const SignUp = ({secureTextEntry}: InputProps) => {
   const {signUp, loading} = useContext(AuthContext);
   const [nome, setNome] = useState('');
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
+  const [currentSecure, setCurrentSecure] = useState<boolean>(
+    !!secureTextEntry,
+  );
 
   function handleSignUp() {
     if (nome === '' || email === '' || password === '') {
@@ -26,8 +35,15 @@ const SignUp = () => {
     signUp(email, password, nome);
   }
 
+  const handleOnPressEye = () => {
+    setCurrentSecure(current => !current);
+  };
+
   return (
-    <Container behavior={Platform.OS === 'ios' ? 'padding' : ''} enabled>
+    <KeyboardAwareScrollView
+      style={{flex: 1, backgroundColor: '#38a69d'}}
+      contentContainerStyle={{flexGrow: 1, justifyContent: 'center'}}
+      enableOnAndroid={true}>
       <Header>
         <HeaderText> Cadastrar</HeaderText>
       </Header>
@@ -58,12 +74,20 @@ const SignUp = () => {
         />
 
         <MidText>Sua senha</MidText>
-        <TextInput
-          placeholder="Digite sua senha..."
-          value={password}
-          onChangeText={text => setPassword(text)}
-          secureTextEntry={true}
-        />
+        <View>
+          <TextInput
+            placeholder="Digite sua senha..."
+            value={password}
+            onChangeText={text => setPassword(text)}
+            secureTextEntry={currentSecure}
+          />
+          <IconEye
+            onPress={handleOnPressEye}
+            name={currentSecure ? 'eye-off' : 'eye'}
+            size={20}
+            color="black"
+          />
+        </View>
 
         <View>
           <SubmitButton activeOpacity={0.7} onPress={handleSignUp}>
@@ -75,7 +99,7 @@ const SignUp = () => {
           </SubmitButton>
         </View>
       </Animatable.View>
-    </Container>
+    </KeyboardAwareScrollView>
   );
 };
 
