@@ -36,6 +36,7 @@ const HistoricList = ({data, deleteItem}) => {
         </Tipo>
 
         <ValorText>R$ {data.value}</ValorText>
+        <ValorText>{data.description}</ValorText>
       </Container>
     </TouchableWithoutFeedback>
   );

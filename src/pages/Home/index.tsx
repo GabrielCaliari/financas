@@ -14,7 +14,7 @@ import notifee, {AuthorizationStatus} from '@notifee/react-native';
 const Home = () => {
   // const {signOut, user} = useContext(AuthContext);
   const [modalVisible, setModalVisible] = useState(false);
-  const [listBalnce, setListBalance] = useState([]);
+  const [listBalance, setListBalance] = useState([]);
   const [dateMovements, setDateMovements] = useState(new Date());
   const isFocused = useIsFocused();
   const [movements, setMovevents] = useState([]);
@@ -52,6 +52,7 @@ const Home = () => {
           date: dateFormated,
         },
       });
+
       if (isActive) {
         setMovevents(receives.data);
         setListBalance(balance.data);
@@ -84,12 +85,29 @@ const Home = () => {
       <Header titulo="Minhas movimentações" />
 
       <ListBalance
-        data={listBalnce}
-        horizontal={true}
-        showsHorizontalScrollIndicator={false}
+        data={listBalance.filter(item => item.tag === 'saldo')}
         keyExtractor={item => item.tag}
-        renderItem={({item}) => <BalanceItem data={item} />}
+        renderItem={({item}) => {
+          const totalIncome = movements
+            .filter(movement => movement.type === 'receita')
+            .reduce((acc, curr) => acc + curr.value, 0);
+
+          const totalExpense = movements
+            .filter(movement => movement.type === 'despesa')
+            .reduce((acc, curr) => acc + curr.value, 0);
+
+          return (
+            <BalanceItem
+              data={{
+                ...item, // saldo
+                receita: totalIncome, // total de receitas
+                despesa: totalExpense, // total de despesas
+              }}
+            />
+          );
+        }}
       />
+
       <Area>
         <TouchableOpacity onPress={() => setModalVisible(true)}>
           <Icon name="event" color="black" size={30} />
