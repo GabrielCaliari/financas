@@ -11,8 +11,11 @@ import {
   LabelText,
 } from './styled';
 import Icon from 'react-native-vector-icons/MaterialIcons';
+import {useNavigation} from '@react-navigation/native';
 
 export default function BalanceItem({data}) {
+  const navigation = useNavigation();
+
   const labelName = useMemo(() => {
     if (data.tag === 'saldo') {
       return {
@@ -41,7 +44,7 @@ export default function BalanceItem({data}) {
         </BalanceAmount>
         <Icon name="visibility" size={24} color="#FFF" />
         <IncomeExpenseContainer>
-          <IncomeExpenseItem>
+          <IncomeExpenseItem onPress={() => navigation.navigate('Registrar')}>
             <Icon name="arrow-upward" size={32} color="#00b94a" />
             <AmountText style={{color: '#00b94a'}}>
               {' '}
@@ -53,7 +56,7 @@ export default function BalanceItem({data}) {
             <LabelText>Receitas</LabelText>
           </IncomeExpenseItem>
 
-          <IncomeExpenseItem>
+          <IncomeExpenseItem onPress={() => navigation.navigate('Registrar')}>
             <Icon name="arrow-downward" size={32} color="#EF463a" />
             <AmountText style={{color: '#EF463a'}}>
               R${' '}

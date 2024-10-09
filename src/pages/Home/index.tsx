@@ -99,9 +99,9 @@ const Home = () => {
           return (
             <BalanceItem
               data={{
-                ...item, // saldo
-                receita: totalIncome, // total de receitas
-                despesa: totalExpense, // total de despesas
+                ...item,
+                receita: totalIncome,
+                despesa: totalExpense,
               }}
             />
           );

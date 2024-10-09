@@ -46,7 +46,7 @@ export const IncomeExpenseContainer = styled.View`
   margin-top: 20px;
 `;
 
-export const IncomeExpenseItem = styled.View`
+export const IncomeExpenseItem = styled.TouchableOpacity`
   align-items: center;
   flex: 1;
 `;
