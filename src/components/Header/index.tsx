@@ -6,14 +6,7 @@ import {useNavigation} from '@react-navigation/native';
 const Header = ({titulo}) => {
   const navigation = useNavigation();
 
-  return (
-    <Container>
-      <ButtonMenu onPress={() => navigation.openDrawer()}>
-        <Icon name="menu" size={35} color="black" />
-      </ButtonMenu>
-      {titulo && <Title>{titulo}</Title>}
-    </Container>
-  );
+  return <Container>{titulo && <Title>{titulo}</Title>}</Container>;
 };
 
 export default Header;
