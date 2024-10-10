@@ -82,8 +82,6 @@ const Home = () => {
 
   return (
     <Background>
-      <Header titulo="Minhas movimentações" />
-
       <ListBalance
         data={listBalance.filter(item => item.tag === 'saldo')}
         keyExtractor={item => item.tag}

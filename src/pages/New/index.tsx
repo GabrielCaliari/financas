@@ -6,11 +6,13 @@ import {
   TouchableWithoutFeedback,
   Keyboard,
   Alert,
+  Text,
 } from 'react-native';
 import RegisterType from '../../components/RegisterTypes';
 import api from '../../services/api';
 import {format} from 'date-fns';
 import {useNavigation} from '@react-navigation/native';
+import {Button} from 'react-native';
 
 const New = () => {
   const navigation = useNavigation();
@@ -60,6 +62,7 @@ const New = () => {
   return (
     <TouchableWithoutFeedback onPress={() => Keyboard.dismiss()}>
       <Background>
+        <Button title="Cancelar" onPress={() => navigation.goBack()} />
         <Header titulo="Registrando" />
 
         <SafeAreaView style={{marginTop: 14, alignItems: 'center'}}>
