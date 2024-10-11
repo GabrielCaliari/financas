@@ -41,7 +41,7 @@ const SignUp = ({secureTextEntry}: InputProps) => {
 
   return (
     <KeyboardAwareScrollView
-      style={{flex: 1, backgroundColor: '#38a69d'}}
+      style={{flex: 1, backgroundColor: 'black'}}
       contentContainerStyle={{flexGrow: 1, justifyContent: 'center'}}
       enableOnAndroid={true}>
       <Header>

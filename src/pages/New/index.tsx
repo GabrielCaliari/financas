@@ -1,5 +1,17 @@
+/* eslint-disable react-native/no-inline-styles */
 import React, {useState} from 'react';
-import {Background, Input, SubmitButton, SubmitText} from './styled';
+import {
+  Background,
+  ButtonCancel,
+  ButtonText,
+  Input,
+  InputDescription,
+  InputValue,
+  SubmitButton,
+  SubmitText,
+  ViewHeader,
+  ViewInput,
+} from './styled';
 import Header from '../../components/Header';
 import {
   SafeAreaView,
@@ -7,12 +19,15 @@ import {
   Keyboard,
   Alert,
   Text,
+  View,
 } from 'react-native';
 import RegisterType from '../../components/RegisterTypes';
 import api from '../../services/api';
 import {format} from 'date-fns';
 import {useNavigation} from '@react-navigation/native';
-import {Button} from 'react-native';
+
+import Icon from 'react-native-vector-icons/MaterialIcons';
+import {IconEye} from '../SignIn/styled';
 
 const New = () => {
   const navigation = useNavigation();
@@ -62,16 +77,23 @@ const New = () => {
   return (
     <TouchableWithoutFeedback onPress={() => Keyboard.dismiss()}>
       <Background>
-        <Button title="Cancelar" onPress={() => navigation.goBack()} />
-        <Header titulo="Registrando" />
+        <ViewHeader style={{justifyContent: 'space-between'}}>
+          <ButtonCancel onPress={() => navigation.goBack()}>
+            <ButtonText>Cancelar</ButtonText>
+          </ButtonCancel>
+          <Header titulo="Registrando" />
+        </ViewHeader>
 
         <SafeAreaView style={{marginTop: 14, alignItems: 'center'}}>
-          <Input
-            placeholder="Descrição desse registro"
-            value={labelInput}
-            onChangeText={text => setLabelInput(text)}
-          />
-          <Input
+          <ViewInput>
+            <InputDescription
+              placeholder="Descrição desse registro"
+              value={labelInput}
+              onChangeText={text => setLabelInput(text)}
+            />
+            <IconEye name="edit" size={20} color="black" />
+          </ViewInput>
+          <InputValue
             placeholder="Valor desejado"
             keyboardType="numeric"
             value={valueInput}

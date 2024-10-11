@@ -3,7 +3,7 @@ import Feather from 'react-native-vector-icons/Feather';
 
 export const Container = styled.KeyboardAvoidingView`
   flex: 1;
-  background-color: #38a69d;
+  background-color: red;
 `;
 
 export const Logo = styled.Image`
