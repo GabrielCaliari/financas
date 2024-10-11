@@ -5,13 +5,17 @@ import {format} from 'date-fns';
 import api from '../../services/api';
 import {useIsFocused} from '@react-navigation/native';
 import BalanceItem from '../../components/BalanceItem';
-import {Modal, TouchableOpacity} from 'react-native';
+import {Modal, TextInputProps, TouchableOpacity} from 'react-native';
 import Icon from 'react-native-vector-icons/MaterialIcons';
 import HistoricList from '../../components/HistoricList';
 import CalendarModal from '../../components/CalendarModal';
 import notifee, {AuthorizationStatus} from '@notifee/react-native';
 
-const Home = () => {
+interface InputProps extends TextInputProps {
+  secureTextEntry?: boolean;
+}
+
+const Home = ({secureTextEntry}: InputProps) => {
   // const {signOut, user} = useContext(AuthContext);
   const [modalVisible, setModalVisible] = useState(false);
   const [listBalance, setListBalance] = useState([]);
@@ -19,6 +23,9 @@ const Home = () => {
   const isFocused = useIsFocused();
   const [movements, setMovevents] = useState([]);
   const [statusNotification, setStatusNotification] = useState(true);
+  const [currentSecure, setCurrentSecure] = useState<boolean>(
+    !!secureTextEntry,
+  );
 
   useEffect(() => {
     async function getPermission() {

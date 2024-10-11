@@ -1,9 +1,10 @@
+import Feather from 'react-native-vector-icons/Feather';
 import styled from 'styled-components/native';
 
 export const Container = styled.View`
   flex: 1;
   background-color: #121212;
-  padding: 20px;
+  padding-top: 20px;
 `;
 
 export const Label = styled.Text`
@@ -18,6 +19,8 @@ export const BalanceContainer = styled.View`
   border-radius: 10px;
   margin-bottom: 20px;
   align-items: center;
+  height: 250px;
+  width: 396px;
 `;
 
 export const Balance = styled.Text`
@@ -32,11 +35,12 @@ export const BalanceLabel = styled.Text`
 `;
 
 export const BalanceAmount = styled.Text`
-  font-size: 36px;
+  font-size: 30px;
   font-weight: bold;
-  color: #fff;
+  color: blue;
   text-align: center;
   margin-bottom: 10px;
+  padding-top: 5px;
 `;
 
 export const IncomeExpenseContainer = styled.View`
@@ -44,10 +48,13 @@ export const IncomeExpenseContainer = styled.View`
   justify-content: space-between;
   width: 100%;
   margin-top: 20px;
+  align-items: center;
+  padding-left: 40px;
 `;
 
 export const IncomeExpenseItem = styled.TouchableOpacity`
   align-items: center;
+  flex-direction: row;
   flex: 1;
 `;
 
@@ -61,4 +68,12 @@ export const LabelText = styled.Text`
   font-size: 14px;
   color: #b0b0b0;
   margin-top: 2px;
+`;
+
+export const IconEye = styled(Feather)`
+  margin-left: 5px;
+`;
+
+export const ViewSaldo = styled.View`
+  align-items: center;
 `;
