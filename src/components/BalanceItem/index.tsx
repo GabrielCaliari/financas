@@ -79,7 +79,7 @@ export default function BalanceItem({data, inputProps}: BalanceItemProps) {
           />
         </ViewSaldo>
         <IncomeExpenseContainer>
-          <IncomeExpenseItem onPress={() => navigation.navigate('Registrar')}>
+          <IncomeExpenseItem onPress={() => navigation.navigate('Receita')}>
             <Icon name="arrow-upward" size={40} color="#00b94a" />
             <View>
               <LabelText>Receitas</LabelText>
@@ -92,7 +92,7 @@ export default function BalanceItem({data, inputProps}: BalanceItemProps) {
             </View>
           </IncomeExpenseItem>
 
-          <IncomeExpenseItem onPress={() => navigation.navigate('Registrar')}>
+          <IncomeExpenseItem onPress={() => navigation.navigate('Despesa')}>
             <Icon name="arrow-downward" size={40} color="#EF463a" />
             <View>
               <LabelText>Despesas</LabelText>

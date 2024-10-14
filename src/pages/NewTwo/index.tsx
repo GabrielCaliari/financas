@@ -27,7 +27,6 @@ import api from '../../services/api';
 import {format} from 'date-fns';
 import {useNavigation} from '@react-navigation/native';
 import {IconEye} from '../SignIn/styled';
-import RegisterType from '../../components/RegisterTypes';
 
 const NewTwo = () => {
   const navigation = useNavigation();
@@ -130,7 +129,7 @@ const NewTwo = () => {
           </ViewInput>
 
           {/* Componente que altera o tipo (despesa ou receita) */}
-          <RegisterType type={type} sendTypeChanged={item => setType(item)} />
+          <RegisterTypeD type={type} sendTypeChanged={item => setType(item)} />
 
           <SubmitButton onPress={handleSubmit}>
             <SubmitText>Registrar</SubmitText>

@@ -13,6 +13,7 @@ import {
   ModalContainer,
   ModalContent,
 } from '../components/CustomDrawer/styled';
+import NewTwo from '../pages/NewTwo';
 
 const Tab = createBottomTabNavigator();
 const Stack = createNativeStackNavigator();
@@ -108,7 +109,7 @@ function Tabs() {
               style={{marginVertical: 10}}
               onPress={() => {
                 setModalVisible(false);
-                navigation.navigate('Registrar', {type: 'receita'});
+                navigation.navigate('Receita', {type: 'receita'});
               }}>
               <Text style={{fontSize: 16}}>➕ Receita</Text>
             </TouchableOpacity>
@@ -117,7 +118,7 @@ function Tabs() {
               style={{marginVertical: 10}}
               onPress={() => {
                 setModalVisible(false);
-                navigation.navigate('Registrar', {type: 'despesa'});
+                navigation.navigate('Despesa', {type: 'despesa'});
               }}>
               <Text style={{fontSize: 16}}>➖ Despesa</Text>
             </TouchableOpacity>
@@ -138,7 +139,8 @@ function AppRoutes() {
   return (
     <Stack.Navigator screenOptions={{headerShown: false}}>
       <Stack.Screen name="Tabs" component={Tabs} />
-      <Stack.Screen name="Registrar" component={New} />
+      <Stack.Screen name="Receita" component={New} />
+      <Stack.Screen name="Despesa" component={NewTwo} />
     </Stack.Navigator>
   );
 }
