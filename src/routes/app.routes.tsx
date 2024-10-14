@@ -6,17 +6,17 @@ import New from '../pages/New';
 import Profile from '../pages/Profile';
 import Icon from 'react-native-vector-icons/MaterialIcons';
 import {Modal, Text, TouchableOpacity} from 'react-native';
+import {useNavigation} from '@react-navigation/native';
+
 import {
   BottonCustom,
   ModalContainer,
   ModalContent,
 } from '../components/CustomDrawer/styled';
-import {useNavigation} from '@react-navigation/native';
 
 const Tab = createBottomTabNavigator();
 const Stack = createNativeStackNavigator();
 
-// Função para obter ícones da barra de navegação inferior
 const getTabBarIcon = (route, color, size) => {
   let iconName;
 
@@ -29,9 +29,10 @@ const getTabBarIcon = (route, color, size) => {
   return <Icon name={iconName} size={size} color={color} />;
 };
 
-// Botão customizado central
 const CustomTabButton = ({children, onPress}) => (
-  <BottonCustom onPress={onPress}>{children}</BottonCustom>
+  <BottonCustom onPress={onPress} activeOpacity={0.7}>
+    {children}
+  </BottonCustom>
 );
 
 function Tabs() {
@@ -45,27 +46,55 @@ function Tabs() {
           tabBarIcon: ({color, size}) => getTabBarIcon(route, color, size),
           tabBarActiveTintColor: 'tomato',
           tabBarInactiveTintColor: 'gray',
-          headerShown: false, // Esconder o cabeçalho
+          tabBarStyle: {
+            height: 50, // Ajusta altura da tab bar
+            backgroundColor: '#121212',
+            borderTopLeftRadius: 20,
+            borderTopRightRadius: 20,
+            position: 'absolute',
+            bottom: 0,
+            shadowColor: '#000',
+            shadowOpacity: 0.1,
+            shadowOffset: {width: 0, height: 2},
+            shadowRadius: 5,
+            elevation: 5,
+          },
+          headerShown: false,
         })}>
-        <Tab.Screen name="Home" component={Home} />
+        <Tab.Screen
+          name="Home"
+          component={Home}
+          options={{
+            tabBarItemStyle: {
+              marginRight: 30, // Aumenta o espaço à direita de Home
+            },
+          }}
+        />
 
         <Tab.Screen
           name="Add"
           options={{
-            tabBarIcon: () => <Icon name="add" size={32} color="black" />,
+            tabBarIcon: () => <Icon name="add" size={32} color="white" />,
             tabBarButton: props => (
-              <BottonCustom {...props} onPress={() => setModalVisible(true)}>
-                <Icon name="add" size={32} color="black" />
-              </BottonCustom>
+              <CustomTabButton {...props} onPress={() => setModalVisible(true)}>
+                <Icon name="add" size={32} color="white" />
+              </CustomTabButton>
             ),
           }}>
           {() => null}
         </Tab.Screen>
 
-        <Tab.Screen name="Profile" component={Profile} />
+        <Tab.Screen
+          name="Profile"
+          component={Profile}
+          options={{
+            tabBarItemStyle: {
+              marginLeft: 30, // Aumenta o espaço à esquerda de Profile
+            },
+          }}
+        />
       </Tab.Navigator>
 
-      {/* Modal para adicionar Receita/Despesa */}
       <Modal
         animationType="slide"
         transparent={true}
@@ -79,7 +108,6 @@ function Tabs() {
               style={{marginVertical: 10}}
               onPress={() => {
                 setModalVisible(false);
-                // Navegar para a tela de Receita
                 navigation.navigate('Registrar', {type: 'receita'});
               }}>
               <Text style={{fontSize: 16}}>➕ Receita</Text>
@@ -89,13 +117,11 @@ function Tabs() {
               style={{marginVertical: 10}}
               onPress={() => {
                 setModalVisible(false);
-                // Navegar para a tela de Despesa
                 navigation.navigate('Registrar', {type: 'despesa'});
               }}>
               <Text style={{fontSize: 16}}>➖ Despesa</Text>
             </TouchableOpacity>
 
-            {/* Botão de Cancelar */}
             <TouchableOpacity
               style={{marginTop: 20}}
               onPress={() => setModalVisible(false)}>
@@ -108,13 +134,10 @@ function Tabs() {
   );
 }
 
-// Função principal que combina o Tab.Navigator e Stack.Navigator
 function AppRoutes() {
   return (
     <Stack.Navigator screenOptions={{headerShown: false}}>
-      {/* `Tabs` contém a barra de navegação inferior */}
       <Stack.Screen name="Tabs" component={Tabs} />
-      {/* A tela `Registrar` é acessível pelo Stack Navigator */}
       <Stack.Screen name="Registrar" component={New} />
     </Stack.Navigator>
   );
