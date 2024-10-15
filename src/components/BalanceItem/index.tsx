@@ -36,7 +36,7 @@ interface BalanceItemProps {
 
 export default function BalanceItem({data, inputProps}: BalanceItemProps) {
   const navigation = useNavigation();
-  const [currentSecure, setCurrentSecure] = useState<boolean>(true); // Inicia como verdadeiro para ocultar o saldo
+  const [currentSecure, setCurrentSecure] = useState<boolean>(true);
 
   const labelName = useMemo(() => {
     if (data.tag === 'saldo') {
@@ -79,7 +79,8 @@ export default function BalanceItem({data, inputProps}: BalanceItemProps) {
           />
         </ViewSaldo>
         <IncomeExpenseContainer>
-          <IncomeExpenseItem onPress={() => navigation.navigate('Receita')}>
+          <IncomeExpenseItem
+            onPress={() => navigation.navigate('Receita', {type: 'receita'})}>
             <Icon name="arrow-upward" size={40} color="#00b94a" />
             <View>
               <LabelText>Receitas</LabelText>
@@ -92,7 +93,8 @@ export default function BalanceItem({data, inputProps}: BalanceItemProps) {
             </View>
           </IncomeExpenseItem>
 
-          <IncomeExpenseItem onPress={() => navigation.navigate('Despesa')}>
+          <IncomeExpenseItem
+            onPress={() => navigation.navigate('Despesa', {type: 'despesa'})}>
             <Icon name="arrow-downward" size={40} color="#EF463a" />
             <View>
               <LabelText>Despesas</LabelText>

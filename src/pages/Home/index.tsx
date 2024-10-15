@@ -11,7 +11,6 @@ import HistoricList from '../../components/HistoricList';
 import CalendarModal from '../../components/CalendarModal';
 import notifee, {AuthorizationStatus} from '@notifee/react-native';
 
-
 const Home = () => {
   // const {signOut, user} = useContext(AuthContext);
   const [modalVisible, setModalVisible] = useState(false);
@@ -20,7 +19,6 @@ const Home = () => {
   const isFocused = useIsFocused();
   const [movements, setMovevents] = useState([]);
   const [statusNotification, setStatusNotification] = useState(true);
- 
 
   useEffect(() => {
     async function getPermission() {

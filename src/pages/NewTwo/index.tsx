@@ -19,8 +19,6 @@ import {
   TouchableWithoutFeedback,
   Keyboard,
   Alert,
-  View,
-  Text,
 } from 'react-native';
 import RegisterTypeD from '../../components/RegisterTypesD'; // Importa componente de tipo (despesa ou receita)
 import api from '../../services/api';
@@ -33,7 +31,7 @@ const NewTwo = () => {
   const [labelInput, setLabelInput] = useState(''); // Para descrição
   const [displayValue, setDisplayValue] = useState(''); // Valor formatado que será mostrado
   const [numericValue, setNumericValue] = useState(''); // Valor numérico real para backend
-  const [type, setType] = useState('receita'); // Inicia como receita, mas muda para despesa via RegisterTypeD
+  const [type, setType] = useState('despesa'); // Inicia como receita, mas muda para despesa via RegisterTypeD
 
   // Função para formatar o valor como moeda
   const formatCurrency = value => {
