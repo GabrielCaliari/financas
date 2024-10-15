@@ -108,7 +108,7 @@ const Home = () => {
 
       <Area>
         <TouchableOpacity onPress={() => setModalVisible(true)}>
-          <Icon name="event" color="black" size={30} />
+          <Icon name="event" color="white" size={30} />
         </TouchableOpacity>
         <Title>Ultimas movimentações</Title>
       </Area>

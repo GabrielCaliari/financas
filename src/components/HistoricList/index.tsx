@@ -1,5 +1,13 @@
 import React from 'react';
-import {Container, IconView, Tipo, TipoText, ValorText} from './styled';
+import {
+  Container,
+  IconView,
+  Separator,
+  Tipo,
+  TipoText,
+  ValorText,
+  ViewDescription,
+} from './styled';
 import Icon from 'react-native-vector-icons/Feather';
 import {TouchableWithoutFeedback, Alert} from 'react-native';
 
@@ -34,9 +42,10 @@ const HistoricList = ({data, deleteItem}) => {
             <TipoText>{data.type}</TipoText>
           </IconView>
         </Tipo>
-
-        <ValorText>R$ {data.value}</ValorText>
-        <ValorText>{data.description}</ValorText>
+        <ViewDescription>
+          <ValorText>{data.description}</ValorText>
+          <ValorText>R$ {data.value}</ValorText>
+        </ViewDescription>
       </Container>
     </TouchableWithoutFeedback>
   );

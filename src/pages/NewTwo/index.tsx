@@ -127,7 +127,6 @@ const NewTwo = () => {
           </ViewInput>
 
           {/* Componente que altera o tipo (despesa ou receita) */}
-          <RegisterTypeD type={type} sendTypeChanged={item => setType(item)} />
 
           <SubmitButton onPress={handleSubmit}>
             <SubmitText>Registrar</SubmitText>

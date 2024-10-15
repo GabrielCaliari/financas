@@ -109,7 +109,7 @@ const NewTwo = () => {
         </ViewHeader>
 
         <ViewValue>
-          <TextValue>Valor da despesa</TextValue>
+          <TextValue>Valor da receita</TextValue>
           <InputValue
             placeholder="R$ 0,00"
             placeholderTextColor="white"
@@ -128,9 +128,6 @@ const NewTwo = () => {
             />
             <IconEye name="edit" size={20} color="black" />
           </ViewInput>
-
-          {/* Componente que altera o tipo (despesa ou receita) */}
-          <RegisterType type={type} sendTypeChanged={item => setType(item)} />
 
           <SubmitButton onPress={handleSubmit}>
             <SubmitText>Registrar</SubmitText>

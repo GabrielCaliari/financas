@@ -1,12 +1,11 @@
 import styled from 'styled-components/native';
 
 export const Container = styled.View`
-  background-color: #f0f3ff;
   border-radius: 4px;
   margin-left: 10px;
   margin-right: 10px;
   margin-bottom: 10px;
-  padding: 12px;
+  padding: 5px;
 `;
 export const Tipo = styled.View`
   flex-direction: row;
@@ -31,6 +30,16 @@ export const IconView = styled.View`
 `;
 
 export const ValorText = styled.Text`
-  color: #121212;
+  color: white;
   font-size: 22px;
+`;
+
+export const ViewDescription = styled.View`
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
+  width: 100%;
+  padding-bottom: 10px;
+  border-bottom-width: 1px;
+  border-bottom-color: white;
 `;
