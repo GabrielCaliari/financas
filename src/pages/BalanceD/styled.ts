@@ -64,3 +64,58 @@ export const Separator = styled.View`
   bottom: 0;
   left: 0;
 `;
+
+export const List = styled.FlatList`
+  flex: 1;
+  background-color: #1e1e1e;
+  margin-left: 14px;
+  margin-right: 14px;
+  margin-bottom: 50px;
+  padding-top: 10px;
+`;
+
+export const ViewHeader = styled.View`
+  flex-direction: row;
+  align-items: center;
+  justify-content: space-between;
+  margin-top: 14px;
+  padding-inline: 10px;
+`;
+
+export const ButtonCancel = styled.TouchableOpacity`
+  margin-left: 30px;
+  align-items: center;
+  justify-content: center;
+  margin-right: 25px;
+`;
+
+export const ButtonText = styled.Text`
+  font-size: 15px;
+  align-items: center;
+  justify-content: center;
+  padding-top: 15px;
+  color: white;
+  padding-left: 10px;
+`;
+export const Area = styled.View`
+  margin-top: 22px;
+  background-color: #1e1e1e;
+  border-top-left-radius: 15px;
+  border-top-right-radius: 15px;
+  flex-direction: row;
+  padding-left: 14px;
+  padding-right: 14px;
+  padding-top: 14px;
+  align-items: flex-start;
+  margin-left: 14px;
+  margin-right: 14px;
+`;
+
+export const Title = styled.Text`
+  margin-left: 4px;
+  color: white;
+  margin-top: 5px;
+  margin-bottom: 14px;
+  font-weight: bold;
+  font-size: 18px;
+`;

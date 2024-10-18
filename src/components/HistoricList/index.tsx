@@ -2,11 +2,10 @@ import React from 'react';
 import {
   Container,
   IconView,
-  Tipo,
   TipoText,
   ValorText,
-  ViewDescription,
   DescricaoContainer,
+  Separator,
 } from './styled';
 import Icon from 'react-native-vector-icons/Feather';
 import {TouchableWithoutFeedback, Alert} from 'react-native';
@@ -36,15 +35,19 @@ const HistoricList = ({data, deleteItem}) => {
           <IconView tipo={data.type}>
             <Icon
               name={data.type === 'despesa' ? 'arrow-down' : 'arrow-up'}
-              size={20}
+              size={16}
               color="white"
             />
           </IconView>
           <TipoText>{data.description}</TipoText>
         </DescricaoContainer>
 
-        {/* Valor alinhado à direita com espaçamento da descrição */}
-        <ValorText>R$ {data.value}</ValorText>
+        <ValorText>
+          R$ {data.value ? data.value.toFixed(2).replace('.', ',') : '0,00'}
+        </ValorText>
+
+        {/* Linha separadora abaixo do conteúdo */}
+        <Separator />
       </Container>
     </TouchableWithoutFeedback>
   );

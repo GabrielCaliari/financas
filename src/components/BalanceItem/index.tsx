@@ -42,7 +42,7 @@ export default function BalanceItem({data, inputProps}: BalanceItemProps) {
     if (data.tag === 'saldo') {
       return {
         label: 'Saldo Atual',
-        color: 'gray',
+        color: 'white',
       };
     } else if (data.tag === 'receita') {
       return {
@@ -80,7 +80,7 @@ export default function BalanceItem({data, inputProps}: BalanceItemProps) {
         </ViewSaldo>
         <IncomeExpenseContainer>
           <IncomeExpenseItem
-            onPress={() => navigation.navigate('Receita', {type: 'receita'})}>
+            onPress={() => navigation.navigate('BalanceR', {type: 'receita'})}>
             <Icon name="arrow-upward" size={40} color="#00b94a" />
             <View>
               <LabelText>Receitas</LabelText>
@@ -94,7 +94,7 @@ export default function BalanceItem({data, inputProps}: BalanceItemProps) {
           </IncomeExpenseItem>
 
           <IncomeExpenseItem
-            onPress={() => navigation.navigate('Despesa', {type: 'despesa'})}>
+            onPress={() => navigation.navigate('BalanceD', {type: 'despesa'})}>
             <Icon name="arrow-downward" size={40} color="#EF463a" />
             <View>
               <LabelText>Despesas</LabelText>

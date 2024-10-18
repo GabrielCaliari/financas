@@ -14,6 +14,8 @@ import {
   ModalContent,
 } from '../components/CustomDrawer/styled';
 import NewTwo from '../pages/NewTwo';
+import BalanceR from '../pages/BalanceR';
+import BalanceD from '../pages/BalanceD';
 
 const Tab = createBottomTabNavigator();
 const Stack = createNativeStackNavigator();
@@ -141,6 +143,8 @@ function AppRoutes() {
       <Stack.Screen name="Tabs" component={Tabs} />
       <Stack.Screen name="Receita" component={New} />
       <Stack.Screen name="Despesa" component={NewTwo} />
+      <Stack.Screen name="BalanceR" component={BalanceR} />
+      <Stack.Screen name="BalanceD" component={BalanceD} />
     </Stack.Navigator>
   );
 }
