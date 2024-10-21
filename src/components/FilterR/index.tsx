@@ -9,16 +9,29 @@ import {
 } from './styled';
 import Icon from 'react-native-vector-icons/Feather';
 import {TouchableWithoutFeedback} from 'react-native';
+import {
+  ViewTextAndIcon,
+  PaymentMethodIconContainer,
+} from '../HistoricList/styled';
 
-const FilterR = ({data}) => {
+const FilterD = ({data}) => {
   // Transformar o dado único em um array, caso não seja um array
   const dataArray = Array.isArray(data) ? data : [data];
 
-  const receitas = dataArray.filter(item => item.type === 'receita');
+  const despesa = dataArray.filter(item => item.type === 'receita');
+
+  function renderPaymentMethodIcon() {
+    if (data.payment_method === 'dinheiro') {
+      return <Icon name="dollar-sign" size={15} color="green" />; // Tamanho pequeno
+    } else if (data.payment_method === 'cartao') {
+      return <Icon name="credit-card" size={15} color="blue" />; // Tamanho pequeno
+    }
+    return null;
+  }
 
   return (
     <>
-      {receitas.map(item => (
+      {despesa.map(item => (
         <TouchableWithoutFeedback key={item.id}>
           <Container>
             <DescricaoContainer>
@@ -29,7 +42,12 @@ const FilterR = ({data}) => {
                   color="white"
                 />
               </IconView>
-              <TipoText>{item.description}</TipoText>
+              <ViewTextAndIcon>
+                <TipoText>{item.description}</TipoText>
+                <PaymentMethodIconContainer>
+                  {renderPaymentMethodIcon()}
+                </PaymentMethodIconContainer>
+              </ViewTextAndIcon>
             </DescricaoContainer>
 
             <ValorText>
@@ -44,4 +62,4 @@ const FilterR = ({data}) => {
   );
 };
 
-export default FilterR;
+export default FilterD;
