@@ -81,8 +81,12 @@ const NewTwo = () => {
   // Função que lida com a adição ao banco de dados
   async function handleAdd() {
     try {
+      // Verifica se a descrição está vazia e define uma mensagem padrão
+      const descriptionFinal =
+        labelInput.trim() === '' ? 'Sem descrição' : labelInput;
+
       await api.post('/receive', {
-        description: labelInput,
+        description: descriptionFinal, // Usa a descrição final (padrão ou preenchida)
         value: parseFloat(numericValue) / 100, // Envia o valor numérico correto
         type: type,
         date: format(new Date(), 'dd/MM/yyyy'),

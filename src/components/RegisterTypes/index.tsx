@@ -9,9 +9,6 @@ const RegisterType = ({type, sendTypeChanged}) => {
     if (name === 'receita') {
       setTypeChecked('receita');
       sendTypeChanged('receita');
-    } else {
-      setTypeChecked('despesa');
-      sendTypeChanged('despesa');
     }
   }
 
