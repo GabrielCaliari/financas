@@ -2,7 +2,7 @@ import styled from 'styled-components/native';
 
 export const Background = styled.View`
   flex: 1;
-  background-color: #262626;
+  background-color: #121212;
 `;
 
 export const InputValue = styled.TextInput`

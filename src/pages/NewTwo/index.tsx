@@ -19,19 +19,21 @@ import {
   TouchableWithoutFeedback,
   Keyboard,
   Alert,
+  Text,
 } from 'react-native';
-import RegisterTypeD from '../../components/RegisterTypesD'; // Importa componente de tipo (despesa ou receita)
 import api from '../../services/api';
 import {format} from 'date-fns';
 import {useNavigation} from '@react-navigation/native';
 import {IconEye} from '../SignIn/styled';
+import {Picker} from '@react-native-picker/picker';
 
 const NewTwo = () => {
   const navigation = useNavigation();
   const [labelInput, setLabelInput] = useState(''); // Para descrição
   const [displayValue, setDisplayValue] = useState(''); // Valor formatado que será mostrado
   const [numericValue, setNumericValue] = useState(''); // Valor numérico real para backend
-  const [type, setType] = useState('despesa'); // Inicia como receita, mas muda para despesa via RegisterTypeD
+  const [type, setType] = useState('despesa'); // Inicia como despesa, mas pode mudar para receita
+  const [paymentMethod, setPaymentMethod] = useState('dinheiro'); // Novo campo de método de pagamento
 
   // Função para formatar o valor como moeda
   const formatCurrency = value => {
@@ -67,7 +69,7 @@ const NewTwo = () => {
       'Confirmando dados',
       `Tipo: ${type} - Valor: R$ ${(parseFloat(numericValue) / 100).toFixed(
         2,
-      )}`,
+      )} - Método de Pagamento: ${paymentMethod}`,
       [
         {text: 'Cancelar', style: 'cancel'},
         {text: 'Continuar', onPress: () => handleAdd()},
@@ -78,23 +80,25 @@ const NewTwo = () => {
   // Função que lida com a adição ao banco de dados
   async function handleAdd() {
     try {
-      // Verifica se a descrição está vazia e define uma mensagem padrão
       const descriptionFinal =
         labelInput.trim() === '' ? 'Sem descrição' : labelInput;
 
+      // Adicione um log aqui para ver os dados antes de enviar ao backend
+
       await api.post('/receive', {
-        description: descriptionFinal, // Usa a descrição final (padrão ou preenchida)
-        value: parseFloat(numericValue) / 100, // Envia o valor numérico correto
+        description: descriptionFinal,
+        value: parseFloat(numericValue) / 100,
         type: type,
+        payment_method: paymentMethod, // Verifique se está correto
         date: format(new Date(), 'dd/MM/yyyy'),
       });
 
-      setLabelInput(''); // Limpa o campo de descrição
-      setDisplayValue(''); // Limpa o campo de valor formatado
-      setNumericValue(''); // Limpa o valor numérico
-      navigation.navigate('Home'); // Redireciona para a página inicial
+      setLabelInput('');
+      setDisplayValue('');
+      setNumericValue('');
+      navigation.navigate('Home');
     } catch (error) {
-      console.log(error);
+      console.log('Erro ao registrar transação: ', error); // Log detalhado do erro
       Alert.alert('Erro', 'Ocorreu um erro ao registrar a transação');
     }
   }
@@ -116,7 +120,7 @@ const NewTwo = () => {
             placeholderTextColor="white"
             keyboardType="numeric"
             value={displayValue} // Mostra o valor formatado
-            onChangeText={handleValueChange} // Formata o valor ao digitar
+            onChangeText={handleValueChange} // Chama a função handleValueChange corretamente
           />
         </ViewValue>
 
@@ -130,7 +134,17 @@ const NewTwo = () => {
             <IconEye name="edit" size={20} color="black" />
           </ViewInput>
 
-          {/* Componente que altera o tipo (despesa ou receita) */}
+          {/* Aqui você pode adicionar o seletor para escolher o método de pagamento */}
+          <ViewInput>
+            <Text>Método de pagamento:</Text>
+            <Picker
+              selectedValue={paymentMethod}
+              onValueChange={itemValue => setPaymentMethod(itemValue)}
+              style={{height: 50, width: 150}}>
+              <Picker.Item label="Dinheiro" value="dinheiro" />
+              <Picker.Item label="Cartão" value="cartao" />
+            </Picker>
+          </ViewInput>
 
           <SubmitButton onPress={handleSubmit}>
             <SubmitText>Registrar</SubmitText>

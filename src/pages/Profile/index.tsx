@@ -22,9 +22,6 @@ const Profile = () => {
       <Message>Hey, bem vindo de volta!</Message>
 
       <Name numberOfLines={1}>{user && user.name}</Name>
-      <NewLink onPress={() => navigation.navigate('Registrar')}>
-        <NewText>Fazer registro</NewText>
-      </NewLink>
 
       <LogoutButton onPress={() => signOut()}>
         <LogoutText>Sair</LogoutText>

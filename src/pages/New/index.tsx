@@ -28,6 +28,7 @@ import {format} from 'date-fns';
 import {useNavigation} from '@react-navigation/native';
 import {IconEye} from '../SignIn/styled';
 import RegisterType from '../../components/RegisterTypes';
+import {Picker} from '@react-native-picker/picker';
 
 const NewTwo = () => {
   const navigation = useNavigation();
@@ -35,6 +36,7 @@ const NewTwo = () => {
   const [displayValue, setDisplayValue] = useState(''); // Valor formatado que será mostrado
   const [numericValue, setNumericValue] = useState(''); // Valor numérico real para backend
   const [type, setType] = useState('receita'); // Inicia como receita, mas muda para despesa via RegisterTypeD
+  const [paymentMethod, setPaymentMethod] = useState('dinheiro'); // Novo campo de método de pagamento
 
   // Função para formatar o valor como moeda
   const formatCurrency = value => {
@@ -70,7 +72,7 @@ const NewTwo = () => {
       'Confirmando dados',
       `Tipo: ${type} - Valor: R$ ${(parseFloat(numericValue) / 100).toFixed(
         2,
-      )}`,
+      )} - Método de Pagamento: ${paymentMethod}`,
       [
         {text: 'Cancelar', style: 'cancel'},
         {text: 'Continuar', onPress: () => handleAdd()},
@@ -89,6 +91,7 @@ const NewTwo = () => {
         description: descriptionFinal, // Usa a descrição final (padrão ou preenchida)
         value: parseFloat(numericValue) / 100, // Envia o valor numérico correto
         type: type,
+        payment_method: paymentMethod, // Verifique se está correto
         date: format(new Date(), 'dd/MM/yyyy'),
       });
 
@@ -131,6 +134,16 @@ const NewTwo = () => {
               onChangeText={text => setLabelInput(text)} // Atualiza descrição
             />
             <IconEye name="edit" size={20} color="black" />
+          </ViewInput>
+          <ViewInput>
+            <Text>Método de pagamento:</Text>
+            <Picker
+              selectedValue={paymentMethod}
+              onValueChange={itemValue => setPaymentMethod(itemValue)}
+              style={{height: 50, width: 150}}>
+              <Picker.Item label="Dinheiro" value="dinheiro" />
+              <Picker.Item label="Cartão" value="cartao" />
+            </Picker>
           </ViewInput>
 
           <SubmitButton onPress={handleSubmit}>

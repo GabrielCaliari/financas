@@ -2,7 +2,7 @@ import styled from 'styled-components/native';
 
 export const Background = styled.View`
   flex: 1;
-  background-color: #262626;
+  background-color: #121212;
 `;
 
 export const InputValue = styled.TextInput`
@@ -19,7 +19,7 @@ export const SubmitButton = styled.TouchableOpacity`
   width: 90%;
   justify-content: center;
   align-items: center;
-  background-color: green;
+  background-color: red;
   border-radius: 4px;
 `;
 export const SubmitText = styled.Text`

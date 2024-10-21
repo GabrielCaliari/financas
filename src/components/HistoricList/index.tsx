@@ -5,9 +5,11 @@ import {
   TipoText,
   ValorText,
   DescricaoContainer,
+  PaymentMethodIconContainer,
   Separator,
+  ViewTextAndIcon,
 } from './styled';
-import Icon from 'react-native-vector-icons/Feather';
+import Icon from 'react-native-vector-icons/Feather'; // Ícone para seta de movimentação
 import {TouchableWithoutFeedback, Alert} from 'react-native';
 
 const HistoricList = ({data, deleteItem}) => {
@@ -28,6 +30,16 @@ const HistoricList = ({data, deleteItem}) => {
     );
   }
 
+  // Função para determinar o ícone baseado no método de pagamento
+  function renderPaymentMethodIcon() {
+    if (data.payment_method === 'dinheiro') {
+      return <Icon name="dollar-sign" size={15} color="green" />; // Tamanho pequeno
+    } else if (data.payment_method === 'cartao') {
+      return <Icon name="credit-card" size={15} color="blue" />; // Tamanho pequeno
+    }
+    return null;
+  }
+
   return (
     <TouchableWithoutFeedback onLongPress={handleDeleteItem}>
       <Container>
@@ -39,14 +51,22 @@ const HistoricList = ({data, deleteItem}) => {
               color="white"
             />
           </IconView>
-          <TipoText>{data.description}</TipoText>
+
+          {/* Descrição ao lado da seta, ícone de pagamento abaixo */}
+          <ViewTextAndIcon>
+            <TipoText>{data.description}</TipoText>
+            <PaymentMethodIconContainer>
+              {renderPaymentMethodIcon()}
+            </PaymentMethodIconContainer>
+          </ViewTextAndIcon>
         </DescricaoContainer>
 
+        {/* Exibir o valor da transação */}
         <ValorText>
           R$ {data.value ? data.value.toFixed(2).replace('.', ',') : '0,00'}
         </ValorText>
 
-        {/* Linha separadora abaixo do conteúdo */}
+        {/* Linha separadora */}
         <Separator />
       </Container>
     </TouchableWithoutFeedback>
