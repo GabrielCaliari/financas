@@ -6,7 +6,7 @@ import api from '../../services/api';
 import {useIsFocused} from '@react-navigation/native';
 import BalanceItem from '../../components/BalanceItem';
 import {Modal, TextInputProps, TouchableOpacity} from 'react-native';
-import Icon from 'react-native-vector-icons/MaterialIcons';
+import Icon from 'react-native-vector-icons/EvilIcons';
 import HistoricList from '../../components/HistoricList';
 import CalendarModal from '../../components/CalendarModal';
 import notifee, {AuthorizationStatus} from '@notifee/react-native';
@@ -108,7 +108,7 @@ const Home = () => {
 
       <Area>
         <TouchableOpacity onPress={() => setModalVisible(true)}>
-          <Icon name="event" color="white" size={30} />
+          <Icon name="calendar" color="white" size={30} />
         </TouchableOpacity>
         <Title>Ultimas movimentações</Title>
       </Area>

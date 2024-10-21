@@ -32,9 +32,8 @@ export const SubmitButton = styled.TouchableOpacity`
   align-items: center;
   bottom: 15%;
   width: 100%;
-  border-radius: 4px;
-  padding-top: 10px;
-  padding-bottom: 10px;
+  border-radius: 12px;
+  padding: 16px;
   margin-top: 40px;
 `;
 

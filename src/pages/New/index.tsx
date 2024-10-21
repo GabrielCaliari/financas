@@ -30,7 +30,7 @@ import {IconEye} from '../SignIn/styled';
 import RegisterType from '../../components/RegisterTypes';
 import {Picker} from '@react-native-picker/picker';
 
-const NewTwo = () => {
+const New = () => {
   const navigation = useNavigation();
   const [labelInput, setLabelInput] = useState(''); // Para descrição
   const [displayValue, setDisplayValue] = useState(''); // Valor formatado que será mostrado
@@ -91,7 +91,7 @@ const NewTwo = () => {
         description: descriptionFinal, // Usa a descrição final (padrão ou preenchida)
         value: parseFloat(numericValue) / 100, // Envia o valor numérico correto
         type: type,
-        payment_method: paymentMethod, // Verifique se está correto
+        payment_method: paymentMethod, // Verifique se o valor está correto aqui
         date: format(new Date(), 'dd/MM/yyyy'),
       });
 
@@ -155,4 +155,4 @@ const NewTwo = () => {
   );
 };
 
-export default NewTwo;
+export default New;

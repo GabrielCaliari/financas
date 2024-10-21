@@ -9,7 +9,7 @@ import {
   Separator,
   ViewTextAndIcon,
 } from './styled';
-import Icon from 'react-native-vector-icons/Feather'; // Ícone para seta de movimentação
+import Icon from 'react-native-vector-icons/FontAwesome'; // Ícone para seta de movimentação
 import {TouchableWithoutFeedback, Alert} from 'react-native';
 
 const HistoricList = ({data, deleteItem}) => {
@@ -33,9 +33,9 @@ const HistoricList = ({data, deleteItem}) => {
   // Função para determinar o ícone baseado no método de pagamento
   function renderPaymentMethodIcon() {
     if (data.payment_method === 'dinheiro') {
-      return <Icon name="dollar-sign" size={15} color="green" />; // Tamanho pequeno
+      return <Icon name="dollar" size={17} color="green" />; // Tamanho pequeno
     } else if (data.payment_method === 'cartao') {
-      return <Icon name="credit-card" size={15} color="blue" />; // Tamanho pequeno
+      return <Icon name="credit-card" size={17} color="white" />; // Tamanho pequeno
     }
     return null;
   }

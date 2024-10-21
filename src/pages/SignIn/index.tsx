@@ -54,10 +54,9 @@ const SignIn = ({secureTextEntry}: InputProps) => {
         style={{
           flex: 1,
           backgroundColor: '#fff',
-          borderTopLeftRadius: 15,
-          borderTopRightRadius: 15,
-          paddingStart: '5%',
-          paddingEnd: '5%',
+          borderTopLeftRadius: 24,
+          borderTopRightRadius: 24,
+          padding: 24,
         }}>
         <MidText> Email</MidText>
         <TextInput

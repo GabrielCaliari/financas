@@ -1,4 +1,3 @@
-/* eslint-disable react-native/no-inline-styles */
 import React, {useState} from 'react';
 import {
   Background,
@@ -11,7 +10,10 @@ import {
   TextValue,
   ViewHeader,
   ViewInput,
+  ViewPicker,
   ViewValue,
+  WalletInputContainer,
+  WalletInputText,
 } from './styled';
 import Header from '../../components/Header';
 import {
@@ -19,12 +21,15 @@ import {
   TouchableWithoutFeedback,
   Keyboard,
   Alert,
-  Text,
+  TouchableOpacity,
 } from 'react-native';
+
 import api from '../../services/api';
 import {format} from 'date-fns';
 import {useNavigation} from '@react-navigation/native';
 import {IconEye} from '../SignIn/styled';
+
+import Icon from 'react-native-vector-icons/Fontisto'; // Para o ícone de carteira
 import {Picker} from '@react-native-picker/picker';
 
 const NewTwo = () => {
@@ -32,8 +37,8 @@ const NewTwo = () => {
   const [labelInput, setLabelInput] = useState(''); // Para descrição
   const [displayValue, setDisplayValue] = useState(''); // Valor formatado que será mostrado
   const [numericValue, setNumericValue] = useState(''); // Valor numérico real para backend
-  const [type, setType] = useState('despesa'); // Inicia como despesa, mas pode mudar para receita
-  const [paymentMethod, setPaymentMethod] = useState('dinheiro'); // Novo campo de método de pagamento
+  const [type, setType] = useState('receita'); // Inicia como receita, mas muda para despesa via RegisterTypeD
+  const [paymentMethod, setPaymentMethod] = useState('dinheiro'); // Método de pagamento
 
   // Função para formatar o valor como moeda
   const formatCurrency = value => {
@@ -80,25 +85,24 @@ const NewTwo = () => {
   // Função que lida com a adição ao banco de dados
   async function handleAdd() {
     try {
+      // Verifica se a descrição está vazia e define uma mensagem padrão
       const descriptionFinal =
         labelInput.trim() === '' ? 'Sem descrição' : labelInput;
 
-      // Adicione um log aqui para ver os dados antes de enviar ao backend
-
       await api.post('/receive', {
-        description: descriptionFinal,
-        value: parseFloat(numericValue) / 100,
+        description: descriptionFinal, // Usa a descrição final (padrão ou preenchida)
+        value: parseFloat(numericValue) / 100, // Envia o valor numérico correto
         type: type,
         payment_method: paymentMethod, // Verifique se está correto
         date: format(new Date(), 'dd/MM/yyyy'),
       });
 
-      setLabelInput('');
-      setDisplayValue('');
-      setNumericValue('');
-      navigation.navigate('Home');
+      setLabelInput(''); // Limpa o campo de descrição
+      setDisplayValue(''); // Limpa o campo de valor formatado
+      setNumericValue(''); // Limpa o valor numérico
+      navigation.navigate('Home'); // Redireciona para a página inicial
     } catch (error) {
-      console.log('Erro ao registrar transação: ', error); // Log detalhado do erro
+      console.log(error);
       Alert.alert('Erro', 'Ocorreu um erro ao registrar a transação');
     }
   }
@@ -114,13 +118,13 @@ const NewTwo = () => {
         </ViewHeader>
 
         <ViewValue>
-          <TextValue>Valor da despesa</TextValue>
+          <TextValue>Valor da receita</TextValue>
           <InputValue
             placeholder="R$ 0,00"
             placeholderTextColor="white"
             keyboardType="numeric"
             value={displayValue} // Mostra o valor formatado
-            onChangeText={handleValueChange} // Chama a função handleValueChange corretamente
+            onChangeText={handleValueChange} // Formata o valor ao digitar
           />
         </ViewValue>
 
@@ -134,17 +138,25 @@ const NewTwo = () => {
             <IconEye name="edit" size={20} color="black" />
           </ViewInput>
 
-          {/* Aqui você pode adicionar o seletor para escolher o método de pagamento */}
-          <ViewInput>
-            <Text>Método de pagamento:</Text>
-            <Picker
-              selectedValue={paymentMethod}
-              onValueChange={itemValue => setPaymentMethod(itemValue)}
-              style={{height: 50, width: 150}}>
-              <Picker.Item label="Dinheiro" value="dinheiro" />
-              <Picker.Item label="Cartão" value="cartao" />
-            </Picker>
-          </ViewInput>
+          {/* Campo "Carteira" estilizado */}
+          <TouchableOpacity
+            onPress={() => setPaymentMethod('carteira')}
+            style={{width: '90%'}}>
+            <WalletInputContainer>
+              <Icon name="wallet" size={20} color="black" />
+              <WalletInputText>Pagamento</WalletInputText>
+
+              <ViewPicker>
+                <Picker
+                  selectedValue={paymentMethod}
+                  onValueChange={itemValue => setPaymentMethod(itemValue)}
+                  style={{width: 100}}>
+                  <Picker.Item label="Dinheiro" value="dinheiro" />
+                  <Picker.Item label="Cartão" value="cartao" />
+                </Picker>
+              </ViewPicker>
+            </WalletInputContainer>
+          </TouchableOpacity>
 
           <SubmitButton onPress={handleSubmit}>
             <SubmitText>Registrar</SubmitText>

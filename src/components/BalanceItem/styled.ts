@@ -49,7 +49,7 @@ export const IncomeExpenseContainer = styled.View`
   width: 100%;
   margin-top: 20px;
   align-items: center;
-  padding-left: 40px;
+  padding-left: 25px;
 `;
 
 export const IncomeExpenseItem = styled.TouchableOpacity`
@@ -76,4 +76,25 @@ export const IconEye = styled(Feather)`
 
 export const ViewSaldo = styled.View`
   align-items: center;
+`;
+
+export const IconViewD = styled.View`
+  background-color: red;
+  border-radius: 50px;
+  width: 40px;
+  height: 40px;
+  justify-content: center;
+  align-items: center;
+  margin-right: 10px; /* Deixa espaço entre o ícone e a descrição */
+  margin-left: 10px;
+`;
+
+export const IconViewR = styled.View`
+  background-color: #049301;
+  border-radius: 50px;
+  width: 40px;
+  height: 40px;
+  justify-content: center;
+  align-items: center;
+  margin-right: 10px; /* Deixa espaço entre o ícone e a descrição */
 `;

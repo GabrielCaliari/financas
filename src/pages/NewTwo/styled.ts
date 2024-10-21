@@ -1,10 +1,12 @@
 import styled from 'styled-components/native';
 
+// Estilo de fundo da tela
 export const Background = styled.View`
   flex: 1;
   background-color: #121212;
 `;
 
+// Estilo do campo de entrada de valor
 export const InputValue = styled.TextInput`
   background-color: transparent; /* Fundo transparente */
   font-size: 30px; /* Tamanho maior para o valor */
@@ -14,6 +16,7 @@ export const InputValue = styled.TextInput`
   width: 100%; /* Ocupa toda a largura */
 `;
 
+// Estilo do botão de enviar
 export const SubmitButton = styled.TouchableOpacity`
   height: 50px;
   width: 90%;
@@ -22,12 +25,15 @@ export const SubmitButton = styled.TouchableOpacity`
   background-color: red;
   border-radius: 4px;
 `;
+
+// Estilo do texto do botão de enviar
 export const SubmitText = styled.Text`
   color: white;
   font-size: 21px;
   font-weight: bold;
 `;
 
+// Estilo do botão de cancelar
 export const ButtonCancel = styled.TouchableOpacity`
   margin-left: 30px;
   align-items: center;
@@ -35,6 +41,7 @@ export const ButtonCancel = styled.TouchableOpacity`
   margin-right: 25px;
 `;
 
+// Estilo do texto do botão de cancelar
 export const ButtonText = styled.Text`
   font-size: 15px;
   align-items: center;
@@ -43,6 +50,7 @@ export const ButtonText = styled.Text`
   color: white;
 `;
 
+// Estilo do cabeçalho da tela
 export const ViewHeader = styled.View`
   flex-direction: row;
   align-items: center;
@@ -51,6 +59,7 @@ export const ViewHeader = styled.View`
   padding-inline: 10px;
 `;
 
+// Estilo da área de entrada
 export const ViewInput = styled.View`
   height: 50px;
   width: 90%;
@@ -64,21 +73,44 @@ export const ViewInput = styled.View`
   justify-content: flex-start; /* Alinhar ícone e input à esquerda */
 `;
 
+// Estilo do campo de entrada de descrição
 export const InputDescription = styled.TextInput`
   flex: 1; /* Flexível para preencher o restante do espaço */
   height: 100%;
   background-color: white;
   font-size: 17px;
-  border-radius: 5px;
   border-radius: 4px;
 `;
 
+// Estilo da área para valor
 export const ViewValue = styled.View`
   margin-top: 10px;
 `;
 
+// Estilo do texto do valor
 export const TextValue = styled.Text`
   color: white;
   font-size: 18px;
   margin-left: 15px;
+`;
+
+// Estilo do container da carteira
+export const WalletInputContainer = styled.View`
+  flex-direction: row;
+  align-items: center;
+  background-color: #f0f0f0; /* Cor de fundo clara */
+  border-radius: 5px; /* Bordas arredondadas */
+  margin-top: 10px; /* Margem superior */
+  padding-left: 10px;
+`;
+
+// Estilo do texto da carteira
+export const WalletInputText = styled.Text`
+  font-size: 18px;
+  color: #333; /* Cor do texto */
+  margin-left: 10px; /* Espaçamento à esquerda do texto */
+`;
+
+export const ViewPicker = styled.View`
+  padding-left: 65px;
 `;

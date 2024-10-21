@@ -1,4 +1,5 @@
 import styled from 'styled-components/native';
+import Icon from 'react-native-vector-icons/Feather';
 
 export const Background = styled.View`
   flex: 1;
@@ -6,12 +7,12 @@ export const Background = styled.View`
 `;
 
 export const InputValue = styled.TextInput`
-  background-color: transparent; /* Fundo transparente */
-  font-size: 30px; /* Tamanho maior para o valor */
-  font-weight: bold; /* Deixar o valor em negrito */
-  color: #fff; /* Cor branca para o texto */
+  background-color: transparent;
+  font-size: 30px;
+  font-weight: bold;
+  color: #fff;
   margin-left: 10px;
-  width: 100%; /* Ocupa toda a largura */
+  width: 100%;
 `;
 
 export const SubmitButton = styled.TouchableOpacity`
@@ -22,6 +23,7 @@ export const SubmitButton = styled.TouchableOpacity`
   background-color: green;
   border-radius: 4px;
 `;
+
 export const SubmitText = styled.Text`
   color: white;
   font-size: 21px;
@@ -60,17 +62,16 @@ export const ViewInput = styled.View`
   margin-bottom: 14px;
   border-radius: 5px;
   flex-direction: row;
-  align-items: center; /* Alinhar o ícone e o input no centro vertical */
-  justify-content: flex-start; /* Alinhar ícone e input à esquerda */
+  align-items: center;
+  justify-content: flex-start;
 `;
 
 export const InputDescription = styled.TextInput`
-  flex: 1; /* Flexível para preencher o restante do espaço */
+  flex: 1;
   height: 100%;
   background-color: white;
   font-size: 17px;
   border-radius: 5px;
-  border-radius: 4px;
 `;
 
 export const ViewValue = styled.View`
@@ -81,4 +82,15 @@ export const TextValue = styled.Text`
   color: white;
   font-size: 18px;
   margin-left: 15px;
+`;
+
+/* Estilos para o campo "Carteira" */
+export const WalletInputContainer = styled.View`
+  height: 50px;
+  flex-direction: row;
+  align-items: center;
+  background-color: transparent;
+  border-radius: 10px;
+  border: 2px solid blue;
+  padding: 5px 10px;
 `;

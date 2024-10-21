@@ -11,8 +11,11 @@ import {
   LabelText,
   IconEye,
   ViewSaldo,
+  IconView,
+  IconViewD,
+  IconViewR,
 } from './styled';
-import Icon from 'react-native-vector-icons/MaterialIcons';
+import Icon from 'react-native-vector-icons/FontAwesome';
 import {useNavigation} from '@react-navigation/native';
 import {TextInputProps, View} from 'react-native';
 
@@ -21,6 +24,7 @@ interface DataProps {
   receita?: number; // Para receitas
   despesa?: number; // Para despesas
   tag: string; // Tag para identificar saldo, receita, etc.
+  type: any;
 }
 
 // Extendendo a interface para incluir secureTextEntry
@@ -81,7 +85,13 @@ export default function BalanceItem({data, inputProps}: BalanceItemProps) {
         <IncomeExpenseContainer>
           <IncomeExpenseItem
             onPress={() => navigation.navigate('BalanceR', {type: 'receita'})}>
-            <Icon name="arrow-upward" size={40} color="#00b94a" />
+            <IconViewR tipo={data.type}>
+              <Icon
+                name={data.type === 'despesa' ? 'arrow-up' : 'arrow-down'}
+                size={20}
+                color="white"
+              />
+            </IconViewR>
             <View>
               <LabelText>Receitas</LabelText>
               <AmountText style={{color: '#00b94a'}}>
@@ -95,7 +105,13 @@ export default function BalanceItem({data, inputProps}: BalanceItemProps) {
 
           <IncomeExpenseItem
             onPress={() => navigation.navigate('BalanceD', {type: 'despesa'})}>
-            <Icon name="arrow-downward" size={40} color="#EF463a" />
+            <IconViewD tipo={data.type}>
+              <Icon
+                name={data.type === 'despesa' ? 'arrow-up' : 'arrow-down'}
+                size={20}
+                color="white"
+              />
+            </IconViewD>
             <View>
               <LabelText>Despesas</LabelText>
               <AmountText style={{color: '#EF463a'}}>
