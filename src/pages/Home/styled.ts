@@ -12,15 +12,12 @@ export const ListBalance = styled.FlatList`
 export const Area = styled.View`
   margin-top: 22px;
   background-color: #1e1e1e;
-  border-top-left-radius: 15px;
-  border-top-right-radius: 15px;
+  border-top-left-radius: 18px;
+  border-top-right-radius: 18px;
   flex-direction: row;
-  padding-left: 14px;
-  padding-right: 14px;
-  padding-top: 14px;
+  padding: 18px;
   align-items: flex-start;
-  margin-left: 14px;
-  margin-right: 14px;
+  margin: 0 14px 0 14px;
 `;
 
 export const Title = styled.Text`

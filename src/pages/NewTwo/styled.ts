@@ -24,6 +24,7 @@ export const SubmitButton = styled.TouchableOpacity`
   align-items: center;
   background-color: red;
   border-radius: 4px;
+  margin-top: 20px;
 `;
 
 // Estilo do texto do botão de enviar
@@ -35,10 +36,9 @@ export const SubmitText = styled.Text`
 
 // Estilo do botão de cancelar
 export const ButtonCancel = styled.TouchableOpacity`
-  margin-left: 30px;
   align-items: center;
   justify-content: center;
-  margin-right: 25px;
+  margin: 5px 25px 0 30px;
 `;
 
 // Estilo do texto do botão de cancelar
@@ -63,7 +63,7 @@ export const ViewHeader = styled.View`
 export const ViewInput = styled.View`
   height: 50px;
   width: 90%;
-  background-color: white;
+  background-color: transparent;
   font-size: 17px;
   padding: 0 8px;
   margin-bottom: 14px;
@@ -77,14 +77,16 @@ export const ViewInput = styled.View`
 export const InputDescription = styled.TextInput`
   flex: 1; /* Flexível para preencher o restante do espaço */
   height: 100%;
-  background-color: white;
   font-size: 17px;
   border-radius: 4px;
+  color: white;
+  padding-left: 10px;
 `;
 
 // Estilo da área para valor
 export const ViewValue = styled.View`
   margin-top: 10px;
+  padding: 18px;
 `;
 
 // Estilo do texto do valor
@@ -98,19 +100,36 @@ export const TextValue = styled.Text`
 export const WalletInputContainer = styled.View`
   flex-direction: row;
   align-items: center;
-  background-color: #f0f0f0; /* Cor de fundo clara */
+  background-color: transparent; /* Cor de fundo clara */
   border-radius: 5px; /* Bordas arredondadas */
-  margin-top: 10px; /* Margem superior */
-  padding-left: 10px;
+  padding-left: 5px;
 `;
 
 // Estilo do texto da carteira
 export const WalletInputText = styled.Text`
   font-size: 18px;
-  color: #333; /* Cor do texto */
+  color: white; /* Cor do texto */
   margin-left: 10px; /* Espaçamento à esquerda do texto */
 `;
 
 export const ViewPicker = styled.View`
   padding-left: 65px;
+`;
+
+export const AreaColor = styled.View`
+  flex: 1;
+  background-color: #1e1e1e;
+  margin-left: 14px;
+  margin-right: 14px;
+  margin-bottom: 50px;
+  border-radius: 18px;
+`;
+
+export const Separator = styled.View`
+  height: 1px;
+  background-color: rgba(255, 255, 255, 0.3);
+  width: 100%;
+  position: absolute;
+  bottom: 0;
+  left: 0;
 `;

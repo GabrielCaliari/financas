@@ -1,10 +1,12 @@
 import React, {useState} from 'react';
 import {
+  AreaColor,
   Background,
   ButtonCancel,
   ButtonText,
   InputDescription,
   InputValue,
+  Separator,
   SubmitButton,
   SubmitText,
   TextValue,
@@ -37,7 +39,7 @@ const NewTwo = () => {
   const [labelInput, setLabelInput] = useState(''); // Para descrição
   const [displayValue, setDisplayValue] = useState(''); // Valor formatado que será mostrado
   const [numericValue, setNumericValue] = useState(''); // Valor numérico real para backend
-  const [type, setType] = useState('receita'); // Inicia como receita, mas muda para despesa via RegisterTypeD
+  const [type, setType] = useState('despesa'); // Inicia como receita, mas muda para despesa via RegisterTypeD
   const [paymentMethod, setPaymentMethod] = useState('dinheiro'); // Método de pagamento
 
   // Função para formatar o valor como moeda
@@ -110,15 +112,12 @@ const NewTwo = () => {
   return (
     <TouchableWithoutFeedback onPress={() => Keyboard.dismiss()}>
       <Background>
-        <ViewHeader style={{justifyContent: 'space-between'}}>
-          <ButtonCancel onPress={() => navigation.goBack()}>
-            <ButtonText>Cancelar</ButtonText>
-          </ButtonCancel>
+        <ViewHeader>
           <Header titulo="Registrando" />
         </ViewHeader>
 
         <ViewValue>
-          <TextValue>Valor da receita</TextValue>
+          <TextValue>Valor da despesa</TextValue>
           <InputValue
             placeholder="R$ 0,00"
             placeholderTextColor="white"
@@ -128,40 +127,46 @@ const NewTwo = () => {
           />
         </ViewValue>
 
-        <SafeAreaView style={{marginTop: 14, alignItems: 'center'}}>
-          <ViewInput>
-            <InputDescription
-              placeholder="Descrição desse registro"
-              value={labelInput}
-              onChangeText={text => setLabelInput(text)} // Atualiza descrição
-            />
-            <IconEye name="edit" size={20} color="black" />
-          </ViewInput>
+        <AreaColor>
+          <SafeAreaView style={{marginTop: 14, alignItems: 'center'}}>
+            <ViewInput>
+              <Icon name="info" size={20} color="white" />
+              <InputDescription
+                placeholder="Descrição desse registro"
+                value={labelInput}
+                onChangeText={text => setLabelInput(text)} // Atualiza descrição
+                placeholderTextColor="white"
+              />
+              <Separator />
+            </ViewInput>
 
-          {/* Campo "Carteira" estilizado */}
-          <TouchableOpacity
-            onPress={() => setPaymentMethod('carteira')}
-            style={{width: '90%'}}>
-            <WalletInputContainer>
-              <Icon name="wallet" size={20} color="black" />
-              <WalletInputText>Pagamento</WalletInputText>
+            <TouchableOpacity
+              onPress={() => setPaymentMethod('carteira')}
+              style={{width: '90%'}}>
+              <WalletInputContainer>
+                <Icon name="wallet" size={20} color="white" />
+                <WalletInputText>Pagamento :</WalletInputText>
 
-              <ViewPicker>
-                <Picker
-                  selectedValue={paymentMethod}
-                  onValueChange={itemValue => setPaymentMethod(itemValue)}
-                  style={{width: 100}}>
-                  <Picker.Item label="Dinheiro" value="dinheiro" />
-                  <Picker.Item label="Cartão" value="cartao" />
-                </Picker>
-              </ViewPicker>
-            </WalletInputContainer>
-          </TouchableOpacity>
+                <ViewPicker>
+                  <Picker
+                    selectedValue={paymentMethod}
+                    onValueChange={itemValue => setPaymentMethod(itemValue)}
+                    style={{width: 150, color: 'white'}}>
+                    <Picker.Item label="Dinheiro" value="dinheiro" />
+                    <Picker.Item label="Cartão" value="cartao" />
+                  </Picker>
+                </ViewPicker>
+              </WalletInputContainer>
+            </TouchableOpacity>
 
-          <SubmitButton onPress={handleSubmit}>
-            <SubmitText>Registrar</SubmitText>
-          </SubmitButton>
-        </SafeAreaView>
+            <SubmitButton onPress={handleSubmit}>
+              <SubmitText>Registrar</SubmitText>
+            </SubmitButton>
+            <ButtonCancel onPress={() => navigation.goBack()}>
+              <ButtonText>Cancelar</ButtonText>
+            </ButtonCancel>
+          </SafeAreaView>
+        </AreaColor>
       </Background>
     </TouchableWithoutFeedback>
   );

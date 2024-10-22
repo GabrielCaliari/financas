@@ -1,17 +1,21 @@
-/* eslint-disable react-native/no-inline-styles */
 import React, {useState} from 'react';
 import {
+  AreaColor,
   Background,
   ButtonCancel,
   ButtonText,
   InputDescription,
   InputValue,
+  Separator,
   SubmitButton,
   SubmitText,
   TextValue,
   ViewHeader,
   ViewInput,
+  ViewPicker,
   ViewValue,
+  WalletInputContainer,
+  WalletInputText,
 } from './styled';
 import Header from '../../components/Header';
 import {
@@ -19,15 +23,14 @@ import {
   TouchableWithoutFeedback,
   Keyboard,
   Alert,
-  View,
-  Text,
+  TouchableOpacity,
 } from 'react-native';
-import RegisterTypeD from '../../components/RegisterTypesD'; // Importa componente de tipo (despesa ou receita)
+
 import api from '../../services/api';
 import {format} from 'date-fns';
 import {useNavigation} from '@react-navigation/native';
-import {IconEye} from '../SignIn/styled';
-import RegisterType from '../../components/RegisterTypes';
+
+import Icon from 'react-native-vector-icons/Fontisto'; // Para o ícone de carteira
 import {Picker} from '@react-native-picker/picker';
 
 const New = () => {
@@ -36,7 +39,7 @@ const New = () => {
   const [displayValue, setDisplayValue] = useState(''); // Valor formatado que será mostrado
   const [numericValue, setNumericValue] = useState(''); // Valor numérico real para backend
   const [type, setType] = useState('receita'); // Inicia como receita, mas muda para despesa via RegisterTypeD
-  const [paymentMethod, setPaymentMethod] = useState('dinheiro'); // Novo campo de método de pagamento
+  const [paymentMethod, setPaymentMethod] = useState('dinheiro'); // Método de pagamento
 
   // Função para formatar o valor como moeda
   const formatCurrency = value => {
@@ -91,7 +94,7 @@ const New = () => {
         description: descriptionFinal, // Usa a descrição final (padrão ou preenchida)
         value: parseFloat(numericValue) / 100, // Envia o valor numérico correto
         type: type,
-        payment_method: paymentMethod, // Verifique se o valor está correto aqui
+        payment_method: paymentMethod, // Verifique se está correto
         date: format(new Date(), 'dd/MM/yyyy'),
       });
 
@@ -108,10 +111,7 @@ const New = () => {
   return (
     <TouchableWithoutFeedback onPress={() => Keyboard.dismiss()}>
       <Background>
-        <ViewHeader style={{justifyContent: 'space-between'}}>
-          <ButtonCancel onPress={() => navigation.goBack()}>
-            <ButtonText>Cancelar</ButtonText>
-          </ButtonCancel>
+        <ViewHeader>
           <Header titulo="Registrando" />
         </ViewHeader>
 
@@ -126,30 +126,46 @@ const New = () => {
           />
         </ViewValue>
 
-        <SafeAreaView style={{marginTop: 14, alignItems: 'center'}}>
-          <ViewInput>
-            <InputDescription
-              placeholder="Descrição desse registro"
-              value={labelInput}
-              onChangeText={text => setLabelInput(text)} // Atualiza descrição
-            />
-            <IconEye name="edit" size={20} color="black" />
-          </ViewInput>
-          <ViewInput>
-            <Text>Método de pagamento:</Text>
-            <Picker
-              selectedValue={paymentMethod}
-              onValueChange={itemValue => setPaymentMethod(itemValue)}
-              style={{height: 50, width: 150}}>
-              <Picker.Item label="Dinheiro" value="dinheiro" />
-              <Picker.Item label="Cartão" value="cartao" />
-            </Picker>
-          </ViewInput>
+        <AreaColor>
+          <SafeAreaView style={{marginTop: 14, alignItems: 'center'}}>
+            <ViewInput>
+              <Icon name="info" size={20} color="white" />
+              <InputDescription
+                placeholder="Descrição desse registro"
+                value={labelInput}
+                onChangeText={text => setLabelInput(text)} // Atualiza descrição
+                placeholderTextColor="white"
+              />
+              <Separator />
+            </ViewInput>
 
-          <SubmitButton onPress={handleSubmit}>
-            <SubmitText>Registrar</SubmitText>
-          </SubmitButton>
-        </SafeAreaView>
+            <TouchableOpacity
+              onPress={() => setPaymentMethod('carteira')}
+              style={{width: '90%'}}>
+              <WalletInputContainer>
+                <Icon name="wallet" size={20} color="white" />
+                <WalletInputText>Pagamento :</WalletInputText>
+
+                <ViewPicker>
+                  <Picker
+                    selectedValue={paymentMethod}
+                    onValueChange={itemValue => setPaymentMethod(itemValue)}
+                    style={{width: 150, color: 'white'}}>
+                    <Picker.Item label="Dinheiro" value="dinheiro" />
+                    <Picker.Item label="Cartão" value="cartao" />
+                  </Picker>
+                </ViewPicker>
+              </WalletInputContainer>
+            </TouchableOpacity>
+
+            <SubmitButton onPress={handleSubmit}>
+              <SubmitText>Registrar</SubmitText>
+            </SubmitButton>
+            <ButtonCancel onPress={() => navigation.goBack()}>
+              <ButtonText>Cancelar</ButtonText>
+            </ButtonCancel>
+          </SafeAreaView>
+        </AreaColor>
       </Background>
     </TouchableWithoutFeedback>
   );
