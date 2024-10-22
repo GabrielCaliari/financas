@@ -102,7 +102,7 @@ export const WalletInputContainer = styled.View`
   align-items: center;
   background-color: transparent; /* Cor de fundo clara */
   border-radius: 5px; /* Bordas arredondadas */
-  padding-left: 5px;
+  padding-left: 22px;
 `;
 
 // Estilo do texto da carteira
