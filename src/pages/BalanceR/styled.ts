@@ -68,10 +68,11 @@ export const Separator = styled.View`
 export const List = styled.FlatList`
   flex: 1;
   background-color: #1e1e1e;
-  margin-left: 14px;
-  margin-right: 14px;
-  margin-bottom: 50px;
-  padding-top: 10px;
+  margin-left: 18px;
+  margin-right: 18px;
+  margin-bottom: 70px;
+  border-bottom-left-radius: 18px;
+  border-bottom-right-radius: 18px;
 `;
 
 export const ViewHeader = styled.View`
@@ -98,17 +99,13 @@ export const ButtonText = styled.Text`
   padding-left: 10px;
 `;
 export const Area = styled.View`
-  margin-top: 22px;
   background-color: #1e1e1e;
-  border-top-left-radius: 15px;
-  border-top-right-radius: 15px;
+  border-top-left-radius: 18px;
+  border-top-right-radius: 18px;
   flex-direction: row;
-  padding-left: 14px;
-  padding-right: 14px;
-  padding-top: 14px;
+  padding: 18px;
   align-items: flex-start;
-  margin-left: 14px;
-  margin-right: 14px;
+  margin: 18px 18px 0 18px;
 `;
 
 export const Title = styled.Text`

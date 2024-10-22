@@ -1,7 +1,6 @@
 import React, {useEffect, useState} from 'react';
 import {Modal, TouchableOpacity, View} from 'react-native';
 import Header from '../../components/Header';
-import FilterR from '../../components/FilterR';
 import {
   ButtonCancel,
   List,
@@ -13,7 +12,7 @@ import {
 import {format} from 'date-fns';
 import api from '../../services/api';
 import {useIsFocused, useNavigation} from '@react-navigation/native';
-import Icon from 'react-native-vector-icons/MaterialIcons';
+import Icon from 'react-native-vector-icons/EvilIcons';
 import CalendarModal from '../../components/CalendarModal';
 import FilterD from '../../components/FilterD';
 
@@ -63,13 +62,13 @@ const BalanceD = () => {
     <View style={{flex: 1, backgroundColor: 'black'}}>
       <ViewHeader style={{justifyContent: 'space-between'}}>
         <ButtonCancel onPress={() => navigation.goBack()}>
-          <ButtonText>Cancelar</ButtonText>
+          <ButtonText>Voltar</ButtonText>
         </ButtonCancel>
         <Header titulo="Despesa" />
       </ViewHeader>
       <Area>
         <TouchableOpacity onPress={() => setModalVisible(true)}>
-          <Icon name="event" color="white" size={30} />
+          <Icon name="calendar" color="white" size={30} />
         </TouchableOpacity>
         <Title>Ultimas movimentações</Title>
       </Area>

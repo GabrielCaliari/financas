@@ -52,13 +52,10 @@ const HistoricList = ({data, deleteItem}) => {
             />
           </IconView>
 
-          {/* Descrição ao lado da seta, ícone de pagamento abaixo */}
-          <ViewTextAndIcon>
-            <TipoText>{data.description}</TipoText>
-            <PaymentMethodIconContainer>
-              {renderPaymentMethodIcon()}
-            </PaymentMethodIconContainer>
-          </ViewTextAndIcon>
+          <PaymentMethodIconContainer>
+            {renderPaymentMethodIcon()}
+          </PaymentMethodIconContainer>
+          <TipoText>{data.description}</TipoText>
         </DescricaoContainer>
 
         {/* Exibir o valor da transação */}

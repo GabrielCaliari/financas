@@ -45,7 +45,9 @@ export const DescricaoContainer = styled.View`
 
 export const PaymentMethodIconContainer = styled.View`
   margin-top: 2px; /* Pequeno espaço entre a descrição e o ícone de pagamento */
-  align-self: flex-start; /* Alinha o ícone à esquerda */
+  align-self: center; /* Alinha o ícone à esquerda */
+  justify-content: center;
+  margin-right: 5px;
 `;
 
 export const Separator = styled.View`

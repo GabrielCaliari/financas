@@ -6,13 +6,10 @@ import {
   ValorText,
   DescricaoContainer,
   Separator,
-} from './styled';
-import Icon from 'react-native-vector-icons/Feather';
-import {TouchableWithoutFeedback} from 'react-native';
-import {
-  ViewTextAndIcon,
   PaymentMethodIconContainer,
-} from '../HistoricList/styled';
+} from './styled';
+import Icon from 'react-native-vector-icons/FontAwesome';
+import {TouchableWithoutFeedback} from 'react-native';
 
 const FilterD = ({data}) => {
   // Transformar o dado único em um array, caso não seja um array
@@ -22,9 +19,9 @@ const FilterD = ({data}) => {
 
   function renderPaymentMethodIcon() {
     if (data.payment_method === 'dinheiro') {
-      return <Icon name="dollar-sign" size={15} color="green" />; // Tamanho pequeno
+      return <Icon name="dollar" size={15} color="green" />; // Tamanho pequeno
     } else if (data.payment_method === 'cartao') {
-      return <Icon name="credit-card" size={15} color="blue" />; // Tamanho pequeno
+      return <Icon name="credit-card" size={15} color="white" />; // Tamanho pequeno
     }
     return null;
   }
@@ -42,12 +39,10 @@ const FilterD = ({data}) => {
                   color="white"
                 />
               </IconView>
-              <ViewTextAndIcon>
-                <TipoText>{item.description}</TipoText>
-                <PaymentMethodIconContainer>
-                  {renderPaymentMethodIcon()}
-                </PaymentMethodIconContainer>
-              </ViewTextAndIcon>
+              <PaymentMethodIconContainer>
+                {renderPaymentMethodIcon()}
+              </PaymentMethodIconContainer>
+              <TipoText>{item.description}</TipoText>
             </DescricaoContainer>
 
             <ValorText>

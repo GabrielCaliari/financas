@@ -1,4 +1,4 @@
-import React, {useState, useEffect} from 'react';
+import React, {useState} from 'react';
 import {
   AreaColor,
   Background,
@@ -117,7 +117,7 @@ const NewTwo = () => {
         </ViewHeader>
 
         <ViewValue>
-          <TextValue>Valor da receita</TextValue>
+          <TextValue>Valor da despesa</TextValue>
           <InputValue
             placeholder="R$ 0,00"
             placeholderTextColor="white"

@@ -87,7 +87,7 @@ export default function BalanceItem({data, inputProps}: BalanceItemProps) {
             onPress={() => navigation.navigate('BalanceR', {type: 'receita'})}>
             <IconViewR tipo={data.type}>
               <Icon
-                name={data.type === 'despesa' ? 'arrow-up' : 'arrow-down'}
+                name={data.type === 'receita' ? 'arrow-down' : 'arrow-up'}
                 size={20}
                 color="white"
               />

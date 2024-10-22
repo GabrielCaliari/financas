@@ -5,7 +5,7 @@ import {format} from 'date-fns';
 import api from '../../services/api';
 import {useIsFocused} from '@react-navigation/native';
 import BalanceItem from '../../components/BalanceItem';
-import {Modal, TextInputProps, TouchableOpacity} from 'react-native';
+import {Modal, TouchableOpacity} from 'react-native';
 import Icon from 'react-native-vector-icons/EvilIcons';
 import HistoricList from '../../components/HistoricList';
 import CalendarModal from '../../components/CalendarModal';
