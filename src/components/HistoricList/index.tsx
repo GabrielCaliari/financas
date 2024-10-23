@@ -11,6 +11,7 @@ import {
 } from './styled';
 import Icon from 'react-native-vector-icons/FontAwesome'; // Ícone para seta de movimentação
 import {TouchableWithoutFeedback, Alert} from 'react-native';
+import Pix from 'react-native-vector-icons/MaterialIcons';
 
 const HistoricList = ({data, deleteItem}) => {
   function handleDeleteItem() {
@@ -33,9 +34,13 @@ const HistoricList = ({data, deleteItem}) => {
   // Função para determinar o ícone baseado no método de pagamento
   function renderPaymentMethodIcon() {
     if (data.payment_method === 'dinheiro') {
-      return <Icon name="dollar" size={17} color="green" />; // Tamanho pequeno
-    } else if (data.payment_method === 'cartao') {
+      return <Icon name="dollar" size={17} color="white" />; // Tamanho pequeno
+    } else if (data.payment_method === 'Cartao de credito') {
       return <Icon name="credit-card" size={17} color="white" />; // Tamanho pequeno
+    } else if (data.payment_method === 'Cartao de debito') {
+      return <Icon name="credit-card" size={17} color="white" />; // Tamanho pequeno
+    } else if (data.payment_method === 'Pix') {
+      return <Pix name="pix" size={17} color="white" />; // Tamanho pequeno
     }
     return null;
   }

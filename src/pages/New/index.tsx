@@ -40,7 +40,7 @@ const New = () => {
   const [displayValue, setDisplayValue] = useState(''); // Valor formatado que será mostrado
   const [numericValue, setNumericValue] = useState(''); // Valor numérico real para backend
   const [type, setType] = useState('receita'); // Inicia como receita, mas muda para despesa via RegisterTypeD
-  const [paymentMethod, setPaymentMethod] = useState('dinheiro'); // Método de pagamento
+  const [paymentMethod, setPaymentMethod] = useState('Dinheiro'); // Método de pagamento
   const [modalVisible, setModalVisible] = useState(false); // Controle do modal de pagamento
 
   // Função para formatar o valor como moeda
@@ -147,7 +147,7 @@ const New = () => {
 
             {/* Exibindo o método de pagamento e removendo a linha branca */}
             <WalletInputContainer>
-              <Icon name="wallet" size={20} color="white" />
+              <Back name="wallet" size={20} color="white" />
               <WalletInputText>Método de Pagamento:</WalletInputText>
               <TouchableOpacity
                 onPress={() => setModalVisible(true)}
@@ -193,15 +193,16 @@ const New = () => {
                 Selecione o Método de Pagamento
               </Text>
 
+              {/* Opção Dinheiro */}
               <TouchableOpacity
                 onPress={() => {
-                  setPaymentMethod('dinheiro');
+                  setPaymentMethod('Dinheiro');
                   setModalVisible(false);
                 }}
                 style={{
                   padding: 10,
                   backgroundColor:
-                    paymentMethod === 'dinheiro' ? 'green' : 'gray',
+                    paymentMethod === 'Dinheiro' ? 'green' : 'gray',
                   marginBottom: 10,
                   width: '100%',
                   alignItems: 'center',
@@ -210,20 +211,57 @@ const New = () => {
                 <Text style={{color: 'white'}}>Dinheiro</Text>
               </TouchableOpacity>
 
+              {/* Opção Cartão de Crédito */}
               <TouchableOpacity
                 onPress={() => {
-                  setPaymentMethod('cartao');
+                  setPaymentMethod('Cartao de credito');
                   setModalVisible(false);
                 }}
                 style={{
                   padding: 10,
                   backgroundColor:
-                    paymentMethod === 'cartao' ? 'green' : 'gray',
+                    paymentMethod === 'Cartao de credito' ? 'green' : 'gray',
+                  marginBottom: 10,
                   width: '100%',
                   alignItems: 'center',
                   borderRadius: 5,
                 }}>
-                <Text style={{color: 'white'}}>Cartão</Text>
+                <Text style={{color: 'white'}}>Cartão de Crédito</Text>
+              </TouchableOpacity>
+
+              {/* Opção Cartão de Débito */}
+              <TouchableOpacity
+                onPress={() => {
+                  setPaymentMethod('Cartao de debito');
+                  setModalVisible(false);
+                }}
+                style={{
+                  padding: 10,
+                  backgroundColor:
+                    paymentMethod === 'Cartao de debito' ? 'green' : 'gray',
+                  marginBottom: 10,
+                  width: '100%',
+                  alignItems: 'center',
+                  borderRadius: 5,
+                }}>
+                <Text style={{color: 'white'}}>Cartão de Débito</Text>
+              </TouchableOpacity>
+
+              {/* Opção Pix */}
+              <TouchableOpacity
+                onPress={() => {
+                  setPaymentMethod('Pix');
+                  setModalVisible(false);
+                }}
+                style={{
+                  padding: 10,
+                  backgroundColor: paymentMethod === 'Pix' ? 'green' : 'gray',
+                  marginBottom: 10,
+                  width: '100%',
+                  alignItems: 'center',
+                  borderRadius: 5,
+                }}>
+                <Text style={{color: 'white'}}>Pix</Text>
               </TouchableOpacity>
 
               <TouchableOpacity

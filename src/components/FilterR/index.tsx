@@ -9,6 +9,7 @@ import {
   PaymentMethodIconContainer,
 } from './styled';
 import Icon from 'react-native-vector-icons/FontAwesome';
+import Pix from 'react-native-vector-icons/MaterialIcons';
 import {TouchableWithoutFeedback} from 'react-native';
 
 const FilterD = ({data}) => {
@@ -19,9 +20,13 @@ const FilterD = ({data}) => {
 
   function renderPaymentMethodIcon() {
     if (data.payment_method === 'dinheiro') {
-      return <Icon name="dollar" size={15} color="green" />; // Tamanho pequeno
-    } else if (data.payment_method === 'cartao') {
-      return <Icon name="credit-card" size={15} color="white" />; // Tamanho pequeno
+      return <Icon name="dollar" size={17} color="white" />; // Tamanho pequeno
+    } else if (data.payment_method === 'Cartao de credito') {
+      return <Icon name="credit-card" size={17} color="white" />; // Tamanho pequeno
+    } else if (data.payment_method === 'Cartao de debito') {
+      return <Icon name="credit-card" size={17} color="white" />; // Tamanho pequeno
+    } else if (data.payment_method === 'Pix') {
+      return <Pix name="pix" size={17} color="white" />; // Tamanho pequeno
     }
     return null;
   }

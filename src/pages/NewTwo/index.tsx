@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React, {useState, useEffect} from 'react';
 import {
   AreaColor,
   Background,
@@ -34,13 +34,13 @@ import {useNavigation} from '@react-navigation/native';
 import Icon from 'react-native-vector-icons/Fontisto'; // Para o ícone de carteira
 import Back from 'react-native-vector-icons/Ionicons';
 
-const NewTwo = () => {
+const New = () => {
   const navigation = useNavigation();
   const [labelInput, setLabelInput] = useState(''); // Para descrição
   const [displayValue, setDisplayValue] = useState(''); // Valor formatado que será mostrado
   const [numericValue, setNumericValue] = useState(''); // Valor numérico real para backend
   const [type, setType] = useState('despesa'); // Inicia como receita, mas muda para despesa via RegisterTypeD
-  const [paymentMethod, setPaymentMethod] = useState('dinheiro'); // Método de pagamento
+  const [paymentMethod, setPaymentMethod] = useState('Dinheiro'); // Método de pagamento
   const [modalVisible, setModalVisible] = useState(false); // Controle do modal de pagamento
 
   // Função para formatar o valor como moeda
@@ -121,7 +121,7 @@ const NewTwo = () => {
         </ViewHeader>
 
         <ViewValue>
-          <TextValue>Valor da despesa</TextValue>
+          <TextValue>Valor da receita</TextValue>
           <InputValue
             placeholder="R$ 0,00"
             placeholderTextColor="white"
@@ -147,7 +147,7 @@ const NewTwo = () => {
 
             {/* Exibindo o método de pagamento e removendo a linha branca */}
             <WalletInputContainer>
-              <Icon name="wallet" size={20} color="white" />
+              <Back name="wallet" size={20} color="white" />
               <WalletInputText>Método de Pagamento:</WalletInputText>
               <TouchableOpacity
                 onPress={() => setModalVisible(true)}
@@ -193,15 +193,16 @@ const NewTwo = () => {
                 Selecione o Método de Pagamento
               </Text>
 
+              {/* Opção Dinheiro */}
               <TouchableOpacity
                 onPress={() => {
-                  setPaymentMethod('dinheiro');
+                  setPaymentMethod('Dinheiro');
                   setModalVisible(false);
                 }}
                 style={{
                   padding: 10,
                   backgroundColor:
-                    paymentMethod === 'dinheiro' ? 'green' : 'gray',
+                    paymentMethod === 'Dinheiro' ? 'green' : 'gray',
                   marginBottom: 10,
                   width: '100%',
                   alignItems: 'center',
@@ -210,20 +211,57 @@ const NewTwo = () => {
                 <Text style={{color: 'white'}}>Dinheiro</Text>
               </TouchableOpacity>
 
+              {/* Opção Cartão de Crédito */}
               <TouchableOpacity
                 onPress={() => {
-                  setPaymentMethod('cartao');
+                  setPaymentMethod('Cartao de credito');
                   setModalVisible(false);
                 }}
                 style={{
                   padding: 10,
                   backgroundColor:
-                    paymentMethod === 'cartao' ? 'green' : 'gray',
+                    paymentMethod === 'Cartao de credito' ? 'green' : 'gray',
+                  marginBottom: 10,
                   width: '100%',
                   alignItems: 'center',
                   borderRadius: 5,
                 }}>
-                <Text style={{color: 'white'}}>Cartão</Text>
+                <Text style={{color: 'white'}}>Cartão de Crédito</Text>
+              </TouchableOpacity>
+
+              {/* Opção Cartão de Débito */}
+              <TouchableOpacity
+                onPress={() => {
+                  setPaymentMethod('Cartao de debito');
+                  setModalVisible(false);
+                }}
+                style={{
+                  padding: 10,
+                  backgroundColor:
+                    paymentMethod === 'Cartao de debito' ? 'green' : 'gray',
+                  marginBottom: 10,
+                  width: '100%',
+                  alignItems: 'center',
+                  borderRadius: 5,
+                }}>
+                <Text style={{color: 'white'}}>Cartão de Débito</Text>
+              </TouchableOpacity>
+
+              {/* Opção Pix */}
+              <TouchableOpacity
+                onPress={() => {
+                  setPaymentMethod('Pix');
+                  setModalVisible(false);
+                }}
+                style={{
+                  padding: 10,
+                  backgroundColor: paymentMethod === 'Pix' ? 'green' : 'gray',
+                  marginBottom: 10,
+                  width: '100%',
+                  alignItems: 'center',
+                  borderRadius: 5,
+                }}>
+                <Text style={{color: 'white'}}>Pix</Text>
               </TouchableOpacity>
 
               <TouchableOpacity
@@ -239,4 +277,4 @@ const NewTwo = () => {
   );
 };
 
-export default NewTwo;
+export default New;
