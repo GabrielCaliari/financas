@@ -36,9 +36,11 @@ export const SubmitText = styled.Text`
 
 // Estilo do botão de cancelar
 export const ButtonCancel = styled.TouchableOpacity`
+  margin-left: 30px;
   align-items: center;
   justify-content: center;
-  margin: 5px 25px 0 30px;
+  margin-right: 25px;
+  padding-top: 20px;
 `;
 
 // Estilo do texto do botão de cancelar

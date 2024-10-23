@@ -32,6 +32,7 @@ import api from '../../services/api';
 import {format} from 'date-fns';
 import {useNavigation} from '@react-navigation/native';
 import Icon from 'react-native-vector-icons/Fontisto'; // Para o ícone de carteira
+import Back from 'react-native-vector-icons/Ionicons';
 
 const New = () => {
   const navigation = useNavigation();
@@ -113,6 +114,9 @@ const New = () => {
     <TouchableWithoutFeedback onPress={() => Keyboard.dismiss()}>
       <Background>
         <ViewHeader>
+          <ButtonCancel onPress={() => navigation.goBack()}>
+            <Back name="arrow-back" color="white" size={30} />
+          </ButtonCancel>
           <Header titulo="Registrando" />
         </ViewHeader>
 

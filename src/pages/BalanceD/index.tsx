@@ -15,6 +15,7 @@ import {useIsFocused, useNavigation} from '@react-navigation/native';
 import Icon from 'react-native-vector-icons/EvilIcons';
 import CalendarModal from '../../components/CalendarModal';
 import FilterD from '../../components/FilterD';
+import Back from 'react-native-vector-icons/Ionicons';
 
 const BalanceD = () => {
   const [movements, setMovevents] = useState([]);
@@ -62,7 +63,7 @@ const BalanceD = () => {
     <View style={{flex: 1, backgroundColor: 'black'}}>
       <ViewHeader style={{justifyContent: 'space-between'}}>
         <ButtonCancel onPress={() => navigation.goBack()}>
-          <ButtonText>Voltar</ButtonText>
+          <Back name="arrow-back" color="white" size={30} />
         </ButtonCancel>
         <Header titulo="Despesa" />
       </ViewHeader>

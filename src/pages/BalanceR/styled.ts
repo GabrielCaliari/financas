@@ -88,6 +88,7 @@ export const ButtonCancel = styled.TouchableOpacity`
   align-items: center;
   justify-content: center;
   margin-right: 25px;
+  padding-top: 20px;
 `;
 
 export const ButtonText = styled.Text`
