@@ -1,6 +1,5 @@
-import React, {useState, useEffect} from 'react';
+import React, {useState} from 'react';
 import {
-  AreaColor,
   Background,
   ButtonCancel,
   ButtonText,
@@ -15,6 +14,11 @@ import {
   ViewValue,
   WalletInputContainer,
   WalletInputText,
+  AreaColor,
+  PaymentOption,
+  SelectedPaymentOption,
+  PaymentText,
+  ViweFlat,
 } from './styled';
 import Header from '../../components/Header';
 import {
@@ -22,29 +26,26 @@ import {
   TouchableWithoutFeedback,
   Keyboard,
   Alert,
-  TouchableOpacity,
-  Modal,
-  View,
-  Text,
+  FlatList,
 } from 'react-native';
-
+import {useNavigation, useRoute} from '@react-navigation/native';
+import Back from 'react-native-vector-icons/Ionicons';
 import api from '../../services/api';
 import {format} from 'date-fns';
-import {useNavigation} from '@react-navigation/native';
-import Icon from 'react-native-vector-icons/Fontisto'; // Para o ícone de carteira
-import Back from 'react-native-vector-icons/Ionicons';
+
+// As opções de método de pagamento
+const paymentMethods = ['Dinheiro', 'Crédito', 'Débito', 'Pix'];
 
 const New = () => {
   const navigation = useNavigation();
-  const [labelInput, setLabelInput] = useState(''); // Para descrição
-  const [displayValue, setDisplayValue] = useState(''); // Valor formatado que será mostrado
-  const [numericValue, setNumericValue] = useState(''); // Valor numérico real para backend
-  const [type, setType] = useState('receita'); // Inicia como receita, mas muda para despesa via RegisterTypeD
-  const [paymentMethod, setPaymentMethod] = useState('Dinheiro'); // Método de pagamento
-  const [modalVisible, setModalVisible] = useState(false); // Controle do modal de pagamento
+  const route = useRoute();
 
   // Função para formatar o valor como moeda
   const formatCurrency = value => {
+    if (value === undefined) {
+      return '';
+    }
+
     const onlyNums = value.replace(/[^0-9]/g, ''); // Remove tudo que não for número
     if (onlyNums === '') {
       return '';
@@ -52,6 +53,18 @@ const New = () => {
     const formattedValue = (parseFloat(onlyNums) / 100).toFixed(2);
     return `R$ ${formattedValue.replace('.', ',')}`; // Retorna o valor formatado
   };
+
+  const [labelInput, setLabelInput] = useState(route.params?.description || '');
+  const [displayValue, setDisplayValue] = useState(
+    formatCurrency((route.params?.value || 0).toString()), // Mover aqui depois da função
+  );
+  const [numericValue, setNumericValue] = useState(
+    (route.params?.value || 0).toString(),
+  );
+  const [type, setType] = useState(route.params?.type || 'receita');
+  const [paymentMethod, setPaymentMethod] = useState(
+    route.params?.payment_method || 'Dinheiro',
+  );
 
   // Função que lida com a mudança do valor
   const handleValueChange = text => {
@@ -63,10 +76,9 @@ const New = () => {
   };
 
   // Função que lida com o envio de dados
-  function handleSubmit() {
+  const handleSubmit = () => {
     Keyboard.dismiss();
 
-    // Verifica se o valor está correto e se o tipo está definido
     if (isNaN(parseFloat(numericValue)) || !type) {
       Alert.alert('Preencha todos os campos corretamente');
       return;
@@ -83,32 +95,55 @@ const New = () => {
         {text: 'Continuar', onPress: () => handleAdd()},
       ],
     );
-  }
+  };
 
-  // Função que lida com a adição ao banco de dados
-  async function handleAdd() {
+  // Função que lida com a adição ou edição ao banco de dados
+  const handleAdd = async () => {
     try {
-      // Verifica se a descrição está vazia e define uma mensagem padrão
       const descriptionFinal =
         labelInput.trim() === '' ? 'Sem descrição' : labelInput;
-
-      await api.post('/receive', {
-        description: descriptionFinal, // Usa a descrição final (padrão ou preenchida)
-        value: parseFloat(numericValue) / 100, // Envia o valor numérico correto
-        type: type,
-        payment_method: paymentMethod, // Verifique se está correto
+      const payload = {
+        description: descriptionFinal,
+        value: parseFloat(numericValue) / 100,
+        type,
+        payment_method: paymentMethod,
         date: format(new Date(), 'dd/MM/yyyy'),
-      });
+      };
 
-      setLabelInput(''); // Limpa o campo de descrição
-      setDisplayValue(''); // Limpa o campo de valor formatado
-      setNumericValue(''); // Limpa o valor numérico
-      navigation.navigate('Home'); // Redireciona para a página inicial
+      if (route.params?.id) {
+        // Atualiza a despesa existente
+        await api.put(`/receives/edit/${route.params.id}`, payload);
+      } else {
+        // Cria uma nova despesa
+        await api.post('/receives', payload);
+      }
+
+      setLabelInput('');
+      setDisplayValue('');
+      setNumericValue('');
+      navigation.navigate('Home', {update: true});
     } catch (error) {
       console.log(error);
-      Alert.alert('Erro', 'Ocorreu um erro ao registrar a transação');
+      Alert.alert('Erro', 'Ocorreu um erro ao registrar a despesa');
     }
-  }
+  };
+
+  // Função que renderiza cada item no FlatList
+  const renderItem = ({item}) => (
+    <TouchableWithoutFeedback onPress={() => setPaymentMethod(item)}>
+      <ViweFlat>
+        {paymentMethod === item ? (
+          <SelectedPaymentOption>
+            <PaymentText>{item}</PaymentText>
+          </SelectedPaymentOption>
+        ) : (
+          <PaymentOption>
+            <PaymentText>{item}</PaymentText>
+          </PaymentOption>
+        )}
+      </ViweFlat>
+    </TouchableWithoutFeedback>
+  );
 
   return (
     <TouchableWithoutFeedback onPress={() => Keyboard.dismiss()}>
@@ -126,37 +161,36 @@ const New = () => {
             placeholder="R$ 0,00"
             placeholderTextColor="white"
             keyboardType="numeric"
-            autoFocus={true} // Abre o teclado numérico ao carregar a tela
-            value={displayValue} // Mostra o valor formatado
-            onChangeText={handleValueChange} // Formata o valor ao digitar
+            autoFocus={true}
+            value={displayValue}
+            onChangeText={handleValueChange}
           />
         </ViewValue>
 
         <AreaColor>
           <SafeAreaView style={{marginTop: 14, alignItems: 'center'}}>
             <ViewInput>
-              <Icon name="info" size={20} color="white" />
               <InputDescription
                 placeholder="Descrição desse registro"
                 value={labelInput}
-                onChangeText={text => setLabelInput(text)} // Atualiza descrição
+                onChangeText={text => setLabelInput(text)}
                 placeholderTextColor="white"
               />
               <Separator />
             </ViewInput>
 
-            {/* Exibindo o método de pagamento e removendo a linha branca */}
             <WalletInputContainer>
               <Back name="wallet" size={20} color="white" />
-              <WalletInputText>Método de Pagamento:</WalletInputText>
-              <TouchableOpacity
-                onPress={() => setModalVisible(true)}
-                style={{
-                  paddingVertical: 10, // Remover borda inferior
-                  flex: 1,
-                }}>
-                <WalletInputText>{paymentMethod}</WalletInputText>
-              </TouchableOpacity>
+              <WalletInputText>Selecionar :</WalletInputText>
+
+              <FlatList
+                data={paymentMethods}
+                renderItem={renderItem}
+                keyExtractor={item => item}
+                style={{height: 40, width: 60}}
+                showsVerticalScrollIndicator={false}
+                pagingEnabled
+              />
             </WalletInputContainer>
 
             <SubmitButton onPress={handleSubmit}>
@@ -167,111 +201,6 @@ const New = () => {
             </ButtonCancel>
           </SafeAreaView>
         </AreaColor>
-
-        {/* Modal para selecionar o método de pagamento */}
-        <Modal
-          animationType="slide"
-          transparent={true}
-          visible={modalVisible}
-          onRequestClose={() => setModalVisible(false)}>
-          <View
-            style={{
-              flex: 1,
-              justifyContent: 'center',
-              alignItems: 'center',
-              backgroundColor: 'rgba(0, 0, 0, 0.5)',
-            }}>
-            <View
-              style={{
-                backgroundColor: 'white',
-                padding: 20,
-                borderRadius: 10,
-                width: 300,
-                alignItems: 'center',
-              }}>
-              <Text style={{fontSize: 18, marginBottom: 20}}>
-                Selecione o Método de Pagamento
-              </Text>
-
-              {/* Opção Dinheiro */}
-              <TouchableOpacity
-                onPress={() => {
-                  setPaymentMethod('Dinheiro');
-                  setModalVisible(false);
-                }}
-                style={{
-                  padding: 10,
-                  backgroundColor:
-                    paymentMethod === 'Dinheiro' ? 'green' : 'gray',
-                  marginBottom: 10,
-                  width: '100%',
-                  alignItems: 'center',
-                  borderRadius: 5,
-                }}>
-                <Text style={{color: 'white'}}>Dinheiro</Text>
-              </TouchableOpacity>
-
-              {/* Opção Cartão de Crédito */}
-              <TouchableOpacity
-                onPress={() => {
-                  setPaymentMethod('Cartao de credito');
-                  setModalVisible(false);
-                }}
-                style={{
-                  padding: 10,
-                  backgroundColor:
-                    paymentMethod === 'Cartao de credito' ? 'green' : 'gray',
-                  marginBottom: 10,
-                  width: '100%',
-                  alignItems: 'center',
-                  borderRadius: 5,
-                }}>
-                <Text style={{color: 'white'}}>Cartão de Crédito</Text>
-              </TouchableOpacity>
-
-              {/* Opção Cartão de Débito */}
-              <TouchableOpacity
-                onPress={() => {
-                  setPaymentMethod('Cartao de debito');
-                  setModalVisible(false);
-                }}
-                style={{
-                  padding: 10,
-                  backgroundColor:
-                    paymentMethod === 'Cartao de debito' ? 'green' : 'gray',
-                  marginBottom: 10,
-                  width: '100%',
-                  alignItems: 'center',
-                  borderRadius: 5,
-                }}>
-                <Text style={{color: 'white'}}>Cartão de Débito</Text>
-              </TouchableOpacity>
-
-              {/* Opção Pix */}
-              <TouchableOpacity
-                onPress={() => {
-                  setPaymentMethod('Pix');
-                  setModalVisible(false);
-                }}
-                style={{
-                  padding: 10,
-                  backgroundColor: paymentMethod === 'Pix' ? 'green' : 'gray',
-                  marginBottom: 10,
-                  width: '100%',
-                  alignItems: 'center',
-                  borderRadius: 5,
-                }}>
-                <Text style={{color: 'white'}}>Pix</Text>
-              </TouchableOpacity>
-
-              <TouchableOpacity
-                onPress={() => setModalVisible(false)}
-                style={{marginTop: 20}}>
-                <Text style={{color: 'red'}}>Cancelar</Text>
-              </TouchableOpacity>
-            </View>
-          </View>
-        </Modal>
       </Background>
     </TouchableWithoutFeedback>
   );

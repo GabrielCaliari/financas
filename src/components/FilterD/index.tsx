@@ -19,14 +19,15 @@ const FilterD = ({data}) => {
   const despesa = dataArray.filter(item => item.type === 'despesa');
 
   function renderPaymentMethodIcon() {
-    if (data.payment_method === 'dinheiro') {
-      return <Icon name="dollar" size={17} color="white" />; // Tamanho pequeno
-    } else if (data.payment_method === 'Cartao de credito') {
-      return <Icon name="credit-card" size={17} color="white" />; // Tamanho pequeno
-    } else if (data.payment_method === 'Cartao de debito') {
-      return <Icon name="credit-card" size={17} color="white" />; // Tamanho pequeno
+    if (data.payment_method === 'Dinheiro') {
+      return <Icon name="dollar" size={17} color="white" />;
+    } else if (
+      data.payment_method === 'Crédito' ||
+      data.payment_method === 'Débito'
+    ) {
+      return <Icon name="credit-card" size={17} color="white" />;
     } else if (data.payment_method === 'Pix') {
-      return <Pix name="pix" size={17} color="white" />; // Tamanho pequeno
+      return <Pix name="pix" size={17} color="white" />;
     }
     return null;
   }

@@ -102,8 +102,8 @@ export const TextValue = styled.Text`
 export const WalletInputContainer = styled.View`
   flex-direction: row;
   align-items: center;
-  background-color: transparent; /* Cor de fundo clara */
-  border-radius: 5px; /* Bordas arredondadas */
+  background-color: transparent;
+  border-radius: 5px;
   padding-left: 22px;
 `;
 
@@ -134,4 +134,30 @@ export const Separator = styled.View`
   position: absolute;
   bottom: 0;
   left: 0;
+`;
+
+export const PaymentOption = styled.View`
+  padding: 10px;
+  margin-bottom: 5px;
+  align-items: center;
+  width: 140px; /* Diminuindo a largura da caixa */
+  border-radius: 5px;
+  height: 40px;
+  background-color: #1e1e1e;
+`;
+
+export const SelectedPaymentOption = styled(PaymentOption)`
+  margin-left: 10px;
+  align-items: center;
+  justify-content: center;
+  background-color: green;
+`;
+
+export const PaymentText = styled.Text`
+  color: white;
+  font-size: 16px;
+`;
+
+export const ViweFlat = styled.View`
+  padding-left: 15px;
 `;

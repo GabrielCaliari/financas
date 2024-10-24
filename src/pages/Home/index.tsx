@@ -1,9 +1,9 @@
-import React, {useContext, useEffect, useState} from 'react';
+import React, {useEffect, useState} from 'react';
 import {Background, ListBalance, Area, Title, List} from './styled';
 import Header from '../../components/Header';
 import {format} from 'date-fns';
 import api from '../../services/api';
-import {useIsFocused} from '@react-navigation/native';
+import {useIsFocused, useNavigation} from '@react-navigation/native';
 import BalanceItem from '../../components/BalanceItem';
 import {Modal, TouchableOpacity} from 'react-native';
 import Icon from 'react-native-vector-icons/EvilIcons';
@@ -12,7 +12,7 @@ import CalendarModal from '../../components/CalendarModal';
 import notifee, {AuthorizationStatus} from '@notifee/react-native';
 
 const Home = () => {
-  // const {signOut, user} = useContext(AuthContext);
+  const navigation = useNavigation();
   const [modalVisible, setModalVisible] = useState(false);
   const [listBalance, setListBalance] = useState([]);
   const [dateMovements, setDateMovements] = useState(new Date());
@@ -80,6 +80,29 @@ const Home = () => {
     setDateMovements(dateSelected);
   }
 
+  // Nova função para editar movimentações
+  function handleEdit(item) {
+    if (item.type === 'receita') {
+      // Redireciona para a tela New (Receita)
+      navigation.navigate('Receita', {
+        id: item.id,
+        description: item.description,
+        value: item.value,
+        type: item.type,
+        payment_method: item.payment_method,
+      });
+    } else if (item.type === 'despesa') {
+      // Redireciona para a tela NewTwo (Despesa)
+      navigation.navigate('Despesa', {
+        id: item.id,
+        description: item.description,
+        value: item.value,
+        type: item.type,
+        payment_method: item.payment_method,
+      });
+    }
+  }
+
   return (
     <Background>
       <ListBalance
@@ -114,9 +137,19 @@ const Home = () => {
       </Area>
       <List
         data={movements}
-        keyExtractor={item => item.id}
+        keyExtractor={item => item.id.toString()}
         renderItem={({item}) => (
-          <HistoricList data={item} deleteItem={handleDelete} />
+          <TouchableOpacity
+            onPress={() => handleEdit(item)} // Edita ao clicar rapidamente
+            onLongPress={() => handleDelete(item.id)} // Exclui ao pressionar por mais tempo
+            delayLongPress={200} // Tempo que define o long press
+          >
+            <HistoricList
+              data={item}
+              deleteItem={handleDelete}
+              editItem={movement => handleEdit(movement)}
+            />
+          </TouchableOpacity>
         )}
         showsVerticalScrollIndicator={false}
         contentContainerStyle={{paddingBottom: 20}}
