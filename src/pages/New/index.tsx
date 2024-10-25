@@ -115,7 +115,7 @@ const New = () => {
         await api.put(`/receives/edit/${route.params.id}`, payload);
       } else {
         // Cria uma nova despesa
-        await api.post('/receives', payload);
+        await api.post('/receive', payload);
       }
 
       setLabelInput('');

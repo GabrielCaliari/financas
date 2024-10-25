@@ -110,12 +110,14 @@ const NewTwo = () => {
         date: format(new Date(), 'dd/MM/yyyy'),
       };
 
+      console.log(payload); // Verifique o que está sendo enviado
+
       if (route.params?.id) {
         // Atualiza a despesa existente
         await api.put(`/receives/edit/${route.params.id}`, payload);
       } else {
         // Cria uma nova despesa
-        await api.post('/receives', payload);
+        await api.post('/receive', payload);
       }
 
       setLabelInput('');
@@ -123,7 +125,7 @@ const NewTwo = () => {
       setNumericValue('');
       navigation.navigate('Home', {update: true});
     } catch (error) {
-      console.log(error);
+      console.log(error); // Verifique a resposta do erro no console
       Alert.alert('Erro', 'Ocorreu um erro ao registrar a despesa');
     }
   };

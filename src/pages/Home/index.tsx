@@ -139,11 +139,7 @@ const Home = () => {
         data={movements}
         keyExtractor={item => item.id.toString()}
         renderItem={({item}) => (
-          <TouchableOpacity
-            onPress={() => handleEdit(item)} // Edita ao clicar rapidamente
-            onLongPress={() => handleDelete(item.id)} // Exclui ao pressionar por mais tempo
-            delayLongPress={200} // Tempo que define o long press
-          >
+          <TouchableOpacity>
             <HistoricList
               data={item}
               deleteItem={handleDelete}

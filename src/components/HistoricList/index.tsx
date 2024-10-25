@@ -9,8 +9,9 @@ import {
   Separator,
 } from './styled';
 import Icon from 'react-native-vector-icons/FontAwesome';
-import {TouchableWithoutFeedback, Alert} from 'react-native';
+import {Alert, Animated} from 'react-native';
 import Pix from 'react-native-vector-icons/MaterialIcons';
+import {Swipeable} from 'react-native-gesture-handler'; // Importando Swipeable
 
 const HistoricList = ({data, deleteItem, editItem}) => {
   function handleDeleteItem() {
@@ -39,11 +40,59 @@ const HistoricList = ({data, deleteItem, editItem}) => {
     return null;
   }
 
+  // Função que renderiza os botões de ação ao arrastar para a esquerda
+  const renderRightActions = (progress, dragX) => {
+    const scale = dragX.interpolate({
+      inputRange: [-100, 0],
+      outputRange: [1, 0.8],
+      extrapolate: 'clamp',
+    });
+
+    return (
+      <>
+        <Animated.View
+          style={{
+            transform: [{scale}],
+            backgroundColor: 'transparent',
+            justifyContent: 'center',
+            alignItems: 'center',
+            width: 50,
+            marginVertical: 7,
+            borderRadius: 8,
+          }}>
+          <Icon
+            name="trash"
+            size={24}
+            color="white"
+            onPress={handleDeleteItem}
+          />
+        </Animated.View>
+        <Animated.View
+          style={{
+            transform: [{scale}],
+            backgroundColor: 'transparent',
+            justifyContent: 'center',
+            alignItems: 'center',
+            width: 50,
+            marginVertical: 7,
+            borderRadius: 8,
+          }}>
+          <Icon
+            name="edit"
+            size={24}
+            color="white"
+            onPress={() => editItem(data)}
+          />
+        </Animated.View>
+      </>
+    );
+  };
+
   return (
-    <TouchableWithoutFeedback
-      onPress={() => editItem(data)} // Ação de editar
-      onLongPress={handleDeleteItem} // Ação de excluir ao segurar
-      accessible={true}>
+    <Swipeable
+      friction={2} // Controla a resistência ao arrastar
+      renderRightActions={renderRightActions} // Renderiza os botões ao arrastar
+    >
       <Container>
         <DescricaoContainer>
           <IconView tipo={data.type}>
@@ -66,7 +115,7 @@ const HistoricList = ({data, deleteItem, editItem}) => {
 
         <Separator />
       </Container>
-    </TouchableWithoutFeedback>
+    </Swipeable>
   );
 };
 
