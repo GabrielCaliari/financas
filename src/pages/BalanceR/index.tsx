@@ -16,6 +16,8 @@ import {useIsFocused, useNavigation} from '@react-navigation/native';
 import Icon from 'react-native-vector-icons/EvilIcons';
 import CalendarModal from '../../components/CalendarModal';
 import Back from 'react-native-vector-icons/Ionicons';
+import FilterD from '../../components/FilterD';
+import Separator from '../../components/Separator';
 
 const BalanceR = () => {
   const [movements, setMovevents] = useState([]);
@@ -65,7 +67,7 @@ const BalanceR = () => {
         <ButtonCancel onPress={() => navigation.goBack()}>
           <Back name="arrow-back" color="white" size={30} />
         </ButtonCancel>
-        <Header titulo="Receita" />
+        <Header titulo="Despesa" />
       </ViewHeader>
       <Area>
         <TouchableOpacity onPress={() => setModalVisible(true)}>
@@ -75,10 +77,11 @@ const BalanceR = () => {
       </Area>
       <List
         data={movements}
-        keyExtractor={item => item.id}
-        renderItem={({item}) => <FilterR data={item} />}
+        keyExtractor={item => item?.id?.toString() || Math.random().toString()}
+        renderItem={({item}) => (item ? <FilterR data={item} /> : null)}
         showsVerticalScrollIndicator={false}
-        contentContainerStyle={{paddingBottom: 20}}
+        contentContainerStyle={{paddingHorizontal: 10, paddingBottom: 20}}
+        ItemSeparatorComponent={Separator} // Certifique-se de não chamar Separator() aqui
       />
 
       <Modal visible={modalVisible} animationType="fade" transparent={true}>

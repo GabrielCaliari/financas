@@ -12,7 +12,7 @@ import Icon from 'react-native-vector-icons/FontAwesome';
 import Pix from 'react-native-vector-icons/MaterialIcons';
 import {TouchableWithoutFeedback} from 'react-native';
 
-const FilterD = ({data}) => {
+const FilterR = ({data}) => {
   // Transformar o dado único em um array, caso não seja um array
   const dataArray = Array.isArray(data) ? data : [data];
 
@@ -45,7 +45,6 @@ const FilterD = ({data}) => {
                   color="white"
                 />
               </IconView>
-
               <PaymentMethodIconContainer>
                 {renderPaymentMethodIcon()}
               </PaymentMethodIconContainer>
@@ -55,8 +54,6 @@ const FilterD = ({data}) => {
             <ValorText>
               R$ {item.value ? item.value.toFixed(2).replace('.', ',') : '0,00'}
             </ValorText>
-
-            <Separator />
           </Container>
         </TouchableWithoutFeedback>
       ))}
@@ -64,4 +61,4 @@ const FilterD = ({data}) => {
   );
 };
 
-export default FilterD;
+export default FilterR;

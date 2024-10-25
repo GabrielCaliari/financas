@@ -54,8 +54,6 @@ const FilterR = ({data}) => {
             <ValorText>
               R$ {item.value ? item.value.toFixed(2).replace('.', ',') : '0,00'}
             </ValorText>
-
-            <Separator />
           </Container>
         </TouchableWithoutFeedback>
       ))}

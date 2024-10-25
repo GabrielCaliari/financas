@@ -1,6 +1,7 @@
 import React, {useEffect, useState} from 'react';
 import {Modal, TouchableOpacity, View} from 'react-native';
 import Header from '../../components/Header';
+import FilterR from '../../components/FilterR';
 import {
   ButtonCancel,
   List,
@@ -14,10 +15,11 @@ import api from '../../services/api';
 import {useIsFocused, useNavigation} from '@react-navigation/native';
 import Icon from 'react-native-vector-icons/EvilIcons';
 import CalendarModal from '../../components/CalendarModal';
-import FilterD from '../../components/FilterD';
 import Back from 'react-native-vector-icons/Ionicons';
+import FilterD from '../../components/FilterD';
+import Separator from '../../components/Separator';
 
-const BalanceD = () => {
+const BalanceR = () => {
   const [movements, setMovevents] = useState([]);
   const [dateMovements, setDateMovements] = useState(new Date());
   const isFocused = useIsFocused();
@@ -75,10 +77,11 @@ const BalanceD = () => {
       </Area>
       <List
         data={movements}
-        keyExtractor={item => item.id}
-        renderItem={({item}) => <FilterD data={item} />}
+        keyExtractor={item => item?.id?.toString() || Math.random().toString()}
+        renderItem={({item}) => (item ? <FilterD data={item} /> : null)}
         showsVerticalScrollIndicator={false}
-        contentContainerStyle={{paddingBottom: 20}}
+        contentContainerStyle={{paddingHorizontal: 10, paddingBottom: 20}}
+        ItemSeparatorComponent={Separator} // Certifique-se de não chamar Separator() aqui
       />
 
       <Modal visible={modalVisible} animationType="fade" transparent={true}>
@@ -91,4 +94,4 @@ const BalanceD = () => {
   );
 };
 
-export default BalanceD;
+export default BalanceR;
