@@ -112,8 +112,6 @@ const HistoricList = ({data, deleteItem, editItem}) => {
         <ValorText>
           R$ {data.value?.toLocaleString('pt-BR', {minimumFractionDigits: 2})}
         </ValorText>
-
-        <Separator />
       </Container>
     </Swipeable>
   );

@@ -36,3 +36,10 @@ export const List = styled.FlatList`
   margin-right: 14px;
   margin-bottom: 50px;
 `;
+
+export const Separator = styled.View`
+  height: 1px;
+  background-color: rgba(255, 255, 255, 0.3);
+  width: 95%;
+  align-self: center;
+`;

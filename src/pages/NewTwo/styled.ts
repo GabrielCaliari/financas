@@ -158,6 +158,6 @@ export const PaymentText = styled.Text`
   font-size: 16px;
 `;
 
-export const ViweFlat = styled.View`
+export const ViewFlat = styled.View`
   padding-left: 15px;
 `;

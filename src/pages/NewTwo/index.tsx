@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React, {useCallback, useState} from 'react';
 import {
   Background,
   ButtonCancel,
@@ -18,7 +18,7 @@ import {
   PaymentOption,
   SelectedPaymentOption,
   PaymentText,
-  ViweFlat,
+  ViewFlat,
 } from './styled';
 import Header from '../../components/Header';
 import {
@@ -32,6 +32,7 @@ import {useNavigation, useRoute} from '@react-navigation/native';
 import Back from 'react-native-vector-icons/Ionicons';
 import api from '../../services/api';
 import {format} from 'date-fns';
+import {ViweFlat} from '../New/styled';
 
 // As opções de método de pagamento
 const paymentMethods = ['Dinheiro', 'Crédito', 'Débito', 'Pix'];
@@ -67,24 +68,33 @@ const NewTwo = () => {
   );
 
   // Função que lida com a mudança do valor
-  const handleValueChange = text => {
-    const numeric = text.replace(/[^0-9]/g, ''); // Extrai apenas números
-    const formatted = formatCurrency(text); // Formata o valor como moeda
+  const handleValueChange = useCallback(
+    text => {
+      const numeric = text.replace(/[^0-9]/g, '');
 
-    setNumericValue(numeric); // Armazena o valor numérico real
-    setDisplayValue(formatted); // Mostra o valor formatado no campo de texto
-  };
+      // Se o campo for apagado, reinicia para R$ 0,00
+      if (numeric === '') {
+        setNumericValue('0');
+        setDisplayValue('R$ 0,00');
+        return;
+      }
+
+      setNumericValue(numeric);
+      setDisplayValue(formatCurrency(numeric));
+    },
+    [formatCurrency],
+  );
 
   // Função que lida com o envio de dados
   const handleSubmit = () => {
     Keyboard.dismiss();
 
-    if (isNaN(parseFloat(numericValue)) || !type) {
-      Alert.alert('Preencha todos os campos corretamente');
+    // Verifica se o valor é válido (maior que zero) e se o tipo foi definido
+    if (parseFloat(numericValue) <= 0 || !type) {
+      Alert.alert('Erro', 'Por favor, insira um valor maior que R$ 0,00');
       return;
     }
 
-    // Exibe um alerta para confirmação
     Alert.alert(
       'Confirmando dados',
       `Tipo: ${type} - Valor: R$ ${(parseFloat(numericValue) / 100).toFixed(
@@ -92,7 +102,7 @@ const NewTwo = () => {
       )} - Método de Pagamento: ${paymentMethod}`,
       [
         {text: 'Cancelar', style: 'cancel'},
-        {text: 'Continuar', onPress: () => handleAdd()},
+        {text: 'Continuar', onPress: handleAdd},
       ],
     );
   };
@@ -109,8 +119,6 @@ const NewTwo = () => {
         payment_method: paymentMethod,
         date: format(new Date(), 'dd/MM/yyyy'),
       };
-
-      console.log(payload); // Verifique o que está sendo enviado
 
       if (route.params?.id) {
         // Atualiza a despesa existente

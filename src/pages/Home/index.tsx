@@ -1,5 +1,5 @@
 import React, {useEffect, useState} from 'react';
-import {Background, ListBalance, Area, Title, List} from './styled';
+import {Background, ListBalance, Area, Title, List, Separator} from './styled';
 import Header from '../../components/Header';
 import {format} from 'date-fns';
 import api from '../../services/api';
@@ -139,7 +139,11 @@ const Home = () => {
         data={movements}
         keyExtractor={item => item.id.toString()}
         renderItem={({item}) => (
-          <TouchableOpacity>
+          <TouchableOpacity
+            onPress={() => handleEdit(item)}
+            activeOpacity={0.7} // Efeito de toque suave
+            style={{marginHorizontal: 10}} // Margem lateral consistente
+          >
             <HistoricList
               data={item}
               deleteItem={handleDelete}
@@ -149,6 +153,7 @@ const Home = () => {
         )}
         showsVerticalScrollIndicator={false}
         contentContainerStyle={{paddingBottom: 20}}
+        ItemSeparatorComponent={() => <Separator />} // Espaço consistente entre itens
       />
 
       <Modal visible={modalVisible} animationType="fade" transparent={true}>
