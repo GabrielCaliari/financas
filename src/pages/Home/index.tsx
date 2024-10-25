@@ -26,7 +26,7 @@ const Home = () => {
       if (settings.authorizationStatus >= AuthorizationStatus.AUTHORIZED) {
         console.log('Permission:', settings.authorizationStatus);
       } else {
-        console.log('Usuario negou a permissao!');
+        console.log('Usuário negou a permissão!');
         setStatusNotification(false);
       }
     }
@@ -70,7 +70,7 @@ const Home = () => {
           item_id: id,
         },
       });
-      setDateMovements(new Date());
+      setDateMovements(new Date()); // Atualiza a data para recarregar as movimentações
     } catch (err) {
       console.log(err);
     }
@@ -80,10 +80,8 @@ const Home = () => {
     setDateMovements(dateSelected);
   }
 
-  // Nova função para editar movimentações
   function handleEdit(item) {
     if (item.type === 'receita') {
-      // Redireciona para a tela New (Receita)
       navigation.navigate('Receita', {
         id: item.id,
         description: item.description,
@@ -92,7 +90,6 @@ const Home = () => {
         payment_method: item.payment_method,
       });
     } else if (item.type === 'despesa') {
-      // Redireciona para a tela NewTwo (Despesa)
       navigation.navigate('Despesa', {
         id: item.id,
         description: item.description,
@@ -133,7 +130,7 @@ const Home = () => {
         <TouchableOpacity onPress={() => setModalVisible(true)}>
           <Icon name="calendar" color="white" size={30} />
         </TouchableOpacity>
-        <Title>Ultimas movimentações</Title>
+        <Title>Últimas movimentações</Title>
       </Area>
       <List
         data={movements}
@@ -141,9 +138,8 @@ const Home = () => {
         renderItem={({item}) => (
           <TouchableOpacity
             onPress={() => handleEdit(item)}
-            activeOpacity={0.7} // Efeito de toque suave
-            style={{marginHorizontal: 10}} // Margem lateral consistente
-          >
+            activeOpacity={0.7}
+            style={{marginHorizontal: 10}}>
             <HistoricList
               data={item}
               deleteItem={handleDelete}
@@ -153,7 +149,7 @@ const Home = () => {
         )}
         showsVerticalScrollIndicator={false}
         contentContainerStyle={{paddingBottom: 20}}
-        ItemSeparatorComponent={() => <Separator />} // Espaço consistente entre itens
+        ItemSeparatorComponent={() => <Separator />}
       />
 
       <Modal visible={modalVisible} animationType="fade" transparent={true}>

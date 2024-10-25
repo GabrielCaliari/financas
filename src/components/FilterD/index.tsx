@@ -5,14 +5,13 @@ import {
   TipoText,
   ValorText,
   DescricaoContainer,
-  Separator,
   PaymentMethodIconContainer,
 } from './styled';
 import Icon from 'react-native-vector-icons/FontAwesome';
 import Pix from 'react-native-vector-icons/MaterialIcons';
 import {TouchableWithoutFeedback} from 'react-native';
 
-const FilterR = ({data}) => {
+const FilterD = ({data}) => {
   // Transformar o dado único em um array, caso não seja um array
   const dataArray = Array.isArray(data) ? data : [data];
 
@@ -61,4 +60,4 @@ const FilterR = ({data}) => {
   );
 };
 
-export default FilterR;
+export default FilterD;
