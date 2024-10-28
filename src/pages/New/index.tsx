@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React, {useEffect, useState} from 'react';
 import {
   Background,
   ButtonCancel,
@@ -40,8 +40,6 @@ const paymentMethods = ['Dinheiro', 'Crédito', 'Débito', 'Pix'];
 const New = () => {
   const navigation = useNavigation();
   const route = useRoute();
-
-  // Estado para controlar a visibilidade do modal
   const [modalVisible, setModalVisible] = useState(false);
 
   // Função para formatar o valor como moeda
@@ -58,17 +56,30 @@ const New = () => {
     return `R$ ${formattedValue.replace('.', ',')}`; // Retorna o valor formatado
   };
 
+  // Verifica se estamos em modo de edição
+  const [isEditing, setIsEditing] = useState(false);
+
+  // Define o valor inicial baseado na edição ou novo registro
+  const initialNumericValue = route.params?.value
+    ? (route.params.value * 100).toString() // Multiplicamos por 100 para corrigir o deslocamento decimal
+    : '0';
+
   const [labelInput, setLabelInput] = useState(route.params?.description || '');
   const [displayValue, setDisplayValue] = useState(
-    formatCurrency((route.params?.value || 0).toString()), // Mover aqui depois da função
+    formatCurrency(initialNumericValue), // Usamos o valor inicial formatado corretamente
   );
-  const [numericValue, setNumericValue] = useState(
-    (route.params?.value || 0).toString(),
-  );
+  const [numericValue, setNumericValue] = useState(initialNumericValue);
   const [type, setType] = useState(route.params?.type || 'receita');
   const [paymentMethod, setPaymentMethod] = useState(
     route.params?.payment_method || 'Dinheiro',
   );
+
+  // Define `isEditing` como true se estivermos no modo de edição
+  useEffect(() => {
+    if (route.params?.id) {
+      setIsEditing(true);
+    }
+  }, [route.params?.id]);
 
   // Função que lida com a mudança do valor
   const handleValueChange = text => {
@@ -105,7 +116,7 @@ const New = () => {
         date: format(new Date(), 'dd/MM/yyyy'),
       };
 
-      if (route.params?.id) {
+      if (isEditing) {
         // Atualiza a despesa existente
         await api.put(`/receives/edit/${route.params.id}`, payload);
       } else {
@@ -122,7 +133,6 @@ const New = () => {
       Alert.alert('Erro', 'Ocorreu um erro ao registrar a despesa');
     }
   };
-
   // Função que renderiza cada item no FlatList
   const renderItem = ({item}) => (
     <TouchableWithoutFeedback onPress={() => setPaymentMethod(item)}>

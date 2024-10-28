@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useState} from 'react';
 import {
   Container,
   IconView,
@@ -6,23 +6,19 @@ import {
   ValorText,
   DescricaoContainer,
   PaymentMethodIconContainer,
-  Separator,
 } from './styled';
 import Icon from 'react-native-vector-icons/FontAwesome';
-import {Alert, Animated} from 'react-native';
 import Pix from 'react-native-vector-icons/MaterialIcons';
-import {Swipeable} from 'react-native-gesture-handler'; // Importando Swipeable
+import {Swipeable} from 'react-native-gesture-handler';
+import CustomModalDelete from '../CustomModalDelete';
+import {Animated} from 'react-native';
 
 const HistoricList = ({data, deleteItem, editItem}) => {
-  function handleDeleteItem() {
-    Alert.alert(
-      'Atenção',
-      'Você tem certeza que deseja deletar esse registro?',
-      [
-        {text: 'Cancelar', style: 'cancel'},
-        {text: 'Continuar', onPress: () => deleteItem(data.id)},
-      ],
-    );
+  const [modalVisible, setModalVisible] = useState(false);
+
+  function handleConfirmDelete() {
+    deleteItem(data.id);
+    setModalVisible(false);
   }
 
   // Função para determinar o ícone baseado no método de pagamento
@@ -64,7 +60,7 @@ const HistoricList = ({data, deleteItem, editItem}) => {
             name="trash"
             size={24}
             color="white"
-            onPress={handleDeleteItem}
+            onPress={() => setModalVisible(true)} // Abre o modal para confirmação de exclusão
           />
         </Animated.View>
         <Animated.View
@@ -89,10 +85,7 @@ const HistoricList = ({data, deleteItem, editItem}) => {
   };
 
   return (
-    <Swipeable
-      friction={2} // Controla a resistência ao arrastar
-      renderRightActions={renderRightActions} // Renderiza os botões ao arrastar
-    >
+    <Swipeable friction={2} renderRightActions={renderRightActions}>
       <Container>
         <DescricaoContainer>
           <IconView tipo={data.type}>
@@ -113,6 +106,15 @@ const HistoricList = ({data, deleteItem, editItem}) => {
           R$ {data.value?.toLocaleString('pt-BR', {minimumFractionDigits: 2})}
         </ValorText>
       </Container>
+
+      {/* Modal de confirmação para exclusão */}
+      <CustomModalDelete
+        visible={modalVisible}
+        title="Confirmação de Exclusão"
+        message="Você tem certeza que deseja deletar esse registro?"
+        onCancel={() => setModalVisible(false)}
+        onContinue={handleConfirmDelete}
+      />
     </Swipeable>
   );
 };
