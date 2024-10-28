@@ -33,6 +33,7 @@ import Back from 'react-native-vector-icons/Ionicons';
 import api from '../../services/api';
 import {format} from 'date-fns';
 import CustomModal from '../../components/CustomModal';
+import CustomModalDelete from '../../components/CustomModalDelete';
 
 // As opções de método de pagamento
 const paymentMethods = ['Dinheiro', 'Crédito', 'Débito', 'Pix'];
@@ -41,6 +42,7 @@ const NewTwo = () => {
   const navigation = useNavigation();
   const route = useRoute();
   const [modalVisible, setModalVisible] = useState(false);
+  const [errorModalVisible, setErrorModalVisible] = useState(false);
 
   // Função para formatar o valor como moeda
   const formatCurrency = value => {
@@ -94,12 +96,17 @@ const NewTwo = () => {
   const handleSubmit = () => {
     Keyboard.dismiss();
 
-    if (isNaN(parseFloat(numericValue)) || !type) {
-      Alert.alert('Preencha todos os campos corretamente');
+    if (!numericValue || parseFloat(numericValue) === 0) {
+      setErrorModalVisible(true);
       return;
     }
 
-    // Define a visibilidade do modal como verdadeira em vez de usar o Alert
+    if (!type) {
+      setErrorModalVisible(true);
+      return;
+    }
+
+    // Define a visibilidade do modal de confirmação como verdadeira
     setModalVisible(true);
   };
 
@@ -133,7 +140,6 @@ const NewTwo = () => {
       Alert.alert('Erro', 'Ocorreu um erro ao registrar a despesa');
     }
   };
-
   // Função que renderiza cada item no FlatList
   const renderItem = ({item}) => (
     <TouchableWithoutFeedback onPress={() => setPaymentMethod(item)}>
@@ -219,6 +225,14 @@ const NewTwo = () => {
             setModalVisible(false);
             handleAdd();
           }}
+        />
+
+        <CustomModalDelete
+          visible={errorModalVisible}
+          title="Erro"
+          info="Por favor, insira um valor válido para registrar."
+          onCancel={() => setErrorModalVisible(false)}
+          onContinue={() => setErrorModalVisible(false)}
         />
       </Background>
     </TouchableWithoutFeedback>

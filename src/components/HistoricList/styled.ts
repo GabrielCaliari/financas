@@ -8,7 +8,6 @@ export const Container = styled.View`
   margin-horizontal: 10px;
   margin-bottom: 5px; /* Reduzido para padronizar */
   padding: 10px;
-  background-color: rgba(0, 0, 0, 0.2); /* Opcional: Para destacar cada item */
 `;
 
 export const IconView = styled.View`

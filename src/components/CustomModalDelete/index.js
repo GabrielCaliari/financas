@@ -19,13 +19,15 @@ const CustomModalDelete = ({
   type,
   value,
   paymentMethod,
+  title,
+  info,
 }) => {
   return (
     <Modal transparent={true} visible={visible} animationType="fade">
       <Overlay>
         <ModalContainer>
-          <Title>Confirmação de Exclusão</Title>
-          <Info>Você tem certeza que deseja deletar esse registro?</Info>
+          <Title>{title}</Title>
+          <Info>{info}</Info>
 
           <ButtonContainer>
             <CancelButton onPress={onCancel}>

@@ -111,7 +111,7 @@ const HistoricList = ({data, deleteItem, editItem}) => {
       <CustomModalDelete
         visible={modalVisible}
         title="Confirmação de Exclusão"
-        message="Você tem certeza que deseja deletar esse registro?"
+        info="Você tem certeza que deseja deletar esse registro?"
         onCancel={() => setModalVisible(false)}
         onContinue={handleConfirmDelete}
       />
