@@ -1,4 +1,4 @@
-import React, {useCallback, useState} from 'react';
+import React, {useState} from 'react';
 import {
   Background,
   ButtonCancel,
@@ -18,21 +18,21 @@ import {
   PaymentOption,
   SelectedPaymentOption,
   PaymentText,
-  ViewFlat,
+  ViweFlat,
 } from './styled';
 import Header from '../../components/Header';
 import {
   SafeAreaView,
   TouchableWithoutFeedback,
   Keyboard,
-  Alert,
   FlatList,
+  Alert,
 } from 'react-native';
 import {useNavigation, useRoute} from '@react-navigation/native';
 import Back from 'react-native-vector-icons/Ionicons';
 import api from '../../services/api';
 import {format} from 'date-fns';
-import {ViweFlat} from '../New/styled';
+import CustomModal from '../../components/CustomModal';
 
 // As opções de método de pagamento
 const paymentMethods = ['Dinheiro', 'Crédito', 'Débito', 'Pix'];
@@ -40,6 +40,9 @@ const paymentMethods = ['Dinheiro', 'Crédito', 'Débito', 'Pix'];
 const NewTwo = () => {
   const navigation = useNavigation();
   const route = useRoute();
+
+  // Estado para controlar a visibilidade do modal
+  const [modalVisible, setModalVisible] = useState(false);
 
   // Função para formatar o valor como moeda
   const formatCurrency = value => {
@@ -68,43 +71,25 @@ const NewTwo = () => {
   );
 
   // Função que lida com a mudança do valor
-  const handleValueChange = useCallback(
-    text => {
-      const numeric = text.replace(/[^0-9]/g, '');
+  const handleValueChange = text => {
+    const numeric = text.replace(/[^0-9]/g, ''); // Extrai apenas números
+    const formatted = formatCurrency(text); // Formata o valor como moeda
 
-      // Se o campo for apagado, reinicia para R$ 0,00
-      if (numeric === '') {
-        setNumericValue('0');
-        setDisplayValue('R$ 0,00');
-        return;
-      }
-
-      setNumericValue(numeric);
-      setDisplayValue(formatCurrency(numeric));
-    },
-    [formatCurrency],
-  );
+    setNumericValue(numeric); // Armazena o valor numérico real
+    setDisplayValue(formatted); // Mostra o valor formatado no campo de texto
+  };
 
   // Função que lida com o envio de dados
   const handleSubmit = () => {
     Keyboard.dismiss();
 
-    // Verifica se o valor é válido (maior que zero) e se o tipo foi definido
-    if (parseFloat(numericValue) <= 0 || !type) {
-      Alert.alert('Erro', 'Por favor, insira um valor maior que R$ 0,00');
+    if (isNaN(parseFloat(numericValue)) || !type) {
+      Alert.alert('Preencha todos os campos corretamente');
       return;
     }
 
-    Alert.alert(
-      'Confirmando dados',
-      `Tipo: ${type} - Valor: R$ ${(parseFloat(numericValue) / 100).toFixed(
-        2,
-      )} - Método de Pagamento: ${paymentMethod}`,
-      [
-        {text: 'Cancelar', style: 'cancel'},
-        {text: 'Continuar', onPress: handleAdd},
-      ],
-    );
+    // Define a visibilidade do modal como verdadeira em vez de usar o Alert
+    setModalVisible(true);
   };
 
   // Função que lida com a adição ou edição ao banco de dados
@@ -133,7 +118,7 @@ const NewTwo = () => {
       setNumericValue('');
       navigation.navigate('Home', {update: true});
     } catch (error) {
-      console.log(error); // Verifique a resposta do erro no console
+      console.log(error);
       Alert.alert('Erro', 'Ocorreu um erro ao registrar a despesa');
     }
   };
@@ -211,6 +196,19 @@ const NewTwo = () => {
             </ButtonCancel>
           </SafeAreaView>
         </AreaColor>
+
+        {/* Custom Modal */}
+        <CustomModal
+          visible={modalVisible}
+          type={type}
+          value={(parseFloat(numericValue) / 100).toFixed(2)}
+          paymentMethod={paymentMethod}
+          onCancel={() => setModalVisible(false)}
+          onContinue={() => {
+            setModalVisible(false);
+            handleAdd();
+          }}
+        />
       </Background>
     </TouchableWithoutFeedback>
   );

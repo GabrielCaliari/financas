@@ -22,7 +22,7 @@ export const SubmitButton = styled.TouchableOpacity`
   width: 90%;
   justify-content: center;
   align-items: center;
-  background-color: red;
+  background-color: green;
   border-radius: 4px;
   margin-top: 20px;
 `;

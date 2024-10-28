@@ -5,22 +5,21 @@ export const Container = styled.View`
   justify-content: space-between;
   align-items: center;
   border-radius: 4px;
-  margin-left: 10px;
-  margin-right: 10px;
-  margin-bottom: 10px;
-  padding: 5px;
-  padding-top: 10px;
+  margin-horizontal: 10px;
+  margin-bottom: 5px; /* Reduzido para padronizar */
+  padding: 10px;
+  background-color: rgba(0, 0, 0, 0.2); /* Opcional: Para destacar cada item */
 `;
 
 export const IconView = styled.View`
   background-color: ${props => (props.tipo === 'despesa' ? 'red' : '#049301')};
   padding: 5px;
   border-radius: 50px;
-  width: 30px;
-  height: 30px;
+  width: 35px; /* Aumentar para maior consistência */
+  height: 35px;
   justify-content: center;
   align-items: center;
-  margin-right: 10px; /* Deixa espaço entre o ícone e a descrição */
+  margin-right: 10px;
 `;
 
 export const ViewTextAndIcon = styled.View``;
@@ -37,7 +36,8 @@ export const ValorText = styled.Text`
 `;
 
 export const DescricaoContainer = styled.View`
-  flex-direction: row; /* Alinha a seta e a descrição lado a lado */
+  flex: 1; /* Garante que este container ocupe o espaço necessário */
+  flex-direction: row;
   align-items: center;
 `;
 
@@ -52,7 +52,5 @@ export const Separator = styled.View`
   height: 1px;
   background-color: rgba(255, 255, 255, 0.3);
   width: 100%;
-  position: absolute;
-  bottom: 0;
-  left: 0;
+  margin-top: 5px; /* Pequeno espaço superior para distanciar do conteúdo */
 `;

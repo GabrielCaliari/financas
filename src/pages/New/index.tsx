@@ -25,13 +25,14 @@ import {
   SafeAreaView,
   TouchableWithoutFeedback,
   Keyboard,
-  Alert,
   FlatList,
+  Alert,
 } from 'react-native';
 import {useNavigation, useRoute} from '@react-navigation/native';
 import Back from 'react-native-vector-icons/Ionicons';
 import api from '../../services/api';
 import {format} from 'date-fns';
+import CustomModal from '../../components/CustomModal';
 
 // As opções de método de pagamento
 const paymentMethods = ['Dinheiro', 'Crédito', 'Débito', 'Pix'];
@@ -39,6 +40,9 @@ const paymentMethods = ['Dinheiro', 'Crédito', 'Débito', 'Pix'];
 const New = () => {
   const navigation = useNavigation();
   const route = useRoute();
+
+  // Estado para controlar a visibilidade do modal
+  const [modalVisible, setModalVisible] = useState(false);
 
   // Função para formatar o valor como moeda
   const formatCurrency = value => {
@@ -84,17 +88,8 @@ const New = () => {
       return;
     }
 
-    // Exibe um alerta para confirmação
-    Alert.alert(
-      'Confirmando dados',
-      `Tipo: ${type} - Valor: R$ ${(parseFloat(numericValue) / 100).toFixed(
-        2,
-      )} - Método de Pagamento: ${paymentMethod}`,
-      [
-        {text: 'Cancelar', style: 'cancel'},
-        {text: 'Continuar', onPress: () => handleAdd()},
-      ],
-    );
+    // Define a visibilidade do modal como verdadeira em vez de usar o Alert
+    setModalVisible(true);
   };
 
   // Função que lida com a adição ou edição ao banco de dados
@@ -201,6 +196,19 @@ const New = () => {
             </ButtonCancel>
           </SafeAreaView>
         </AreaColor>
+
+        {/* Custom Modal */}
+        <CustomModal
+          visible={modalVisible}
+          type={type}
+          value={(parseFloat(numericValue) / 100).toFixed(2)}
+          paymentMethod={paymentMethod}
+          onCancel={() => setModalVisible(false)}
+          onContinue={() => {
+            setModalVisible(false);
+            handleAdd();
+          }}
+        />
       </Background>
     </TouchableWithoutFeedback>
   );
