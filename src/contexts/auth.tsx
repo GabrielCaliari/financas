@@ -90,6 +90,30 @@ function AuthProvider({children}) {
     });
   }
 
+  async function updateUser(user) {
+    try {
+      // Faz a chamada para o backend para atualizar os dados do usuário
+      const response = await api.put(`/users/${user.id}`, {
+        name: user.name,
+        email: user.email,
+        password: user.password, // Inclua apenas se for atualizar a senha
+      });
+
+      // Armazena o usuário atualizado no AsyncStorage
+      await AsyncStorage.setItem('@userData', JSON.stringify(response.data));
+
+      // Atualiza o estado local do usuário com os dados atualizados
+      setUser({
+        id: response.data.id, // Certifique-se de incluir o ID atualizado, se necessário
+        name: response.data.name,
+        email: response.data.email,
+        token: response.data.token || user.token, // Mantenha o token anterior se não estiver retornando um novo
+      });
+    } catch (error) {
+      console.log('Erro ao atualizar usuário:', error);
+    }
+  }
+
   return (
     <AuthContext.Provider
       value={{
@@ -100,6 +124,7 @@ function AuthProvider({children}) {
         signOut,
         loading,
         loadingHome,
+        updateUser,
       }}>
       {children}
     </AuthContext.Provider>

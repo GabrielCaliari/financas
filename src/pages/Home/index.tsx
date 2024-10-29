@@ -136,10 +136,7 @@ const Home = () => {
         data={movements}
         keyExtractor={item => item.id.toString()}
         renderItem={({item}) => (
-          <TouchableOpacity
-            onPress={() => handleEdit(item)}
-            activeOpacity={0.7}
-            style={{marginHorizontal: 10}}>
+          <TouchableOpacity activeOpacity={0.7} style={{marginHorizontal: 10}}>
             <HistoricList
               data={item}
               deleteItem={handleDelete}

@@ -5,6 +5,7 @@ import {
   TipoText,
   ValorText,
   DescricaoContainer,
+  Separator,
   PaymentMethodIconContainer,
 } from './styled';
 import Icon from 'react-native-vector-icons/FontAwesome';

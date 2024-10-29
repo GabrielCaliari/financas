@@ -16,6 +16,7 @@ import {
 import NewTwo from '../pages/NewTwo';
 import BalanceR from '../pages/BalanceR';
 import BalanceD from '../pages/BalanceD';
+import UserProfileEdit from '../pages/UserProfileEdit';
 
 const Tab = createBottomTabNavigator();
 const Stack = createNativeStackNavigator();
@@ -145,6 +146,7 @@ function AppRoutes() {
       <Stack.Screen name="Despesa" component={NewTwo} />
       <Stack.Screen name="BalanceR" component={BalanceR} />
       <Stack.Screen name="BalanceD" component={BalanceD} />
+      <Stack.Screen name="ProfileEdit" component={UserProfileEdit} />
     </Stack.Navigator>
   );
 }
