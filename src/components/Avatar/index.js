@@ -26,21 +26,33 @@ import {
 } from './styled';
 
 const Avatar = () => {
-  const {user} = useContext(AuthContext);
+  const {user, updateUser} = useContext(AuthContext);
   const [avatarUrl, setAvatarUrl] = useState(user && user.avatarUrl);
+  const [isLoading, setIsLoading] = useState(false);
 
-  const handleSave = () => {
-    // Lógica para salvar as alterações
-    Alert.alert(
-      'Perfil atualizado',
-      'Os dados do seu perfil foram atualizados',
-    );
+  const handleSave = async () => {
+    try {
+      setIsLoading(true);
+      await updateUser({...user, avatarUrl}); // Passa todos os dados do usuário junto com o avatarUrl
+      Alert.alert(
+        'Perfil atualizado',
+        'Os dados do seu perfil foram atualizados',
+      );
+    } catch (error) {
+      Alert.alert(
+        'Erro',
+        'Não foi possível atualizar seu perfil, tente novamente mais tarde.',
+      );
+      console.error('Erro ao atualizar perfil:', error);
+    } finally {
+      setIsLoading(false);
+    }
   };
 
   const handleSelectImage = () => {
     const options = {
       mediaType: 'photo',
-      includeBase64: false, // ou true se você quiser a imagem como base64
+      includeBase64: false,
     };
 
     launchImageLibrary(options, response => {
@@ -49,8 +61,8 @@ const Avatar = () => {
       } else if (response.error) {
         console.log('ImagePicker Error: ', response.error);
       } else if (response.assets) {
-        const source = response.assets[0].uri; // A URL da imagem selecionada
-        setAvatarUrl(source); // Atualiza o estado com a nova URL da imagem
+        const source = response.assets[0].uri;
+        setAvatarUrl(source);
       }
     });
   };
@@ -69,6 +81,9 @@ const Avatar = () => {
           />
         </AvatarLabel>
       </AvatarContainer>
+      <SaveButton onPress={handleSave} disabled={isLoading}>
+        <SaveButtonText>{isLoading ? 'Salvando...' : 'Salvar'}</SaveButtonText>
+      </SaveButton>
     </Container>
   );
 };

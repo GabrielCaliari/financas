@@ -10,36 +10,29 @@ function AuthProvider({children}) {
   const [user, setUser] = useState(null);
   const [loading, setLoading] = useState(false);
   const [loadingHome, setLoadingHome] = useState(true);
-
   const navigation = useNavigation();
 
   useEffect(() => {
     async function loadStorage() {
-      const storageUser = await AsyncStorage.getItem('@finToken');
+      const storageUser = await AsyncStorage.getItem('@userData'); // Altera para @userData
 
       if (storageUser) {
-        const response = await api
-          .get('/me', {
-            headers: {
-              Authorization: `Bearer ${storageUser}`,
-            },
-          })
-          .catch(() => {
-            setUser(null);
-          });
-        api.defaults.headers.Authorization = `Bearer ${storageUser}`;
-        setUser(response.data);
-        setLoadingHome(false);
+        const userData = JSON.parse(storageUser);
+        console.log('Token armazenado:', userData.token); // Verifica se o token é recuperado corretamente
+        api.defaults.headers.Authorization = `Bearer ${userData.token}`; // Define o cabeçalho de autorização com o token
+        setUser(userData); // Define o usuário no estado
+      } else {
+        setUser(null); // Se não houver usuário, define como nulo
       }
-      setLoadingHome(false);
+
+      setLoadingHome(false); // Finaliza o carregamento
     }
     loadStorage();
-  });
-
+  }, []); // Adicione [] para evitar loops infinitos
   async function signUp(email, password, nome) {
     setLoading(true);
     try {
-      const response = await api.post('/users', {
+      await api.post('/users', {
         name: nome,
         password: password,
         email: email,
@@ -47,7 +40,7 @@ function AuthProvider({children}) {
       setLoading(false);
       navigation.goBack();
     } catch (err) {
-      Alert.alert('Erro ao cadastrar', err);
+      Alert.alert('Erro ao cadastrar', err.message); // Exibir mensagem de erro
       setLoading(false);
     }
   }
@@ -60,26 +53,22 @@ function AuthProvider({children}) {
         password: password,
       });
 
-      const {id, name, token} = response.data;
+      const {id, name, token, avatarUrl} = response.data;
 
-      const data = {
+      const userData = {
         id,
         name,
         token,
         email,
+        avatarUrl, // Inclui avatarUrl
       };
-      await AsyncStorage.setItem('@finToken', token);
-      api.defaults.headers.Authorization = `Bearer ${token}`;
+      await AsyncStorage.setItem('@userData', JSON.stringify(userData)); // Armazena dados completos do usuário
+      api.defaults.headers.Authorization = `Bearer ${token}`; // Define o cabeçalho de autorização
 
-      setUser({
-        id,
-        name,
-        email,
-      });
-
+      setUser(userData); // Define o usuário no estado
       setLoading(false);
     } catch (err) {
-      console.log('Erro ao entrar', err);
+      console.log('Erro ao entrar', err.message); // Exibir mensagem de erro
       setLoading(false);
     }
   }
@@ -92,25 +81,22 @@ function AuthProvider({children}) {
 
   async function updateUser(user) {
     try {
-      // Faz a chamada para o backend para atualizar os dados do usuário
       const response = await api.put(`/users/${user.id}`, {
         name: user.name,
         email: user.email,
-        password: user.password, // Inclua apenas se for atualizar a senha
+        avatarUrl: user.avatarUrl, // Inclui o avatarUrl
       });
 
       // Armazena o usuário atualizado no AsyncStorage
-      await AsyncStorage.setItem('@userData', JSON.stringify(response.data));
+      await AsyncStorage.setItem('@userData', JSON.stringify(response.data)); // Armazena os dados completos do usuário
 
       // Atualiza o estado local do usuário com os dados atualizados
       setUser({
-        id: response.data.id, // Certifique-se de incluir o ID atualizado, se necessário
-        name: response.data.name,
-        email: response.data.email,
-        token: response.data.token || user.token, // Mantenha o token anterior se não estiver retornando um novo
+        ...response.data, // Usar o spread operator para pegar todos os dados
+        token: user.token, // Mantém o token anterior
       });
     } catch (error) {
-      console.log('Erro ao atualizar usuário:', error);
+      console.log('Erro ao atualizar usuário:', error.message); // Exibir mensagem de erro
     }
   }
 
