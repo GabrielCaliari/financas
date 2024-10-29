@@ -14,6 +14,7 @@ import Header from '../../components/Header';
 import {AuthContext} from '../../contexts/auth';
 import {useNavigation} from '@react-navigation/native';
 import Back from 'react-native-vector-icons/Ionicons';
+import Avatar from '../../components/Avatar';
 
 const Profile = () => {
   const {user, signOut} = useContext(AuthContext);
@@ -31,6 +32,7 @@ const Profile = () => {
         </ButtonCancel>
         <Header titulo="Perfil" />
       </ViewHeader>
+      <Avatar />
 
       <Message>Hey, bem vindo de volta!</Message>
 
