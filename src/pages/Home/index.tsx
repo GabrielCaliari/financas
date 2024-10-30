@@ -1,6 +1,20 @@
-import React, {useEffect, useState} from 'react';
-import {Background, ListBalance, Area, Title, List, Separator} from './styled';
-import Header from '../../components/Header';
+import React, {useContext, useEffect, useState} from 'react';
+import {
+  Background,
+  ListBalance,
+  Area,
+  Title,
+  List,
+  Separator,
+  UserAvatar,
+  UserAvatarButton,
+  UserGreeting,
+  UserInfo,
+  UserInfoDetail,
+  UserName,
+  UserWrapper,
+  Header,
+} from './styled';
 import {format} from 'date-fns';
 import api from '../../services/api';
 import {useIsFocused, useNavigation} from '@react-navigation/native';
@@ -10,6 +24,8 @@ import Icon from 'react-native-vector-icons/EvilIcons';
 import HistoricList from '../../components/HistoricList';
 import CalendarModal from '../../components/CalendarModal';
 import notifee, {AuthorizationStatus} from '@notifee/react-native';
+import {avatarDefault} from '../../assets/avatar.png';
+import {AuthContext} from '../../contexts/auth';
 
 const Home = () => {
   const navigation = useNavigation();
@@ -19,6 +35,8 @@ const Home = () => {
   const isFocused = useIsFocused();
   const [movements, setMovevents] = useState([]);
   const [statusNotification, setStatusNotification] = useState(true);
+  const [avatarUrl, setAvatarUrl] = useState(user && user.avatarUrl);
+  const {user} = useContext(AuthContext);
 
   useEffect(() => {
     async function getPermission() {
@@ -100,8 +118,32 @@ const Home = () => {
     }
   }
 
+  const handleUserProfile = () => {
+    navigation.navigate('Profile');
+  };
+
   return (
     <Background>
+      <Header>
+        <UserWrapper>
+          <UserInfo>
+            <UserAvatarButton onPress={handleUserProfile}>
+              <UserAvatar
+                source={
+                  user.avatarUrl
+                    ? {uri: user.avatarUrl}
+                    : require('../../assets/avatar.png')
+                }
+              />
+            </UserAvatarButton>
+            <UserInfoDetail>
+              <UserGreeting>Olá,</UserGreeting>
+              <UserName>{user.name}</UserName>
+            </UserInfoDetail>
+          </UserInfo>
+        </UserWrapper>
+      </Header>
+
       <ListBalance
         data={listBalance.filter(item => item.tag === 'saldo')}
         keyExtractor={item => item.tag}

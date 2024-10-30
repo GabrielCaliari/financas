@@ -43,3 +43,49 @@ export const Separator = styled.View`
   width: 95%;
   align-self: center;
 `;
+
+export const Header = styled.View`
+  width: 100%;
+  height: 80px;
+  background-color: #1e1e1e;
+  justify-content: center;
+  align-items: center;
+  flex-direction: row;
+  padding-top: 10px;
+`;
+
+export const UserWrapper = styled.View`
+  width: 100%;
+  padding: 0 24px;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
+`;
+
+export const UserInfo = styled.View`
+  flex-direction: row;
+  align-items: center;
+`;
+
+export const UserAvatarButton = styled.TouchableOpacity``;
+
+export const UserAvatar = styled.Image`
+  width: 52px;
+  height: 52px;
+  border-radius: 18px;
+`;
+
+export const UserInfoDetail = styled.View`
+  margin-left: 17px;
+`;
+
+export const UserGreeting = styled.Text`
+  color: gray;
+  font-size: 18px;
+`;
+
+export const UserName = styled.Text`
+  font-size: 18px;
+  font-weight: bold;
+  color: gray;
+`;

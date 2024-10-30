@@ -29,6 +29,7 @@ function AuthProvider({children}) {
     }
     loadStorage();
   }, []); // Adicione [] para evitar loops infinitos
+
   async function signUp(email, password, nome) {
     setLoading(true);
     try {
