@@ -74,3 +74,14 @@ export const SubmitText = styled.Text`
   font-size: 21px;
   font-weight: bold;
 `;
+
+export const TextDescription = styled.Text`
+  color: white;
+`;
+
+export const ViewDescription = styled.View`
+  flex-direction: row;
+  align-items: center;
+  width: 100%; /* Alinhamento completo */
+  padding-left: 14px; /* Espaçamento opcional para alinhar o conteúdo */
+`;

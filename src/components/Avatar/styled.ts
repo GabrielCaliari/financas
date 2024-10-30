@@ -64,7 +64,7 @@ export const FormInput = styled.TextInput`
 
 export const SaveButton = styled.TouchableOpacity`
   padding: 12px;
-  background-color: #007bff;
+  background-color: green;
   border-radius: 5px;
   align-items: center;
   margin: 15px 0 15px 0;

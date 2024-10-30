@@ -1,7 +1,8 @@
 import styled from 'styled-components/native';
 
 export const Container = styled.View`
-  width: 100%;
+  width: 65%;
+  top: 8px;
 `;
 
 export const Error = styled.Text`
