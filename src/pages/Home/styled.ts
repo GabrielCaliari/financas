@@ -50,8 +50,9 @@ export const Header = styled.View`
   background-color: #1e1e1e;
   justify-content: center;
   align-items: center;
-  flex-direction: row;
   padding-top: 10px;
+  margin-top: 10px;
+  border-radius: 18px;
 `;
 
 export const UserWrapper = styled.View`
@@ -80,12 +81,7 @@ export const UserInfoDetail = styled.View`
 `;
 
 export const UserGreeting = styled.Text`
-  color: gray;
-  font-size: 18px;
-`;
-
-export const UserName = styled.Text`
+  color: white;
   font-size: 18px;
   font-weight: bold;
-  color: gray;
 `;

@@ -67,6 +67,7 @@ export const SaveButton = styled.TouchableOpacity`
   background-color: #007bff;
   border-radius: 5px;
   align-items: center;
+  margin: 15px 0 15px 0;
 `;
 
 export const SaveButtonText = styled.Text`

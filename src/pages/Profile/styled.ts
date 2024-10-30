@@ -87,3 +87,23 @@ export const EditText = styled.Text`
   font-weight: bold;
   color: #c62c36;
 `;
+
+export const UserAvatarButton = styled.TouchableOpacity``;
+
+export const UserAvatar = styled.Image`
+  width: 150px;
+  height: 150px;
+  border-radius: 50px;
+`;
+
+export const UserWrapper = styled.View`
+  width: 100%;
+  padding: 0 24px;
+  justify-content: center;
+  align-items: center;
+  padding-top: 20px;
+`;
+
+export const UserInfo = styled.View`
+  align-items: center;
+`;

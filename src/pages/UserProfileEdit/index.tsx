@@ -20,6 +20,7 @@ import {Alert, Text} from 'react-native';
 import {useForm, FieldValues} from 'react-hook-form';
 import api from '../../services/api';
 import {InputControl} from '../../components/InputControl';
+import Avatar from '../../components/Avatar';
 
 interface IFormInputs {
   [name: string]: any;
@@ -78,6 +79,8 @@ const UserProfileEdit = () => {
 
       <AreaColor>
         <Title>Editar dados do perfil</Title>
+
+        <Avatar />
 
         <InputControl
           autoCapitalize="none"

@@ -137,8 +137,7 @@ const Home = () => {
               />
             </UserAvatarButton>
             <UserInfoDetail>
-              <UserGreeting>Olá,</UserGreeting>
-              <UserName>{user.name}</UserName>
+              <UserGreeting>Olá, {user.name}</UserGreeting>
             </UserInfoDetail>
           </UserInfo>
         </UserWrapper>

@@ -71,18 +71,30 @@ const Avatar = () => {
     <Container>
       <AvatarContainer>
         <AvatarLabel onPress={handleSelectImage}>
-          <Back name="arrow-back" size={25} color="#FFF" />
-          <HiddenInput accept="image/*" />
           <AvatarImage
             source={
               avatarUrl ? {uri: avatarUrl} : require('../../assets/avatar.png')
             }
             alt="Foto de perfil"
           />
+          {/* Ícone sobreposto à imagem do avatar */}
+          <Back
+            name="camera" // Substitua por qualquer nome de ícone desejado
+            size={30}
+            color="#FFF"
+            style={{
+              position: 'absolute',
+              bottom: 5,
+              right: 35, // Ajuste para posicionar o ícone dentro do avatar
+              top: 35,
+            }}
+          />
         </AvatarLabel>
       </AvatarContainer>
       <SaveButton onPress={handleSave} disabled={isLoading}>
-        <SaveButtonText>{isLoading ? 'Salvando...' : 'Salvar'}</SaveButtonText>
+        <SaveButtonText>
+          {isLoading ? 'Salvando...' : 'Salvar foto'}
+        </SaveButtonText>
       </SaveButton>
     </Container>
   );
