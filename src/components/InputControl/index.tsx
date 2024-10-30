@@ -20,7 +20,12 @@ export const InputControl: React.FunctionComponent<Props> = ({
       <Controller
         control={control}
         render={({field: {onChange, value}}) => (
-          <Input onChangeText={onChange} value={value} {...otherProps} />
+          <Input
+            onChangeText={onChange}
+            value={value}
+            {...otherProps}
+            placeholderTextColor="white"
+          />
         )}
         name={name}
       />

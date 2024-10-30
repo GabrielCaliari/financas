@@ -38,7 +38,7 @@ const Profile = () => {
 
       <UserWrapper>
         <UserInfo>
-          <UserAvatarButton>
+          <UserAvatarButton disabled={true}>
             <UserAvatar
               source={
                 user.avatarUrl

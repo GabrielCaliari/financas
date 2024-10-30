@@ -66,7 +66,7 @@ export const SubmitButton = styled.TouchableOpacity`
   align-items: center;
   background-color: green;
   border-radius: 4px;
-  margin-top: 20px;
+  margin: 20px 0 20px 0;
 `;
 
 export const SubmitText = styled.Text`
