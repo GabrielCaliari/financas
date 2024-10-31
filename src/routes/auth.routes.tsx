@@ -25,11 +25,11 @@ const AuthRoutes = () => {
         component={SignUp}
         options={{
           headerStyle: {
-            backgroundColor: '#38a69d',
+            backgroundColor: '#ffd600',
             borderBotttomWidth: 1,
             borderBottomColor: '#00b94a',
           },
-          headerTintColor: '#FFF',
+          headerTintColor: 'black',
           headerTitle: 'Voltar',
         }}
       />

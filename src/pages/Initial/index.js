@@ -15,7 +15,7 @@ export default function Initial() {
           source={require('../../assets/Logo.png')}
           // eslint-disable-next-line react-native/no-inline-styles
           style={{
-            width: '100%',
+            width: '70%',
           }}
           resizeMode="contain"
         />
@@ -27,14 +27,18 @@ export default function Initial() {
         // eslint-disable-next-line react-native/no-inline-styles
         style={{
           flex: 1,
-          backgroundColor: '#fff',
+          backgroundColor: 'white',
           borderTopLeftRadius: 15,
           borderTopRightRadius: 15,
           paddingEnd: '5%',
           paddingStart: '5%',
         }}>
-        <Title>Monitore, organize seus gastos de qualquer lugar!</Title>
-        <Text>Faça o login para começar</Text>
+        <Title>
+          Monitore e organize seus
+          {'\n'}
+          gastos de qualquer lugar!
+        </Title>
+        <Text>Faça o login para começar.</Text>
         <Button onPress={() => navigation.navigate('SignIn')}>
           <ButtonText>Acessar</ButtonText>
         </Button>

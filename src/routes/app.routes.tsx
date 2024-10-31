@@ -48,7 +48,7 @@ function Tabs() {
       <Tab.Navigator
         screenOptions={({route}) => ({
           tabBarIcon: ({color, size}) => getTabBarIcon(route, color, size),
-          tabBarActiveTintColor: 'tomato',
+          tabBarActiveTintColor: '#ffd600',
           tabBarInactiveTintColor: 'gray',
           tabBarStyle: {
             height: 50, // Ajusta altura da tab bar
@@ -78,7 +78,7 @@ function Tabs() {
         <Tab.Screen
           name="Add"
           options={{
-            tabBarIcon: () => <Icon name="add" size={32} color="white" />,
+            tabBarIcon: () => <Icon name="add" size={32} color="blue" />,
             tabBarButton: props => (
               <CustomTabButton {...props} onPress={() => setModalVisible(true)}>
                 <Icon name="add" size={32} color="white" />
@@ -129,7 +129,7 @@ function Tabs() {
             <TouchableOpacity
               style={{marginTop: 20}}
               onPress={() => setModalVisible(false)}>
-              <Text style={{color: 'tomato'}}>Cancelar</Text>
+              <Text style={{color: 'red'}}>Cancelar</Text>
             </TouchableOpacity>
           </ModalContent>
         </ModalContainer>

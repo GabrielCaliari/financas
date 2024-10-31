@@ -54,10 +54,10 @@ const SignUp = ({secureTextEntry}: InputProps) => {
         style={{
           flex: 1,
           backgroundColor: '#fff',
-          borderTopLeftRadius: 15,
-          borderTopRightRadius: 15,
           paddingStart: '5%',
           paddingEnd: '5%',
+          marginBottom: 120,
+          borderRadius: 18,
         }}>
         <MidText>Seu nome</MidText>
         <TextInput

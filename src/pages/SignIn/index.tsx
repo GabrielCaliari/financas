@@ -40,12 +40,12 @@ const SignIn = ({secureTextEntry}: InputProps) => {
 
   return (
     <KeyboardAwareScrollView
-      style={{flex: 1, backgroundColor: 'black'}}
+      style={{flex: 1, backgroundColor: '#121212'}}
       contentContainerStyle={{flexGrow: 1, justifyContent: 'center'}}
       enableOnAndroid={true}
       extraHeight={150}>
       <Header>
-        <HeaderText> Bem vindo(a)</HeaderText>
+        <HeaderText> Bem-vindo(a)</HeaderText>
       </Header>
 
       <Animatable.View
@@ -54,9 +54,10 @@ const SignIn = ({secureTextEntry}: InputProps) => {
         style={{
           flex: 1,
           backgroundColor: '#fff',
-          borderTopLeftRadius: 24,
-          borderTopRightRadius: 24,
-          padding: 24,
+          paddingStart: '5%',
+          paddingEnd: '5%',
+          marginBottom: 120,
+          borderRadius: 18,
         }}>
         <MidText> Email</MidText>
         <TextInput
