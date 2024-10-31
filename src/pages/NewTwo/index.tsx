@@ -168,7 +168,7 @@ const NewTwo = () => {
         </ViewHeader>
 
         <ViewValue>
-          <TextValue>Valor da receita</TextValue>
+          <TextValue>Valor da despesa</TextValue>
           <InputValue
             placeholder="R$ 0,00"
             placeholderTextColor="white"

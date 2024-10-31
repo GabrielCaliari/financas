@@ -45,7 +45,7 @@ const SignIn = ({secureTextEntry}: InputProps) => {
       enableOnAndroid={true}
       extraHeight={150}>
       <Header>
-        <HeaderText> Bem-vindo(a)</HeaderText>
+        <HeaderText> Bem-vindo(a)!</HeaderText>
       </Header>
 
       <Animatable.View

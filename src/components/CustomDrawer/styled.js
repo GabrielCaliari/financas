@@ -10,7 +10,7 @@ export const BottonCustom = styled.TouchableOpacity`
   width: 55px;
   height: 55px;
   border-radius: 37.5px;
-  background-color: #6200ea;
+  background-color: #ffd600;
   shadow-color: #000;
   shadow-opacity: 0.15;
   shadow-offset: 0px 4px;

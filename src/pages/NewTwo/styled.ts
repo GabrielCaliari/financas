@@ -150,7 +150,7 @@ export const SelectedPaymentOption = styled(PaymentOption)`
   margin-left: 10px;
   align-items: center;
   justify-content: center;
-  background-color: green;
+  background-color: red;
 `;
 
 export const PaymentText = styled.Text`

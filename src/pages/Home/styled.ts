@@ -47,11 +47,11 @@ export const Separator = styled.View`
 export const Header = styled.View`
   width: 100%;
   height: 80px;
-  background-color: #ffd600;
+  background-color: #04c200;
   justify-content: center;
   align-items: center;
   padding-top: 10px;
-  margin-top: 10px;
+  margin-top: 18px;
   border-radius: 18px;
 `;
 
@@ -69,7 +69,7 @@ export const UserInfo = styled.View`
 `;
 
 export const UserAvatarButton = styled.TouchableOpacity`
-  margin-bottom: 2px;
+  margin-bottom: 5px;
 `;
 
 export const UserAvatar = styled.Image`
@@ -84,6 +84,6 @@ export const UserInfoDetail = styled.View`
 
 export const UserGreeting = styled.Text`
   color: white;
-  font-size: 18px;
+  font-size: 20px;
   font-weight: bold;
 `;
