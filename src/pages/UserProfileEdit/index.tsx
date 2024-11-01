@@ -78,14 +78,15 @@ const UserProfileEdit = () => {
 
       // Atualize o perfil
       const response = await api.put(`/users/${user.id}`, data);
-      updateUser(response.data); // Atualize o contexto com todos os dados do perfil
+      updateUser(response.data);
 
       // Se a senha for informada, faça uma segunda requisição para atualizar a senha
       if (form.currentPassword && form.newPassword) {
-        await api.put(`/users/${user.id}/password`, {
+        const passwordResponse = await api.put(`/users/${user.id}/password`, {
           currentPassword: form.currentPassword,
           newPassword: form.newPassword,
         });
+        console.log('Senha atualizada com sucesso:', passwordResponse.data);
       }
 
       Alert.alert(
@@ -94,11 +95,12 @@ const UserProfileEdit = () => {
       );
       navigation.goBack();
     } catch (error) {
+      console.error('Erro ao atualizar perfil:', error.response?.data || error);
       Alert.alert(
         'Erro ao atualizar',
-        'Ocorreu um erro ao atualizar o seu perfil. Tente novamente.',
+        error.response?.data?.error ||
+          'Ocorreu um erro ao atualizar o seu perfil. Tente novamente.',
       );
-      console.error('Erro ao atualizar perfil:', error);
     } finally {
       setIsLoading(false);
     }
@@ -156,6 +158,9 @@ const UserProfileEdit = () => {
               placeholder="********"
               error={errors.currentPassword && errors.currentPassword.message}
             />
+            <TextDescription style={{minHeight: 20, color: 'red'}}>
+              {errors.currentPassword?.message || ''}
+            </TextDescription>
           </ViewDescription>
 
           <ViewDescription>
@@ -169,6 +174,9 @@ const UserProfileEdit = () => {
               placeholder="********"
               error={errors.newPassword && errors.newPassword.message}
             />
+            <TextDescription style={{minHeight: 20, color: 'red'}}>
+              {errors.newPassword?.message || ''}
+            </TextDescription>
           </ViewDescription>
 
           <ViewDescription>
@@ -182,6 +190,9 @@ const UserProfileEdit = () => {
               placeholder="********"
               error={errors.confirmPassword && errors.confirmPassword.message}
             />
+            <TextDescription style={{minHeight: 20, color: 'red'}}>
+              {errors.confirmPassword?.message || ''}
+            </TextDescription>
           </ViewDescription>
 
           <SubmitButton
