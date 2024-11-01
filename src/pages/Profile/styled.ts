@@ -78,14 +78,14 @@ export const EditButton = styled.TouchableOpacity`
   height: 45px;
   border-width: 1px;
   border-radius: 8px;
-  border-color: #c62c36;
+  border-color: #04c200;
   margin: 10px;
 `;
 
 export const EditText = styled.Text`
   font-size: 18px;
   font-weight: bold;
-  color: #c62c36;
+  color: white;
 `;
 
 export const UserAvatarButton = styled.TouchableOpacity``;

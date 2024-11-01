@@ -35,7 +35,6 @@ const Home = () => {
   const isFocused = useIsFocused();
   const [movements, setMovevents] = useState([]);
   const [statusNotification, setStatusNotification] = useState(true);
-  const [avatarUrl, setAvatarUrl] = useState(user && user.avatarUrl);
   const {user} = useContext(AuthContext);
 
   useEffect(() => {
@@ -52,34 +51,34 @@ const Home = () => {
   }, []);
 
   useEffect(() => {
-    let isActive = true;
-
-    async function getMovements() {
-      let date = new Date(dateMovements);
-      let onlyDate = date.valueOf() + date.getTimezoneOffset() * 60 * 1000;
-      let dateFormated = format(onlyDate, 'dd/MM/yyyy');
-
-      const receives = await api.get('/receives', {
-        params: {
-          date: dateFormated,
-        },
-      });
-
-      const balance = await api.get('/balance', {
-        params: {
-          date: dateFormated,
-        },
-      });
-
-      if (isActive) {
-        setMovevents(receives.data);
-        setListBalance(balance.data);
-      }
-    }
-    getMovements();
-
-    return () => (isActive = false);
+    fetchMovements();
   }, [dateMovements, isFocused]);
+
+  useEffect(() => {
+    const unsubscribe = navigation.addListener('focus', fetchMovements);
+    return unsubscribe;
+  }, [navigation]);
+
+  async function fetchMovements() {
+    let date = new Date(dateMovements);
+    let onlyDate = date.valueOf() + date.getTimezoneOffset() * 60 * 1000;
+    let dateFormated = format(onlyDate, 'dd/MM/yyyy');
+
+    const receives = await api.get('/receives', {
+      params: {
+        date: dateFormated,
+      },
+    });
+
+    const balance = await api.get('/balance', {
+      params: {
+        date: dateFormated,
+      },
+    });
+
+    setMovevents(receives.data);
+    setListBalance(balance.data);
+  }
 
   async function handleDelete(id) {
     try {
