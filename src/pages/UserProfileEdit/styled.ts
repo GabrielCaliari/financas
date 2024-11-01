@@ -85,3 +85,13 @@ export const ViewDescription = styled.View`
   width: 100%; /* Alinhamento completo */
   padding-left: 14px; /* Espaçamento opcional para alinhar o conteúdo */
 `;
+
+export const ErrorTextWrapper = styled.Text`
+  color: red;
+  font-size: 12px;
+  position: absolute;
+  bottom: -8px; /* Posiciona o erro logo abaixo do campo de entrada */
+  left: 14px; /* Alinha com o campo */
+  width: 100%; /* Limita a largura para que o erro não saia da tela */
+  text-align: left;
+`;

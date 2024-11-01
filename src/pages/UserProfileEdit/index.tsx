@@ -9,6 +9,7 @@ import {
   Title,
   ViewDescription,
   ViewHeader,
+  ErrorTextWrapper,
 } from './styled';
 import Back from 'react-native-vector-icons/Ionicons';
 import Header from '../../components/Header';
@@ -30,7 +31,7 @@ interface IFormInputs {
 const formSchema = yup.object({
   name: yup.string().required('Informe o nome completo.'),
   email: yup.string().email('Email inválido.').required('Informe o email.'),
-  currentPassword: yup.string(), // Não obrigatório, mas presente se alteração de senha for necessária
+  currentPassword: yup.string(),
   newPassword: yup
     .string()
     .min(6, 'A nova senha deve ter pelo menos 6 caracteres.')
@@ -76,17 +77,14 @@ const UserProfileEdit = () => {
     try {
       setIsLoading(true);
 
-      // Atualize o perfil
       const response = await api.put(`/users/${user.id}`, data);
       updateUser(response.data);
 
-      // Se a senha for informada, faça uma segunda requisição para atualizar a senha
       if (form.currentPassword && form.newPassword) {
-        const passwordResponse = await api.put(`/users/${user.id}/password`, {
+        await api.put(`/users/${user.id}/password`, {
           currentPassword: form.currentPassword,
           newPassword: form.newPassword,
         });
-        console.log('Senha atualizada com sucesso:', passwordResponse.data);
       }
 
       Alert.alert(
@@ -129,8 +127,8 @@ const UserProfileEdit = () => {
               control={control}
               name="name"
               placeholder="Nome completo"
-              error={errors.name && errors.name.message}
             />
+            <ErrorTextWrapper>{errors.name?.message}</ErrorTextWrapper>
           </ViewDescription>
 
           <ViewDescription>
@@ -142,12 +140,12 @@ const UserProfileEdit = () => {
               name="email"
               placeholder="Email"
               keyboardType="email-address"
-              error={errors.email && errors.email.message}
             />
+            <ErrorTextWrapper>{errors.email?.message}</ErrorTextWrapper>
           </ViewDescription>
 
           {/* Campos para alteração de senha */}
-          <ViewDescription>
+          <ViewDescription style={{position: 'relative'}}>
             <TextDescription>Senha Atual:</TextDescription>
             <InputControl
               autoCapitalize="none"
@@ -156,14 +154,13 @@ const UserProfileEdit = () => {
               control={control}
               name="currentPassword"
               placeholder="********"
-              error={errors.currentPassword && errors.currentPassword.message}
             />
-            <TextDescription style={{minHeight: 20, color: 'red'}}>
-              {errors.currentPassword?.message || ''}
-            </TextDescription>
+            <ErrorTextWrapper>
+              {errors.currentPassword?.message}
+            </ErrorTextWrapper>
           </ViewDescription>
 
-          <ViewDescription>
+          <ViewDescription style={{position: 'relative'}}>
             <TextDescription>Nova Senha:</TextDescription>
             <InputControl
               autoCapitalize="none"
@@ -172,14 +169,11 @@ const UserProfileEdit = () => {
               control={control}
               name="newPassword"
               placeholder="********"
-              error={errors.newPassword && errors.newPassword.message}
             />
-            <TextDescription style={{minHeight: 20, color: 'red'}}>
-              {errors.newPassword?.message || ''}
-            </TextDescription>
+            <ErrorTextWrapper>{errors.newPassword?.message}</ErrorTextWrapper>
           </ViewDescription>
 
-          <ViewDescription>
+          <ViewDescription style={{position: 'relative'}}>
             <TextDescription>Confirme a Nova Senha:</TextDescription>
             <InputControl
               autoCapitalize="none"
@@ -188,11 +182,10 @@ const UserProfileEdit = () => {
               control={control}
               name="confirmPassword"
               placeholder="********"
-              error={errors.confirmPassword && errors.confirmPassword.message}
             />
-            <TextDescription style={{minHeight: 20, color: 'red'}}>
-              {errors.confirmPassword?.message || ''}
-            </TextDescription>
+            <ErrorTextWrapper>
+              {errors.confirmPassword?.message}
+            </ErrorTextWrapper>
           </ViewDescription>
 
           <SubmitButton
