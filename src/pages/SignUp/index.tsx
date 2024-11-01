@@ -3,40 +3,64 @@ import * as Animatable from 'react-native-animatable';
 import {
   SubmitButton,
   SubmitText,
-  Container,
   MidText,
-  TextInput,
   Header,
   HeaderText,
   IconEye,
+  ErrorTextWrapper,
 } from './styled';
-import {Platform, ActivityIndicator, View, TextInputProps} from 'react-native';
+import {ActivityIndicator, View, Alert} from 'react-native';
 import {AuthContext} from '../../contexts/auth';
 import {KeyboardAwareScrollView} from 'react-native-keyboard-aware-scroll-view';
+import {yupResolver} from '@hookform/resolvers/yup';
+import * as yup from 'yup';
+import {useForm, FieldValues} from 'react-hook-form';
+import {InputControl} from '../../components/InputControl';
 
-interface InputProps extends TextInputProps {
-  secureTextEntry?: boolean;
-}
+const formSchema = yup.object({
+  password: yup
+    .string()
+    .min(6, 'A senha deve ter pelo menos 6 caracteres.')
+    .required('Informe a senha.'),
+  confirmPassword: yup
+    .string()
+    .oneOf([yup.ref('password')], 'As senhas não correspondem.')
+    .required('Confirme a senha.'),
+});
 
-const SignUp = ({secureTextEntry}: InputProps) => {
+const SignUp = () => {
   const {signUp, loading} = useContext(AuthContext);
-  const [nome, setNome] = useState('');
-  const [email, setEmail] = useState('');
-  const [password, setPassword] = useState('');
-  const [currentSecure, setCurrentSecure] = useState<boolean>(
-    !!secureTextEntry,
-  );
+  const [currentSecure, setCurrentSecure] = useState(true);
+  const [confirmSecure, setConfirmSecure] = useState(true);
 
-  function handleSignUp() {
-    if (nome === '' || email === '' || password === '') {
-      return;
+  const {
+    handleSubmit,
+    control,
+    formState: {errors},
+  } = useForm<FieldValues>({
+    resolver: yupResolver(formSchema),
+  });
+
+  const handleSignUp = async (data: FieldValues) => {
+    const {password} = data;
+    try {
+      await signUp(data.email, password, data.nome);
+      Alert.alert('Sucesso', 'Conta criada com sucesso!');
+    } catch (error) {
+      const errorMessage =
+        error.response?.status === 400
+          ? 'Ocorreu um erro ao criar a conta. Email ou senha inválidos.'
+          : 'Ocorreu um erro ao criar a conta. Tente novamente.';
+      Alert.alert('Erro ao cadastrar', errorMessage);
     }
-
-    signUp(email, password, nome);
-  }
+  };
 
   const handleOnPressEye = () => {
     setCurrentSecure(current => !current);
+  };
+
+  const handleOnPressConfirmEye = () => {
+    setConfirmSecure(current => !current);
   };
 
   return (
@@ -50,7 +74,6 @@ const SignUp = ({secureTextEntry}: InputProps) => {
 
       <Animatable.View
         animation="fadeInUp"
-        // eslint-disable-next-line react-native/no-inline-styles
         style={{
           flex: 1,
           backgroundColor: '#fff',
@@ -59,26 +82,30 @@ const SignUp = ({secureTextEntry}: InputProps) => {
           marginBottom: 120,
           borderRadius: 18,
         }}>
+        {/* Nome */}
         <MidText>Seu nome</MidText>
-        <TextInput
+        <InputControl
           placeholder="Digite seu nome"
-          value={nome}
-          onChangeText={text => setNome(text)}
+          control={control}
+          name="nome"
         />
 
+        {/* Email */}
         <MidText>Seu email</MidText>
-        <TextInput
+        <InputControl
           placeholder="Digite seu email..."
-          value={email}
-          onChangeText={text => setEmail(text)}
+          control={control}
+          name="email"
+          keyboardType="email-address"
         />
 
+        {/* Senha */}
         <MidText>Sua senha</MidText>
         <View>
-          <TextInput
+          <InputControl
             placeholder="Digite sua senha..."
-            value={password}
-            onChangeText={text => setPassword(text)}
+            control={control}
+            name="password"
             secureTextEntry={currentSecure}
           />
           <IconEye
@@ -87,14 +114,42 @@ const SignUp = ({secureTextEntry}: InputProps) => {
             size={20}
             color="black"
           />
+          {errors.password && (
+            <ErrorTextWrapper>{errors.password.message}</ErrorTextWrapper>
+          )}
         </View>
 
+        {/* Confirmação de Senha */}
+        <MidText>Confirme sua senha</MidText>
         <View>
-          <SubmitButton activeOpacity={0.7} onPress={handleSignUp}>
+          <InputControl
+            placeholder="Confirme sua senha..."
+            control={control}
+            name="confirmPassword"
+            secureTextEntry={confirmSecure}
+          />
+          <IconEye
+            onPress={handleOnPressConfirmEye}
+            name={confirmSecure ? 'eye-off' : 'eye'}
+            size={20}
+            color="black"
+          />
+          {errors.confirmPassword && (
+            <ErrorTextWrapper>
+              {errors.confirmPassword.message}
+            </ErrorTextWrapper>
+          )}
+        </View>
+
+        {/* Botão de cadastro */}
+        <View>
+          <SubmitButton
+            activeOpacity={0.7}
+            onPress={handleSubmit(handleSignUp)}>
             {loading ? (
               <ActivityIndicator size={20} color="white" />
             ) : (
-              <SubmitText>Cadastrar </SubmitText>
+              <SubmitText>Cadastrar</SubmitText>
             )}
           </SubmitButton>
         </View>

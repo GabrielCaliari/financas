@@ -30,10 +30,9 @@ export const SubmitButton = styled.TouchableOpacity`
   align-items: center;
   bottom: 15%;
   width: 100%;
-  border-radius: 4px;
-  padding-top: 10px;
-  padding-bottom: 10px;
-  margin-top: 40px;
+  border-radius: 12px;
+  padding: 16px;
+  margin-top: 30px;
 `;
 
 export const SubmitText = styled.Text`
@@ -76,4 +75,14 @@ export const IconEye = styled(Feather)`
   position: absolute;
   right: 14px;
   top: 16px;
+`;
+
+export const ErrorTextWrapper = styled.Text`
+  color: red;
+  font-size: 12px;
+  position: absolute;
+  bottom: -8px; /* Posiciona o erro logo abaixo do campo de entrada */
+  left: 14px; /* Alinha com o campo */
+  width: 100%; /* Limita a largura para que o erro não saia da tela */
+  text-align: left;
 `;
