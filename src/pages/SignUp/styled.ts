@@ -60,15 +60,20 @@ export const TextInput = styled.TextInput`
 `;
 
 export const Header = styled.View`
-  margin-top: 10%;
+  margin-top: 14%;
   margin-bottom: 8%;
   padding-inline-start: 5%;
+  align-items: center;
+  justify-content: center;
 `;
 
 export const HeaderText = styled.Text`
-  font-size: 28px;
+  font-size: 13px;
   font-weight: bold;
-  color: #fff;
+  color: white;
+  margin: 0 0 0 10px;
+  align-items: center;
+  justify-content: center;
 `;
 
 export const IconEye = styled(Feather)`
@@ -85,4 +90,33 @@ export const ErrorTextWrapper = styled.Text`
   left: 14px; /* Alinha com o campo */
   width: 100%; /* Limita a largura para que o erro não saia da tela */
   text-align: left;
+`;
+
+export const ImageLogo = styled.Image`
+  height: 150px;
+  width: 150px;
+  justify-content: center;
+  align-items: center;
+`;
+
+export const Separator = styled.View`
+  height: 1px;
+  background-color: rgba(255, 255, 255, 0.3); /* Branco com 30% de opacidade */
+  width: 100%;
+  position: absolute;
+  bottom: 0;
+  left: 0;
+`;
+
+export const TOLogOut = styled.TouchableOpacity`
+  justify-content: center;
+  align-items: center;
+  color: white;
+  padding: 18px 18px 18px 18px;
+`;
+
+export const TextLogOut = styled.Text`
+  color: white;
+  justify-content: center;
+  align-items: center;
 `;

@@ -1,12 +1,6 @@
 import styled from 'styled-components/native';
 import Feather from 'react-native-vector-icons/Feather';
 
-export const Container = styled.KeyboardAvoidingView`
-  flex: 1;
-  background-color: #38a69d;
-  justify-content: center;
-`;
-
 export const Logo = styled.Image`
   margin-bottom: 25px;
 `;
@@ -43,26 +37,29 @@ export const SubmitText = styled.Text`
 
 export const Link = styled.TouchableOpacity`
   margin-top: 10px;
-  margin-bottom: 10px;
   justify-content: center;
   align-items: center;
 `;
 
 export const LinkText = styled.Text`
-  color: #171717;
+  color: white;
 `;
 
 export const Header = styled.View`
   margin-top: 14%;
   margin-bottom: 8%;
   padding-inline-start: 5%;
+  align-items: center;
+  justify-content: center;
 `;
 
 export const HeaderText = styled.Text`
-  font-size: 28px;
+  font-size: 13px;
   font-weight: bold;
   color: white;
   margin: 0 0 0 10px;
+  align-items: center;
+  justify-content: center;
 `;
 
 export const MidText = styled.Text`
@@ -73,11 +70,40 @@ export const MidText = styled.Text`
 export const TextInput = styled.TextInput`
   font-size: 15px;
   padding-top: 10px;
-  border-bottom-width: 1px;
+
+  color: white;
+  border-color: transparent;
 `;
 
 export const IconEye = styled(Feather)`
   position: absolute;
   right: 14px;
-  top: 16px;
+  top: 38px;
+`;
+
+export const ImageLogo = styled.Image`
+  height: 150px;
+  width: 150px;
+  justify-content: center;
+  align-items: center;
+`;
+
+export const ViewInput = styled.View`
+  margin-top: 22px;
+  background-color: #1e1e1e;
+  border-top-left-radius: 18px;
+  border-top-right-radius: 18px;
+  flex-direction: row;
+  padding: 18px 0 0 0;
+  align-items: flex-start;
+  margin: 0 14px 0 14px;
+`;
+
+export const Separator = styled.View`
+  height: 1px;
+  background-color: rgba(255, 255, 255, 0.3); /* Branco com 30% de opacidade */
+  width: 100%;
+  position: absolute;
+  bottom: 0;
+  left: 0;
 `;

@@ -23,15 +23,7 @@ const AuthRoutes = () => {
       <AuthStack.Screen
         name="SignUp"
         component={SignUp}
-        options={{
-          headerStyle: {
-            backgroundColor: '#04C200',
-            borderBotttomWidth: 1,
-            borderBottomColor: '#00b94a',
-          },
-          headerTintColor: 'white',
-          headerTitle: 'Voltar',
-        }}
+        options={{headerShown: false}}
       />
     </AuthStack.Navigator>
   );

@@ -25,7 +25,7 @@ export const InputControl: React.FunctionComponent<Props> = ({
             onChangeText={onChange}
             value={value}
             {...otherProps}
-            placeholderTextColor="gray"
+            placeholderTextColor="white"
             style={{color: textColor}} // Aplica a cor do texto
           />
         )}

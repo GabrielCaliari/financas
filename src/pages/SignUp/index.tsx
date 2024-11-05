@@ -8,6 +8,9 @@ import {
   HeaderText,
   IconEye,
   ErrorTextWrapper,
+  ImageLogo,
+  TextLogOut,
+  TOLogOut,
 } from './styled';
 import {ActivityIndicator, View, Alert} from 'react-native';
 import {AuthContext} from '../../contexts/auth';
@@ -16,6 +19,7 @@ import {yupResolver} from '@hookform/resolvers/yup';
 import * as yup from 'yup';
 import {useForm, FieldValues} from 'react-hook-form';
 import {InputControl} from '../../components/InputControl';
+import {useNavigation} from '@react-navigation/native';
 
 const formSchema = yup.object({
   password: yup
@@ -32,6 +36,7 @@ const SignUp = () => {
   const {signUp, loading} = useContext(AuthContext);
   const [currentSecure, setCurrentSecure] = useState(true);
   const [confirmSecure, setConfirmSecure] = useState(true);
+  const navigation = useNavigation();
 
   const {
     handleSubmit,
@@ -65,54 +70,63 @@ const SignUp = () => {
 
   return (
     <KeyboardAwareScrollView
-      style={{flex: 1, backgroundColor: 'black'}}
+      style={{flex: 1, backgroundColor: '#121212'}}
       contentContainerStyle={{flexGrow: 1, justifyContent: 'center'}}
       enableOnAndroid={true}>
       <Header>
-        <HeaderText> Cadastrar</HeaderText>
+        <ImageLogo
+          source={require('../../assets/LogoSemFundo.png')}
+          resizeMode="contain"
+        />
+        <HeaderText>
+          Cadastre-se para comecar a ter um controle de suas movimentações
+          finaceiras.
+        </HeaderText>
       </Header>
 
       <Animatable.View
         animation="fadeInUp"
         style={{
-          flex: 1,
-          backgroundColor: '#fff',
+          backgroundColor: '#1e1e1e',
           paddingStart: '5%',
           paddingEnd: '5%',
-          marginBottom: 120,
+          marginBottom: 200,
           borderRadius: 18,
+          height: '50%',
         }}>
         {/* Nome */}
-        <MidText>Seu nome</MidText>
+
         <InputControl
           placeholder="Digite seu nome"
           control={control}
           name="nome"
+          textColor="white"
         />
 
         {/* Email */}
-        <MidText>Seu email</MidText>
+
         <InputControl
           placeholder="Digite seu email..."
           control={control}
           name="email"
           keyboardType="email-address"
+          textColor="white"
         />
-
         {/* Senha */}
-        <MidText>Sua senha</MidText>
+
         <View>
           <InputControl
             placeholder="Digite sua senha..."
             control={control}
             name="password"
             secureTextEntry={currentSecure}
+            textColor="white"
           />
           <IconEye
             onPress={handleOnPressEye}
             name={currentSecure ? 'eye-off' : 'eye'}
             size={20}
-            color="black"
+            color="white"
           />
           {errors.password && (
             <ErrorTextWrapper>{errors.password.message}</ErrorTextWrapper>
@@ -120,19 +134,19 @@ const SignUp = () => {
         </View>
 
         {/* Confirmação de Senha */}
-        <MidText>Confirme sua senha</MidText>
         <View>
           <InputControl
             placeholder="Confirme sua senha..."
             control={control}
             name="confirmPassword"
             secureTextEntry={confirmSecure}
+            textColor="white"
           />
           <IconEye
             onPress={handleOnPressConfirmEye}
             name={confirmSecure ? 'eye-off' : 'eye'}
             size={20}
-            color="black"
+            color="white"
           />
           {errors.confirmPassword && (
             <ErrorTextWrapper>
@@ -153,6 +167,9 @@ const SignUp = () => {
             )}
           </SubmitButton>
         </View>
+        <TOLogOut onPress={() => navigation.goBack()}>
+          <TextLogOut>Ja é cadastrado? Entrar</TextLogOut>
+        </TOLogOut>
       </Animatable.View>
     </KeyboardAwareScrollView>
   );
