@@ -56,7 +56,7 @@ export const InputDescription = styled.TextInput`
 export const Title = styled.Text`
   font-size: 18px;
   color: white;
-  margin: 18px;
+  margin: 18px 18px 25px 18px;
 `;
 
 export const SubmitButton = styled.TouchableOpacity`
@@ -65,7 +65,7 @@ export const SubmitButton = styled.TouchableOpacity`
   justify-content: center;
   align-items: center;
   background-color: #04c200;
-  border-radius: 4px;
+  border-radius: 18px;
   margin: 20px 0 20px 0;
 `;
 
@@ -77,6 +77,7 @@ export const SubmitText = styled.Text`
 
 export const TextDescription = styled.Text`
   color: white;
+  top: 5px;
 `;
 
 export const ViewDescription = styled.View`

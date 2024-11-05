@@ -79,7 +79,7 @@ export const HeaderText = styled.Text`
 export const IconEye = styled(Feather)`
   position: absolute;
   right: 14px;
-  top: 16px;
+  top: 25px;
 `;
 
 export const ErrorTextWrapper = styled.Text`
@@ -99,15 +99,6 @@ export const ImageLogo = styled.Image`
   align-items: center;
 `;
 
-export const Separator = styled.View`
-  height: 1px;
-  background-color: rgba(255, 255, 255, 0.3); /* Branco com 30% de opacidade */
-  width: 100%;
-  position: absolute;
-  bottom: 0;
-  left: 0;
-`;
-
 export const TOLogOut = styled.TouchableOpacity`
   justify-content: center;
   align-items: center;
@@ -119,4 +110,23 @@ export const TextLogOut = styled.Text`
   color: white;
   justify-content: center;
   align-items: center;
+`;
+
+export const ViewInput = styled.View`
+  background-color: #1e1e1e;
+  border-top-left-radius: 18px;
+  border-top-right-radius: 18px;
+  flex-direction: row;
+  padding: 0 0 0 0;
+  align-items: flex-start;
+  margin: 0 14px 0 14px;
+`;
+
+export const Separator = styled.View`
+  height: 1px;
+  background-color: rgba(255, 255, 255, 0.3); /* Branco com 30% de opacidade */
+  width: 100%;
+  position: absolute;
+  bottom: 0;
+  left: 0;
 `;

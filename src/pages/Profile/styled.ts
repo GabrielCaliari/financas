@@ -43,7 +43,7 @@ export const LogoutButton = styled.TouchableOpacity`
   width: 90%;
   height: 45px;
   border-width: 1px;
-  border-radius: 8px;
+  border-radius: 18px;
   border-color: #c62c36;
 `;
 
@@ -77,7 +77,7 @@ export const EditButton = styled.TouchableOpacity`
   width: 90%;
   height: 45px;
   border-width: 1px;
-  border-radius: 8px;
+  border-radius: 18px;
   border-color: #04c200;
   margin: 10px;
 `;

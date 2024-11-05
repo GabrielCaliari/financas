@@ -105,7 +105,7 @@ const UserProfileEdit = () => {
   };
 
   return (
-    <KeyboardAwareScrollView>
+    <KeyboardAwareScrollView style={{backgroundColor: '#121212'}}>
       <Container>
         <ViewHeader>
           <ButtonCancel onPress={() => navigation.goBack()}>
@@ -127,6 +127,7 @@ const UserProfileEdit = () => {
               control={control}
               name="name"
               placeholder="Nome completo"
+              textColor="white"
             />
             <ErrorTextWrapper>{errors.name?.message}</ErrorTextWrapper>
           </ViewDescription>
@@ -140,6 +141,7 @@ const UserProfileEdit = () => {
               name="email"
               placeholder="Email"
               keyboardType="email-address"
+              textColor="white"
             />
             <ErrorTextWrapper>{errors.email?.message}</ErrorTextWrapper>
           </ViewDescription>
@@ -154,6 +156,7 @@ const UserProfileEdit = () => {
               control={control}
               name="currentPassword"
               placeholder="********"
+              textColor="white"
             />
             <ErrorTextWrapper>
               {errors.currentPassword?.message}
@@ -169,6 +172,7 @@ const UserProfileEdit = () => {
               control={control}
               name="newPassword"
               placeholder="********"
+              textColor="white"
             />
             <ErrorTextWrapper>{errors.newPassword?.message}</ErrorTextWrapper>
           </ViewDescription>
@@ -182,6 +186,7 @@ const UserProfileEdit = () => {
               control={control}
               name="confirmPassword"
               placeholder="********"
+              textColor="white"
             />
             <ErrorTextWrapper>
               {errors.confirmPassword?.message}

@@ -11,6 +11,8 @@ import {
   ImageLogo,
   TextLogOut,
   TOLogOut,
+  ViewInput,
+  Separator,
 } from './styled';
 import {ActivityIndicator, View, Alert} from 'react-native';
 import {AuthContext} from '../../contexts/auth';
@@ -20,6 +22,8 @@ import * as yup from 'yup';
 import {useForm, FieldValues} from 'react-hook-form';
 import {InputControl} from '../../components/InputControl';
 import {useNavigation} from '@react-navigation/native';
+import Icon from 'react-native-vector-icons/Fontisto';
+import IconUser from 'react-native-vector-icons/AntDesign';
 
 const formSchema = yup.object({
   password: yup
@@ -96,25 +100,48 @@ const SignUp = () => {
         }}>
         {/* Nome */}
 
-        <InputControl
-          placeholder="Digite seu nome"
-          control={control}
-          name="nome"
-          textColor="white"
-        />
+        <ViewInput>
+          <IconUser
+            name="user"
+            size={20}
+            color="white"
+            style={{paddingTop: 25, paddingRight: 8}}
+          />
+          <InputControl
+            placeholder="Digite seu nome"
+            control={control}
+            name="nome"
+            textColor="white"
+          />
+          <Separator />
+        </ViewInput>
 
         {/* Email */}
-
-        <InputControl
-          placeholder="Digite seu email..."
-          control={control}
-          name="email"
-          keyboardType="email-address"
-          textColor="white"
-        />
+        <ViewInput>
+          <Icon
+            name="email"
+            size={20}
+            color="white"
+            style={{paddingTop: 25, paddingRight: 8}}
+          />
+          <InputControl
+            placeholder="Digite seu email..."
+            control={control}
+            name="email"
+            keyboardType="email-address"
+            textColor="white"
+          />
+          <Separator />
+        </ViewInput>
         {/* Senha */}
 
-        <View>
+        <ViewInput>
+          <Icon
+            name="locked"
+            size={20}
+            color="white"
+            style={{paddingTop: 25, paddingRight: 8}}
+          />
           <InputControl
             placeholder="Digite sua senha..."
             control={control}
@@ -131,10 +158,17 @@ const SignUp = () => {
           {errors.password && (
             <ErrorTextWrapper>{errors.password.message}</ErrorTextWrapper>
           )}
-        </View>
+          <Separator />
+        </ViewInput>
 
         {/* Confirmação de Senha */}
-        <View>
+        <ViewInput>
+          <Icon
+            name="locked"
+            size={20}
+            color="white"
+            style={{paddingTop: 25, paddingRight: 8}}
+          />
           <InputControl
             placeholder="Confirme sua senha..."
             control={control}
@@ -153,7 +187,8 @@ const SignUp = () => {
               {errors.confirmPassword.message}
             </ErrorTextWrapper>
           )}
-        </View>
+          <Separator />
+        </ViewInput>
 
         {/* Botão de cadastro */}
         <View>

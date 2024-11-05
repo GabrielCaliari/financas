@@ -2,7 +2,7 @@ import styled from 'styled-components/native';
 
 export const Container = styled.View`
   width: 65%;
-  top: 8px;
+  top: 13px;
 `;
 
 export const Error = styled.Text`
@@ -13,7 +13,7 @@ export const Error = styled.Text`
 
 export const Input = styled.TextInput`
   width: 100%;
-  padding: 12px 10px;
+  padding: 8px 8px;
   background-color: transparent;
   color: white;
   border-radius: 8px;
