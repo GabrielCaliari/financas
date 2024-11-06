@@ -13,11 +13,16 @@ import {
   UserInfo,
   UserWrapper,
   ViewHeader,
+  ViewInput,
+  Separator,
+  Area,
 } from './styled';
 import Header from '../../components/Header';
 import {AuthContext} from '../../contexts/auth';
 import {useNavigation} from '@react-navigation/native';
 import Back from 'react-native-vector-icons/Ionicons';
+import IconUser from 'react-native-vector-icons/AntDesign';
+import IconLogOut from 'react-native-vector-icons/Feather';
 
 const Profile = () => {
   const {user, signOut} = useContext(AuthContext);
@@ -55,13 +60,32 @@ const Profile = () => {
 
       <Name numberOfLines={1}>{user && user.name}</Name>
 
-      <EditButton onPress={handleEditProfile}>
-        <EditText>Editar perfil</EditText>
-      </EditButton>
+      <Area>
+        <ViewInput>
+          <IconUser
+            name="user"
+            size={20}
+            color="white"
+            style={{paddingTop: 2, paddingRight: 8}}
+          />
+          <EditButton onPress={handleEditProfile}>
+            <EditText>Editar perfil</EditText>
+          </EditButton>
+          <Separator />
+        </ViewInput>
 
-      <LogoutButton onPress={() => signOut()}>
-        <LogoutText>Sair</LogoutText>
-      </LogoutButton>
+        <ViewInput>
+          <IconLogOut
+            name="log-out"
+            size={20}
+            color="white"
+            style={{paddingTop: 2, paddingRight: 8}}
+          />
+          <LogoutButton onPress={() => signOut()}>
+            <LogoutText>Sair</LogoutText>
+          </LogoutButton>
+        </ViewInput>
+      </Area>
     </Container>
   );
 };

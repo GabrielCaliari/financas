@@ -38,19 +38,16 @@ export const NewText = styled.Text`
 `;
 
 export const LogoutButton = styled.TouchableOpacity`
-  justify-content: center;
-  align-items: center;
+  justify-content: start;
   width: 90%;
   height: 45px;
-  border-width: 1px;
   border-radius: 18px;
-  border-color: #c62c36;
 `;
 
 export const LogoutText = styled.Text`
   font-size: 18px;
   font-weight: bold;
-  color: #c62c36;
+  color: white;
 `;
 
 export const ViewHeader = styled.View`
@@ -72,14 +69,10 @@ export const ButtonCancel = styled.TouchableOpacity`
 `;
 
 export const EditButton = styled.TouchableOpacity`
-  justify-content: center;
-  align-items: center;
+  justify-content: start;
   width: 90%;
-  height: 45px;
-  border-width: 1px;
-  border-radius: 18px;
+  height: 35px;
   border-color: #04c200;
-  margin: 10px;
 `;
 
 export const EditText = styled.Text`
@@ -106,4 +99,29 @@ export const UserWrapper = styled.View`
 
 export const UserInfo = styled.View`
   align-items: center;
+`;
+
+export const ViewInput = styled.View`
+  flex-direction: row;
+  padding: 18px 18px 0px 18px;
+  align-items: flex-start;
+  margin: 0 14px 0 14px;
+`;
+
+export const Separator = styled.View`
+  height: 1px;
+  background-color: rgba(255, 255, 255, 0.3); /* Branco com 30% de opacidade */
+  width: 100%;
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  margin: 0 14px 0 14px;
+`;
+
+export const Area = styled.View`
+  background-color: #1e1e1e;
+  border-radius: 18px;
+  padding: 18px;
+  align-items: flex-start;
+  margin: 18px 18px 0 18px;
 `;
