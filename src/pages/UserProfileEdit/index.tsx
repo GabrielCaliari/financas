@@ -55,6 +55,7 @@ const UserProfileEdit = () => {
   const navigation = useNavigation();
   const [currentSecure, setCurrentSecure] = useState(true);
   const [confirmSecure, setConfirmSecure] = useState(true);
+  const [confirmAgainSecure, setConfirmAgainSecure] = useState(true);
   const {user, updateUser} = useContext(AuthContext);
   const [avatarUrl, setAvatarUrl] = useState(user.avatarUrl);
   const [isLoading, setIsLoading] = useState(false);
@@ -113,6 +114,10 @@ const UserProfileEdit = () => {
 
   const handleOnPressConfirmEye = () => {
     setConfirmSecure(current => !current);
+  };
+
+  const handleOnPressConfirmAgainEye = () => {
+    setConfirmAgainSecure(current => !current);
   };
 
   return (
@@ -185,7 +190,7 @@ const UserProfileEdit = () => {
             <InputControl
               autoCapitalize="none"
               autoCorrect={false}
-              secureTextEntry
+              secureTextEntry={confirmSecure}
               control={control}
               name="newPassword"
               placeholder="********"
@@ -205,15 +210,15 @@ const UserProfileEdit = () => {
             <InputControl
               autoCapitalize="none"
               autoCorrect={false}
-              secureTextEntry
+              secureTextEntry={confirmAgainSecure}
               control={control}
               name="confirmPassword"
               placeholder="********"
               textColor="white"
             />
             <IconEye
-              onPress={handleOnPressConfirmEye}
-              name={confirmSecure ? 'eye-off' : 'eye'}
+              onPress={handleOnPressConfirmAgainEye}
+              name={confirmAgainSecure ? 'eye-off' : 'eye'}
               size={20}
               color="white"
             />
