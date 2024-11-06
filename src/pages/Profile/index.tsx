@@ -32,6 +32,10 @@ const Profile = () => {
     navigation.navigate('ProfileEdit');
   };
 
+  const handleInfo = () => {
+    navigation.navigate('Info');
+  };
+
   return (
     <Container>
       <ViewHeader>
@@ -70,6 +74,19 @@ const Profile = () => {
           />
           <EditButton onPress={handleEditProfile}>
             <EditText>Editar perfil</EditText>
+          </EditButton>
+          <Separator />
+        </ViewInput>
+
+        <ViewInput>
+          <IconUser
+            name="info"
+            size={20}
+            color="white"
+            style={{paddingTop: 2, paddingRight: 8}}
+          />
+          <EditButton onPress={handleInfo}>
+            <EditText>Sobre</EditText>
           </EditButton>
           <Separator />
         </ViewInput>
