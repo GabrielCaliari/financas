@@ -18,12 +18,12 @@ import {useNavigation} from '@react-navigation/native';
 import {yupResolver} from '@hookform/resolvers/yup';
 import * as yup from 'yup';
 import {AuthContext} from '../../contexts/auth';
-import {Alert} from 'react-native';
 import {useForm, FieldValues} from 'react-hook-form';
 import api from '../../services/api';
 import {InputControl} from '../../components/InputControl';
 import Avatar from '../../components/Avatar';
 import {KeyboardAwareScrollView} from 'react-native-keyboard-aware-scroll-view';
+import CustomModalUpdate from '../../components/CustomModalUpdate';
 
 interface IFormInputs {
   [name: string]: any;
@@ -59,6 +59,9 @@ const UserProfileEdit = () => {
   const {user, updateUser} = useContext(AuthContext);
   const [avatarUrl, setAvatarUrl] = useState(user.avatarUrl);
   const [isLoading, setIsLoading] = useState(false);
+  const [modalVisible, setModalVisible] = useState(false);
+  const [modalTitle, setModalTitle] = useState('');
+  const [modalMessage, setModalMessage] = useState('');
   const {
     handleSubmit,
     control,
@@ -91,14 +94,14 @@ const UserProfileEdit = () => {
         });
       }
 
-      Alert.alert(
+      openModal(
         'Perfil atualizado',
-        'Os dados do seu perfil foram atualizados',
+        'Os dados do seu perfil foram atualizados com sucesso.',
       );
-      navigation.goBack();
+      // Remova a navegação daqui para que ocorra após o modal.
     } catch (error) {
       console.error('Erro ao atualizar perfil:', error.response?.data || error);
-      Alert.alert(
+      openModal(
         'Erro ao atualizar',
         error.response?.data?.error ||
           'Ocorreu um erro ao atualizar o seu perfil. Tente novamente.',
@@ -120,123 +123,141 @@ const UserProfileEdit = () => {
     setConfirmAgainSecure(current => !current);
   };
 
+  const openModal = (title, message) => {
+    setModalTitle(title);
+    setModalMessage(message);
+    setModalVisible(true);
+  };
+
   return (
-    <KeyboardAwareScrollView style={{backgroundColor: '#121212'}}>
-      <Container>
-        <ViewHeader>
-          <ButtonCancel onPress={() => navigation.goBack()}>
-            <Back name="arrow-back" color="white" size={30} />
-          </ButtonCancel>
-          <Header titulo="Edição de perfil" />
-        </ViewHeader>
+    <>
+      <KeyboardAwareScrollView style={{backgroundColor: '#121212'}}>
+        <Container>
+          <ViewHeader>
+            <ButtonCancel onPress={() => navigation.goBack()}>
+              <Back name="arrow-back" color="white" size={30} />
+            </ButtonCancel>
+            <Header titulo="Edição de perfil" />
+          </ViewHeader>
 
-        <AreaColor>
-          <Title>Editar dados do perfil</Title>
+          <AreaColor>
+            <Title>Editar dados do perfil</Title>
 
-          <Avatar setAvatarUrl={setAvatarUrl} avatarUrl={avatarUrl} />
+            <Avatar setAvatarUrl={setAvatarUrl} avatarUrl={avatarUrl} />
 
-          <ViewDescription>
-            <TextDescription>Nome do usuário:</TextDescription>
-            <InputControl
-              autoCapitalize="none"
-              autoCorrect={false}
-              control={control}
-              name="name"
-              placeholder="Nome completo"
-              textColor="white"
-            />
-            <ErrorTextWrapper>{errors.name?.message}</ErrorTextWrapper>
-          </ViewDescription>
+            <ViewDescription>
+              <TextDescription>Nome do usuário:</TextDescription>
+              <InputControl
+                autoCapitalize="none"
+                autoCorrect={false}
+                control={control}
+                name="name"
+                placeholder="Nome completo"
+                textColor="white"
+              />
+              <ErrorTextWrapper>{errors.name?.message}</ErrorTextWrapper>
+            </ViewDescription>
 
-          <ViewDescription>
-            <TextDescription>Email:</TextDescription>
-            <InputControl
-              autoCapitalize="none"
-              autoCorrect={false}
-              control={control}
-              name="email"
-              placeholder="Email"
-              keyboardType="email-address"
-              textColor="white"
-            />
-            <ErrorTextWrapper>{errors.email?.message}</ErrorTextWrapper>
-          </ViewDescription>
+            <ViewDescription>
+              <TextDescription>Email:</TextDescription>
+              <InputControl
+                autoCapitalize="none"
+                autoCorrect={false}
+                control={control}
+                name="email"
+                placeholder="Email"
+                keyboardType="email-address"
+                textColor="white"
+              />
+              <ErrorTextWrapper>{errors.email?.message}</ErrorTextWrapper>
+            </ViewDescription>
 
-          {/* Campos para alteração de senha */}
-          <ViewDescription style={{position: 'relative'}}>
-            <TextDescription>Senha Atual:</TextDescription>
-            <InputControl
-              autoCapitalize="none"
-              autoCorrect={false}
-              secureTextEntry={currentSecure}
-              control={control}
-              name="currentPassword"
-              placeholder="********"
-              textColor="white"
-            />
-            <IconEye
-              onPress={handleOnPressEye}
-              name={currentSecure ? 'eye-off' : 'eye'}
-              size={20}
-              color="white"
-            />
-            <ErrorTextWrapper>
-              {errors.currentPassword?.message}
-            </ErrorTextWrapper>
-          </ViewDescription>
+            {/* Campos para alteração de senha */}
+            <ViewDescription style={{position: 'relative'}}>
+              <TextDescription>Senha Atual:</TextDescription>
+              <InputControl
+                autoCapitalize="none"
+                autoCorrect={false}
+                secureTextEntry={currentSecure}
+                control={control}
+                name="currentPassword"
+                placeholder="********"
+                textColor="white"
+              />
+              <IconEye
+                onPress={handleOnPressEye}
+                name={currentSecure ? 'eye-off' : 'eye'}
+                size={20}
+                color="white"
+              />
+              <ErrorTextWrapper>
+                {errors.currentPassword?.message}
+              </ErrorTextWrapper>
+            </ViewDescription>
 
-          <ViewDescription style={{position: 'relative'}}>
-            <TextDescription>Nova Senha:</TextDescription>
-            <InputControl
-              autoCapitalize="none"
-              autoCorrect={false}
-              secureTextEntry={confirmSecure}
-              control={control}
-              name="newPassword"
-              placeholder="********"
-              textColor="white"
-            />
-            <IconEye
-              onPress={handleOnPressConfirmEye}
-              name={confirmSecure ? 'eye-off' : 'eye'}
-              size={20}
-              color="white"
-            />
-            <ErrorTextWrapper>{errors.newPassword?.message}</ErrorTextWrapper>
-          </ViewDescription>
+            <ViewDescription style={{position: 'relative'}}>
+              <TextDescription>Nova Senha:</TextDescription>
+              <InputControl
+                autoCapitalize="none"
+                autoCorrect={false}
+                secureTextEntry={confirmSecure}
+                control={control}
+                name="newPassword"
+                placeholder="********"
+                textColor="white"
+              />
+              <IconEye
+                onPress={handleOnPressConfirmEye}
+                name={confirmSecure ? 'eye-off' : 'eye'}
+                size={20}
+                color="white"
+              />
+              <ErrorTextWrapper>{errors.newPassword?.message}</ErrorTextWrapper>
+            </ViewDescription>
 
-          <ViewDescription style={{position: 'relative'}}>
-            <TextDescription>Confirme a Nova Senha:</TextDescription>
-            <InputControl
-              autoCapitalize="none"
-              autoCorrect={false}
-              secureTextEntry={confirmAgainSecure}
-              control={control}
-              name="confirmPassword"
-              placeholder="********"
-              textColor="white"
-            />
-            <IconEye
-              onPress={handleOnPressConfirmAgainEye}
-              name={confirmAgainSecure ? 'eye-off' : 'eye'}
-              size={20}
-              color="white"
-            />
-            <ErrorTextWrapper>
-              {errors.confirmPassword?.message}
-            </ErrorTextWrapper>
-          </ViewDescription>
+            <ViewDescription style={{position: 'relative'}}>
+              <TextDescription>Confirme a Nova Senha:</TextDescription>
+              <InputControl
+                autoCapitalize="none"
+                autoCorrect={false}
+                secureTextEntry={confirmAgainSecure}
+                control={control}
+                name="confirmPassword"
+                placeholder="********"
+                textColor="white"
+              />
+              <IconEye
+                onPress={handleOnPressConfirmAgainEye}
+                name={confirmAgainSecure ? 'eye-off' : 'eye'}
+                size={20}
+                color="white"
+              />
+              <ErrorTextWrapper>
+                {errors.confirmPassword?.message}
+              </ErrorTextWrapper>
+            </ViewDescription>
 
-          <SubmitButton
-            onPress={handleSubmit(handleProfileEdit)}
-            disabled={isLoading || !!errors.name || !!errors.email}>
-            <SubmitText>
-              {isLoading ? 'Salvando...' : 'Salvar alterações'}
-            </SubmitText>
-          </SubmitButton>
-        </AreaColor>
-      </Container>
-    </KeyboardAwareScrollView>
+            <SubmitButton
+              onPress={handleSubmit(handleProfileEdit)}
+              disabled={isLoading || !!errors.name || !!errors.email}>
+              <SubmitText>
+                {isLoading ? 'Salvando...' : 'Salvar alterações'}
+              </SubmitText>
+            </SubmitButton>
+          </AreaColor>
+        </Container>
+      </KeyboardAwareScrollView>
+      <CustomModalUpdate
+        visible={modalVisible}
+        title={modalTitle}
+        info={modalMessage}
+        onCancel={() => setModalVisible(false)}
+        onContinue={() => {
+          setModalVisible(false);
+          navigation.goBack(); // Navega para a tela de perfil somente após a confirmação no modal
+        }}
+      />
+    </>
   );
 };
 
