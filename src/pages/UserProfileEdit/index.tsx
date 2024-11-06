@@ -10,6 +10,7 @@ import {
   ViewDescription,
   ViewHeader,
   ErrorTextWrapper,
+  IconEye,
 } from './styled';
 import Back from 'react-native-vector-icons/Ionicons';
 import Header from '../../components/Header';
@@ -52,6 +53,8 @@ const formSchema = yup.object({
 
 const UserProfileEdit = () => {
   const navigation = useNavigation();
+  const [currentSecure, setCurrentSecure] = useState(true);
+  const [confirmSecure, setConfirmSecure] = useState(true);
   const {user, updateUser} = useContext(AuthContext);
   const [avatarUrl, setAvatarUrl] = useState(user.avatarUrl);
   const [isLoading, setIsLoading] = useState(false);
@@ -104,6 +107,14 @@ const UserProfileEdit = () => {
     }
   };
 
+  const handleOnPressEye = () => {
+    setCurrentSecure(current => !current);
+  };
+
+  const handleOnPressConfirmEye = () => {
+    setConfirmSecure(current => !current);
+  };
+
   return (
     <KeyboardAwareScrollView style={{backgroundColor: '#121212'}}>
       <Container>
@@ -152,11 +163,17 @@ const UserProfileEdit = () => {
             <InputControl
               autoCapitalize="none"
               autoCorrect={false}
-              secureTextEntry
+              secureTextEntry={currentSecure}
               control={control}
               name="currentPassword"
               placeholder="********"
               textColor="white"
+            />
+            <IconEye
+              onPress={handleOnPressEye}
+              name={currentSecure ? 'eye-off' : 'eye'}
+              size={20}
+              color="white"
             />
             <ErrorTextWrapper>
               {errors.currentPassword?.message}
@@ -174,6 +191,12 @@ const UserProfileEdit = () => {
               placeholder="********"
               textColor="white"
             />
+            <IconEye
+              onPress={handleOnPressConfirmEye}
+              name={confirmSecure ? 'eye-off' : 'eye'}
+              size={20}
+              color="white"
+            />
             <ErrorTextWrapper>{errors.newPassword?.message}</ErrorTextWrapper>
           </ViewDescription>
 
@@ -187,6 +210,12 @@ const UserProfileEdit = () => {
               name="confirmPassword"
               placeholder="********"
               textColor="white"
+            />
+            <IconEye
+              onPress={handleOnPressConfirmEye}
+              name={confirmSecure ? 'eye-off' : 'eye'}
+              size={20}
+              color="white"
             />
             <ErrorTextWrapper>
               {errors.confirmPassword?.message}

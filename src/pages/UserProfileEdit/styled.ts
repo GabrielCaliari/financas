@@ -1,4 +1,5 @@
 import styled from 'styled-components/native';
+import Feather from 'react-native-vector-icons/Feather';
 
 export const Container = styled.View`
   flex: 1;
@@ -95,4 +96,10 @@ export const ErrorTextWrapper = styled.Text`
   left: 14px; /* Alinha com o campo */
   width: 100%; /* Limita a largura para que o erro não saia da tela */
   text-align: left;
+`;
+
+export const IconEye = styled(Feather)`
+  position: absolute;
+  right: 14px;
+  top: 23px;
 `;

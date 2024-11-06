@@ -94,7 +94,7 @@ export const UserWrapper = styled.View`
   padding: 0 24px;
   justify-content: center;
   align-items: center;
-  padding-top: 20px;
+  padding-top: 30px;
 `;
 
 export const UserInfo = styled.View`
