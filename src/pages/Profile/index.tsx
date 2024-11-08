@@ -22,6 +22,7 @@ import {AuthContext} from '../../contexts/auth';
 import {useNavigation} from '@react-navigation/native';
 import Back from 'react-native-vector-icons/Ionicons';
 import IconUser from 'react-native-vector-icons/AntDesign';
+import IconInfo from 'react-native-vector-icons/Feather';
 import IconLogOut from 'react-native-vector-icons/Feather';
 
 const Profile = () => {
@@ -79,7 +80,7 @@ const Profile = () => {
         </ViewInput>
 
         <ViewInput>
-          <IconUser
+          <IconInfo
             name="info"
             size={20}
             color="white"
