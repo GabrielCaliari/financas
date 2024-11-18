@@ -13,10 +13,11 @@ export const Error = styled.Text`
 
 export const Input = styled.TextInput`
   width: 100%;
-  padding: 8px 8px;
+  padding: 12px 8px; /* Aumentando o padding para garantir a altura mínima */
   background-color: transparent;
   color: white;
   border-radius: 8px;
   margin-bottom: 16px;
   font-size: 14px;
+  height: 48px; /* Garantindo que o input tenha 48dp de altura */
 `;

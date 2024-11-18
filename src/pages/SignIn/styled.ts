@@ -39,10 +39,13 @@ export const Link = styled.TouchableOpacity`
   margin-top: 10px;
   justify-content: center;
   align-items: center;
+  padding: 12px 0; /* Adicionando padding para garantir que a altura seja de pelo menos 48dp */
+  height: 48px; /* Força a altura mínima de 48dp */
 `;
 
 export const LinkText = styled.Text`
   color: white;
+  font-size: 14px; /* Ajuste opcional no tamanho da fonte para melhor legibilidade */
 `;
 
 export const Header = styled.View`
