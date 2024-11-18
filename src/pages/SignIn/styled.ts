@@ -32,7 +32,7 @@ export const SubmitButton = styled.TouchableOpacity`
 `;
 
 export const SubmitText = styled.Text`
-  color: white;
+  color: black;
 `;
 
 export const Link = styled.TouchableOpacity`

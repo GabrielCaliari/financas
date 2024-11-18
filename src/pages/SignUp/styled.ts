@@ -36,7 +36,7 @@ export const SubmitButton = styled.TouchableOpacity`
 `;
 
 export const SubmitText = styled.Text`
-  color: white;
+  color: black;
 `;
 
 export const Link = styled.TouchableOpacity`
@@ -86,10 +86,11 @@ export const ErrorTextWrapper = styled.Text`
   color: red;
   font-size: 12px;
   position: absolute;
-  bottom: -8px; /* Posiciona o erro logo abaixo do campo de entrada */
+  bottom: -1px; /* Posiciona o erro logo abaixo do campo de entrada */
   left: 14px; /* Alinha com o campo */
   width: 100%; /* Limita a largura para que o erro não saia da tela */
   text-align: left;
+  padding-top: 5px;
 `;
 
 export const ImageLogo = styled.Image`
