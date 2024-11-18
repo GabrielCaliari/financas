@@ -49,9 +49,10 @@ export const Button = styled.TouchableOpacity`
   align-self: center;
   width: 60%;
   border-radius: 100px;
-  padding: 10px 0;
+  padding: 12px 0; /* Aumentando o padding para garantir a altura mínima de 48dp */
   position: absolute;
   bottom: 30px; /* Posição ajustada para o botão dentro da caixa verde */
+  height: 48px; /* Garantindo a altura mínima de 48dp */
 `;
 
 export const ButtonText = styled.Text`
