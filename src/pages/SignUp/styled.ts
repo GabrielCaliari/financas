@@ -86,9 +86,9 @@ export const ErrorTextWrapper = styled.Text`
   color: #ff4747;
   font-size: 12px;
   position: absolute;
-  bottom: -1px; /* Posiciona o erro logo abaixo do campo de entrada */
-  left: 14px; /* Alinha com o campo */
-  width: 100%; /* Limita a largura para que o erro não saia da tela */
+  bottom: -1px;
+  left: 14px;
+  width: 100%;
   text-align: left;
   padding-top: 5px;
 `;
@@ -125,7 +125,7 @@ export const ViewInput = styled.View`
 
 export const Separator = styled.View`
   height: 1px;
-  background-color: rgba(255, 255, 255, 0.3); /* Branco com 30% de opacidade */
+  background-color: rgba(255, 255, 255, 0.3);
   width: 100%;
   position: absolute;
   bottom: 0;
