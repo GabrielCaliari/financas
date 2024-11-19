@@ -83,7 +83,7 @@ export const IconEye = styled(Feather)`
 `;
 
 export const ErrorTextWrapper = styled.Text`
-  color: red;
+  color: #ff4747;
   font-size: 12px;
   position: absolute;
   bottom: -1px; /* Posiciona o erro logo abaixo do campo de entrada */

@@ -89,7 +89,7 @@ export const ViewDescription = styled.View`
 `;
 
 export const ErrorTextWrapper = styled.Text`
-  color: red;
+  color: #ff4747;
   font-size: 12px;
   position: absolute;
   bottom: -8px; /* Posiciona o erro logo abaixo do campo de entrada */
