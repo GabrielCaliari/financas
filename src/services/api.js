@@ -1,7 +1,7 @@
 import axios from 'axios';
 
 const api = axios.create({
-  baseURL: 'https://backendfinancas-production-a109.up.railway.app',
+  baseURL: 'http://10.0.2.2:8080',
 });
 
 export default api;
