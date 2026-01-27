@@ -17,28 +17,21 @@ import {
 } from './styled';
 import Icon from 'react-native-vector-icons/FontAwesome';
 import {useNavigation} from '@react-navigation/native';
-import {TextInputProps, View} from 'react-native';
+import {View} from 'react-native';
 
 interface DataProps {
-  saldo: number; // Adapte conforme necessário
-  receita?: number; // Para receitas
-  despesa?: number; // Para despesas
-  tag: string; // Tag para identificar saldo, receita, etc.
-  type: any;
+  saldo: number;
+  receita?: number;
+  despesa?: number;
+  tag: 'saldo' | 'receita' | 'despesa';
+  type?: 'receita' | 'despesa';
 }
 
-// Extendendo a interface para incluir secureTextEntry
-interface InputProps extends TextInputProps {
-  secureTextEntry?: boolean;
-}
-
-// Interface principal que o componente irá receber
 interface BalanceItemProps {
   data: DataProps;
-  inputProps: InputProps; // Um objeto com as propriedades do input
 }
 
-export default function BalanceItem({data, inputProps}: BalanceItemProps) {
+export default function BalanceItem({data}: BalanceItemProps) {
   const navigation = useNavigation();
   const [currentSecure, setCurrentSecure] = useState<boolean>(true);
 

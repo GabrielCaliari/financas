@@ -6,7 +6,6 @@ import {
   ButtonCancel,
   List,
   ViewHeader,
-  ButtonText,
   Area,
   Title,
 } from './styled';
@@ -22,7 +21,6 @@ const BalanceR = () => {
   const [movements, setMovevents] = useState([]);
   const [dateMovements, setDateMovements] = useState(new Date());
   const isFocused = useIsFocused();
-  const [listBalance, setListBalance] = useState([]);
   const navigation = useNavigation();
   const [modalVisible, setModalVisible] = useState(false);
 
@@ -40,15 +38,8 @@ const BalanceR = () => {
         },
       });
 
-      const balance = await api.get('/balance', {
-        params: {
-          date: dateFormated,
-        },
-      });
-
       if (isActive) {
         setMovevents(receives.data);
-        setListBalance(balance.data);
       }
     }
     getMovements();

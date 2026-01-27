@@ -136,7 +136,6 @@ const NewTwo = () => {
       setNumericValue('');
       navigation.navigate('Home', {update: true});
     } catch (error) {
-      console.log(error);
       Alert.alert('Erro', 'Ocorreu um erro ao registrar a despesa');
     }
   };

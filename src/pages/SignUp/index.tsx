@@ -76,8 +76,7 @@ const SignUp = () => {
     setConfirmSecure(current => !current);
   };
 
-  const openModal = (title, message) => {
-    console.log('Abrindo modal com título:', title); // Verifique se o log é exibido
+  const openModal = (title: string, message: string) => {
     setModalTitle(title);
     setModalMessage(message);
     setModalVisible(true);

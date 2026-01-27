@@ -15,12 +15,14 @@ const Avatar = ({setAvatarUrl, avatarUrl}) => {
 
     launchImageLibrary(options, response => {
       if (response.didCancel) {
-        console.log('User cancelled image picker');
-      } else if (response.error) {
-        console.log('ImagePicker Error: ', response.error);
-      } else if (response.assets) {
-        const source = response.assets[0].uri;
-        setAvatarUrl(source); // Atualiza o avatarUrl no estado do UserProfileEdit
+        return;
+      }
+      if (response.errorCode) {
+        Alert.alert('Erro', response.errorMessage || 'Erro ao selecionar imagem');
+        return;
+      }
+      if (response.assets && response.assets[0]?.uri) {
+        setAvatarUrl(response.assets[0].uri);
       }
     });
   };

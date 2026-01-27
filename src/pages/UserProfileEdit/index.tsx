@@ -100,11 +100,12 @@ const UserProfileEdit = () => {
       );
       // Remova a navegação daqui para que ocorra após o modal.
     } catch (error) {
-      console.error('Erro ao atualizar perfil:', error.response?.data || error);
+      const message =
+        error?.response?.data?.error ||
+        'Ocorreu um erro ao atualizar o seu perfil. Tente novamente.';
       openModal(
         'Erro ao atualizar',
-        error.response?.data?.error ||
-          'Ocorreu um erro ao atualizar o seu perfil. Tente novamente.',
+        message,
       );
     } finally {
       setIsLoading(false);
