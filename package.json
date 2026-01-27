@@ -14,7 +14,6 @@
   "dependencies": {
     "@hookform/resolvers": "^3.9.0",
     "@notifee/react-native": "^7.8.2",
-    "@react-native-async-storage/async-storage": "^1.23.1",
     "@react-native-firebase/app": "^23.8.4",
     "@react-native-firebase/auth": "^23.8.4",
     "@react-native-firebase/firestore": "^23.8.4",
@@ -24,7 +23,6 @@
     "@react-navigation/drawer": "^6.6.15",
     "@react-navigation/native": "^6.1.18",
     "@react-navigation/native-stack": "^6.11.0",
-    "axios": "^1.7.7",
     "date-fns": "^3.6.0",
     "react": "18.2.0",
     "react-hook-form": "^7.53.1",

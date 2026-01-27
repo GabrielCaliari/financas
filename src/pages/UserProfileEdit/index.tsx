@@ -19,14 +19,19 @@ import {yupResolver} from '@hookform/resolvers/yup';
 import * as yup from 'yup';
 import {AuthContext} from '../../contexts/auth';
 import {useForm, FieldValues} from 'react-hook-form';
-import api from '../../services/api';
 import {InputControl} from '../../components/InputControl';
 import Avatar from '../../components/Avatar';
 import {KeyboardAwareScrollView} from 'react-native-keyboard-aware-scroll-view';
 import CustomModalUpdate from '../../components/CustomModalUpdate';
+import {uploadAvatar} from '../../services/storageService';
+import {updatePassword} from '../../services/authService';
 
 interface IFormInputs {
-  [name: string]: any;
+  name: string;
+  email: string;
+  currentPassword?: string;
+  newPassword?: string;
+  confirmPassword?: string;
 }
 
 const formSchema = yup.object({
@@ -37,17 +42,17 @@ const formSchema = yup.object({
     .string()
     .min(6, 'A nova senha deve ter pelo menos 6 caracteres.')
     .when('currentPassword', {
-      is: val => val && val.length > 0,
-      then: yup.string().required('Informe a nova senha.'),
-      otherwise: yup.string().notRequired(),
+      is: (val: string | undefined) => val && val.length > 0,
+      then: schema => schema.required('Informe a nova senha.'),
+      otherwise: schema => schema.notRequired(),
     }),
   confirmPassword: yup
     .string()
     .oneOf([yup.ref('newPassword')], 'As senhas não coincidem.')
     .when('newPassword', {
-      is: val => val && val.length > 0,
-      then: yup.string().required('Confirme a nova senha.'),
-      otherwise: yup.string().notRequired(),
+      is: (val: string | undefined) => val && val.length > 0,
+      then: schema => schema.required('Confirme a nova senha.'),
+      otherwise: schema => schema.notRequired(),
     }),
 });
 
@@ -57,7 +62,8 @@ const UserProfileEdit = () => {
   const [confirmSecure, setConfirmSecure] = useState(true);
   const [confirmAgainSecure, setConfirmAgainSecure] = useState(true);
   const {user, updateUser} = useContext(AuthContext);
-  const [avatarUrl, setAvatarUrl] = useState(user.avatarUrl);
+  const [avatarUrl, setAvatarUrl] = useState(user?.avatarUrl || '');
+  const [localAvatarUri, setLocalAvatarUri] = useState<string | null>(null);
   const [isLoading, setIsLoading] = useState(false);
   const [modalVisible, setModalVisible] = useState(false);
   const [modalTitle, setModalTitle] = useState('');
@@ -69,44 +75,55 @@ const UserProfileEdit = () => {
   } = useForm<FieldValues>({
     resolver: yupResolver(formSchema),
     defaultValues: {
-      name: user.name,
-      email: user.email,
+      name: user?.name || '',
+      email: user?.email || '',
     },
   });
 
-  const handleProfileEdit = async (form: IFormInputs) => {
-    const data = {
-      name: form.name,
-      email: form.email,
-      avatarUrl,
-    };
+  const handleAvatarChange = (uri: string) => {
+    setLocalAvatarUri(uri);
+    setAvatarUrl(uri);
+  };
 
+  const handleProfileEdit = async (form: IFormInputs) => {
     try {
       setIsLoading(true);
 
-      const response = await api.put(`/users/${user.id}`, data);
-      updateUser(response.data);
+      let finalAvatarUrl = user?.avatarUrl || null;
 
+      // Upload avatar if changed
+      if (localAvatarUri) {
+        finalAvatarUrl = await uploadAvatar(localAvatarUri);
+      }
+
+      // Update user profile
+      await updateUser({
+        name: form.name,
+        email: form.email,
+        avatarUrl: finalAvatarUrl,
+      });
+
+      // Update password if provided
       if (form.currentPassword && form.newPassword) {
-        await api.put(`/users/${user.id}/password`, {
-          currentPassword: form.currentPassword,
-          newPassword: form.newPassword,
-        });
+        await updatePassword(form.currentPassword, form.newPassword);
       }
 
       openModal(
         'Perfil atualizado',
         'Os dados do seu perfil foram atualizados com sucesso.',
       );
-      // Remova a navegação daqui para que ocorra após o modal.
-    } catch (error) {
-      const message =
-        error?.response?.data?.error ||
-        'Ocorreu um erro ao atualizar o seu perfil. Tente novamente.';
-      openModal(
-        'Erro ao atualizar',
-        message,
-      );
+    } catch (error: any) {
+      let message = 'Ocorreu um erro ao atualizar o seu perfil. Tente novamente.';
+
+      if (error.code === 'auth/wrong-password') {
+        message = 'Senha atual incorreta.';
+      } else if (error.code === 'auth/requires-recent-login') {
+        message = 'Por favor, faça login novamente para alterar sua senha.';
+      } else if (error.code === 'auth/email-already-in-use') {
+        message = 'Este email já está em uso por outra conta.';
+      }
+
+      openModal('Erro ao atualizar', message);
     } finally {
       setIsLoading(false);
     }
@@ -124,7 +141,7 @@ const UserProfileEdit = () => {
     setConfirmAgainSecure(current => !current);
   };
 
-  const openModal = (title, message) => {
+  const openModal = (title: string, message: string) => {
     setModalTitle(title);
     setModalMessage(message);
     setModalVisible(true);
@@ -144,7 +161,7 @@ const UserProfileEdit = () => {
           <AreaColor>
             <Title>Editar dados do perfil</Title>
 
-            <Avatar setAvatarUrl={setAvatarUrl} avatarUrl={avatarUrl} />
+            <Avatar setAvatarUrl={handleAvatarChange} avatarUrl={avatarUrl} />
 
             <ViewDescription>
               <TextDescription>Nome do usuário:</TextDescription>
@@ -255,7 +272,7 @@ const UserProfileEdit = () => {
         onCancel={() => setModalVisible(false)}
         onContinue={() => {
           setModalVisible(false);
-          navigation.goBack(); // Navega para a tela de perfil somente após a confirmação no modal
+          navigation.goBack();
         }}
       />
     </>

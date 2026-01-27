@@ -56,15 +56,9 @@ const SignUp = () => {
 
   const handleSignUp = async (data: FieldValues) => {
     const {password} = data;
-    try {
-      await signUp(data.email, password, data.nome);
+    const success = await signUp(data.email, password, data.nome);
+    if (success) {
       openModal('Sucesso', 'Conta criada com sucesso!');
-    } catch (error) {
-      const errorMessage =
-        error.response?.status === 400
-          ? 'Ocorreu um erro ao criar a conta. Email ou senha inválidos.'
-          : 'Ocorreu um erro ao criar a conta. Tente novamente.';
-      openModal('Erro ao cadastrar', errorMessage);
     }
   };
 
