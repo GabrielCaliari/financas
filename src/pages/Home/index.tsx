@@ -11,12 +11,9 @@ import {
   UserGreeting,
   UserInfo,
   UserInfoDetail,
-  UserName,
   UserWrapper,
   Header,
 } from './styled';
-import {format} from 'date-fns';
-import api from '../../services/api';
 import {useIsFocused, useNavigation} from '@react-navigation/native';
 import BalanceItem from '../../components/BalanceItem';
 import {Alert, Modal, TouchableOpacity} from 'react-native';
@@ -25,14 +22,20 @@ import HistoricList from '../../components/HistoricList';
 import CalendarModal from '../../components/CalendarModal';
 import notifee, {AuthorizationStatus} from '@notifee/react-native';
 import {AuthContext} from '../../contexts/auth';
+import {
+  getMovementsByDate,
+  getBalanceByDate,
+  deleteMovement,
+  MovementDisplay,
+} from '../../services/movementService';
 
 const Home = () => {
   const navigation = useNavigation();
   const [modalVisible, setModalVisible] = useState(false);
-  const [listBalance, setListBalance] = useState([]);
+  const [listBalance, setListBalance] = useState<{saldo: number; tag: string}[]>([]);
   const [dateMovements, setDateMovements] = useState(new Date());
   const isFocused = useIsFocused();
-  const [movements, setMovevents] = useState([]);
+  const [movements, setMovements] = useState<MovementDisplay[]>([]);
   const {user} = useContext(AuthContext);
 
   useEffect(() => {
@@ -46,34 +49,18 @@ const Home = () => {
   }, []);
 
   useEffect(() => {
-    fetchMovements();
+    if (isFocused) {
+      fetchMovements();
+    }
   }, [dateMovements, isFocused]);
-
-  useEffect(() => {
-    const unsubscribe = navigation.addListener('focus', fetchMovements);
-    return unsubscribe;
-  }, [navigation]);
 
   async function fetchMovements() {
     try {
-      let date = new Date(dateMovements);
-      let onlyDate = date.valueOf() + date.getTimezoneOffset() * 60 * 1000;
-      let dateFormated = format(onlyDate, 'dd/MM/yyyy');
+      const movementsData = await getMovementsByDate(dateMovements);
+      const balanceData = await getBalanceByDate(dateMovements);
 
-      const receives = await api.get('/receives', {
-        params: {
-          date: dateFormated,
-        },
-      });
-
-      const balance = await api.get('/balance', {
-        params: {
-          date: dateFormated,
-        },
-      });
-
-      setMovevents(receives.data);
-      setListBalance(balance.data);
+      setMovements(movementsData);
+      setListBalance([balanceData]);
     } catch (error) {
       Alert.alert(
         'Erro',
@@ -82,24 +69,20 @@ const Home = () => {
     }
   }
 
-  async function handleDelete(id) {
+  async function handleDelete(id: string) {
     try {
-      await api.delete('/receives/delete', {
-        params: {
-          item_id: id,
-        },
-      });
-      setDateMovements(new Date()); // Atualiza a data para recarregar as movimentações
+      await deleteMovement(id);
+      fetchMovements(); // Recarregar movimentações
     } catch (err) {
       Alert.alert('Erro', 'Não foi possível excluir a movimentação.');
     }
   }
 
-  function filterDateMovements(dateSelected) {
+  function filterDateMovements(dateSelected: Date) {
     setDateMovements(dateSelected);
   }
 
-  function handleEdit(item) {
+  function handleEdit(item: MovementDisplay) {
     if (item.type === 'receita') {
       navigation.navigate('Receita', {
         id: item.id,
@@ -131,14 +114,14 @@ const Home = () => {
             <UserAvatarButton onPress={handleUserProfile}>
               <UserAvatar
                 source={
-                  user.avatarUrl
+                  user?.avatarUrl
                     ? {uri: user.avatarUrl}
                     : require('../../assets/avatar.png')
                 }
               />
             </UserAvatarButton>
             <UserInfoDetail>
-              <UserGreeting>Olá, {user.name}</UserGreeting>
+              <UserGreeting>Olá, {user?.name}</UserGreeting>
             </UserInfoDetail>
           </UserInfo>
         </UserWrapper>
@@ -176,7 +159,7 @@ const Home = () => {
       </Area>
       <List
         data={movements}
-        keyExtractor={item => item.id.toString()}
+        keyExtractor={item => item.id}
         renderItem={({item}) => (
           <TouchableOpacity activeOpacity={0.7} style={{marginHorizontal: 10}}>
             <HistoricList

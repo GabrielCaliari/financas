@@ -30,13 +30,13 @@ import {
 } from 'react-native';
 import {useNavigation, useRoute} from '@react-navigation/native';
 import Back from 'react-native-vector-icons/Ionicons';
-import api from '../../services/api';
-import {format} from 'date-fns';
 import CustomModal from '../../components/CustomModal';
 import CustomModalDelete from '../../components/CustomModalDelete';
+import {createMovement, updateMovement} from '../../services/movementService';
 
 // As opções de método de pagamento
-const paymentMethods = ['Dinheiro', 'Crédito', 'Débito', 'Pix'];
+const paymentMethods = ['Dinheiro', 'Crédito', 'Débito', 'Pix'] as const;
+type PaymentMethod = (typeof paymentMethods)[number];
 
 const New = () => {
   const navigation = useNavigation();
@@ -45,7 +45,7 @@ const New = () => {
   const [errorModalVisible, setErrorModalVisible] = useState(false);
 
   // Função para formatar o valor como moeda
-  const formatCurrency = value => {
+  const formatCurrency = (value: string | undefined) => {
     if (value === undefined) {
       return '';
     }
@@ -71,8 +71,10 @@ const New = () => {
     formatCurrency(initialNumericValue), // Usamos o valor inicial formatado corretamente
   );
   const [numericValue, setNumericValue] = useState(initialNumericValue);
-  const [type, setType] = useState(route.params?.type || 'receita');
-  const [paymentMethod, setPaymentMethod] = useState(
+  const [type] = useState<'receita' | 'despesa'>(
+    route.params?.type || 'receita',
+  );
+  const [paymentMethod, setPaymentMethod] = useState<PaymentMethod>(
     route.params?.payment_method || 'Dinheiro',
   );
 
@@ -84,7 +86,7 @@ const New = () => {
   }, [route.params?.id]);
 
   // Função que lida com a mudança do valor
-  const handleValueChange = text => {
+  const handleValueChange = (text: string) => {
     const numeric = text.replace(/[^0-9]/g, ''); // Extrai apenas números
     const formatted = formatCurrency(text); // Formata o valor como moeda
 
@@ -115,20 +117,21 @@ const New = () => {
     try {
       const descriptionFinal =
         labelInput.trim() === '' ? 'Sem descrição' : labelInput;
-      const payload = {
+
+      const movementData = {
         description: descriptionFinal,
         value: parseFloat(numericValue) / 100,
         type,
         payment_method: paymentMethod,
-        date: format(new Date(), 'dd/MM/yyyy'),
+        date: new Date(),
       };
 
-      if (isEditing) {
-        // Atualiza a despesa existente
-        await api.put(`/receives/edit/${route.params.id}`, payload);
+      if (isEditing && route.params?.id) {
+        // Atualiza a receita existente
+        await updateMovement(route.params.id, movementData);
       } else {
-        // Cria uma nova despesa
-        await api.post('/receive', payload);
+        // Cria uma nova receita
+        await createMovement(movementData);
       }
 
       setLabelInput('');
@@ -136,11 +139,12 @@ const New = () => {
       setNumericValue('');
       navigation.navigate('Home', {update: true});
     } catch (error) {
-      Alert.alert('Erro', 'Ocorreu um erro ao registrar a despesa');
+      Alert.alert('Erro', 'Ocorreu um erro ao registrar a receita');
     }
   };
+
   // Função que renderiza cada item no FlatList
-  const renderItem = ({item}) => (
+  const renderItem = ({item}: {item: PaymentMethod}) => (
     <TouchableWithoutFeedback onPress={() => setPaymentMethod(item)}>
       <ViweFlat>
         {paymentMethod === item ? (
@@ -195,7 +199,7 @@ const New = () => {
               <WalletInputText>Selecionar :</WalletInputText>
 
               <FlatList
-                data={paymentMethods}
+                data={paymentMethods as unknown as PaymentMethod[]}
                 renderItem={renderItem}
                 keyExtractor={item => item}
                 style={{height: 40, width: 60}}
