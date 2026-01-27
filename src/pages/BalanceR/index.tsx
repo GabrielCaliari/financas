@@ -1,5 +1,5 @@
 import React, {useEffect, useState} from 'react';
-import {Modal, TouchableOpacity, View} from 'react-native';
+import {Alert, Modal, TouchableOpacity, View} from 'react-native';
 import Header from '../../components/Header';
 import FilterR from '../../components/FilterR';
 import {
@@ -9,16 +9,18 @@ import {
   Area,
   Title,
 } from './styled';
-import {format} from 'date-fns';
-import api from '../../services/api';
 import {useIsFocused, useNavigation} from '@react-navigation/native';
 import Icon from 'react-native-vector-icons/EvilIcons';
 import CalendarModal from '../../components/CalendarModal';
 import Back from 'react-native-vector-icons/Ionicons';
 import Separator from '../../components/Separator';
+import {
+  getMovementsByTypeAndDate,
+  MovementDisplay,
+} from '../../services/movementService';
 
 const BalanceR = () => {
-  const [movements, setMovevents] = useState([]);
+  const [movements, setMovements] = useState<MovementDisplay[]>([]);
   const [dateMovements, setDateMovements] = useState(new Date());
   const isFocused = useIsFocused();
   const navigation = useNavigation();
@@ -28,26 +30,29 @@ const BalanceR = () => {
     let isActive = true;
 
     async function getMovements() {
-      let date = new Date(dateMovements);
-      let onlyDate = date.valueOf() + date.getTimezoneOffset() * 60 * 1000;
-      let dateFormated = format(onlyDate, 'dd/MM/yyyy');
+      try {
+        const movementsData = await getMovementsByTypeAndDate(
+          'receita',
+          dateMovements,
+        );
 
-      const receives = await api.get('/receives', {
-        params: {
-          date: dateFormated,
-        },
-      });
-
-      if (isActive) {
-        setMovevents(receives.data);
+        if (isActive) {
+          setMovements(movementsData);
+        }
+      } catch (error) {
+        if (isActive) {
+          Alert.alert('Erro', 'Não foi possível carregar as receitas.');
+        }
       }
     }
     getMovements();
 
-    return () => (isActive = false);
+    return () => {
+      isActive = false;
+    };
   }, [dateMovements, isFocused]);
 
-  function filterDateMovements(dateSelected) {
+  function filterDateMovements(dateSelected: Date) {
     setDateMovements(dateSelected);
   }
 
@@ -67,8 +72,8 @@ const BalanceR = () => {
       </Area>
       <List
         data={movements}
-        keyExtractor={item => item?.id?.toString() || Math.random().toString()}
-        renderItem={({item}) => (item ? <FilterR data={item} /> : null)}
+        keyExtractor={item => item.id}
+        renderItem={({item}) => <FilterR data={item} />}
         showsVerticalScrollIndicator={false}
         contentContainerStyle={{paddingHorizontal: 10, paddingBottom: 20}}
         ItemSeparatorComponent={Separator}
