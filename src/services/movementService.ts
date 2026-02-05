@@ -5,7 +5,16 @@ import {
   Movement,
   firebaseAuth,
 } from './firebase';
-import firestore from '@react-native-firebase/firestore';
+import {
+  getDocs,
+  addDoc,
+  updateDoc,
+  deleteDoc,
+  doc,
+  query,
+  where,
+  orderBy,
+} from '@react-native-firebase/firestore';
 
 export interface MovementInput {
   description: string;
@@ -43,7 +52,7 @@ export const createMovement = async (
     createdAt: dateToTimestamp(new Date()),
   };
 
-  const docRef = await movementsCollection.add(movementData);
+  const docRef = await addDoc(movementsCollection, movementData);
   return docRef.id;
 };
 
@@ -57,7 +66,7 @@ export const updateMovement = async (
     throw new Error('Usuário não autenticado');
   }
 
-  await movementsCollection.doc(id).update({
+  await updateDoc(doc(movementsCollection, id), {
     description: data.description,
     value: data.value,
     type: data.type,
@@ -73,7 +82,7 @@ export const deleteMovement = async (id: string): Promise<void> => {
     throw new Error('Usuário não autenticado');
   }
 
-  await movementsCollection.doc(id).delete();
+  await deleteDoc(doc(movementsCollection, id));
 };
 
 // Get movements for a specific date
@@ -92,22 +101,24 @@ export const getMovementsByDate = async (
   const endOfDay = new Date(date);
   endOfDay.setHours(23, 59, 59, 999);
 
-  const snapshot = await movementsCollection
-    .where('userId', '==', user.uid)
-    .where('date', '>=', dateToTimestamp(startOfDay))
-    .where('date', '<=', dateToTimestamp(endOfDay))
-    .orderBy('date', 'desc')
-    .get();
+  const q = query(
+    movementsCollection,
+    where('userId', '==', user.uid),
+    where('date', '>=', dateToTimestamp(startOfDay)),
+    where('date', '<=', dateToTimestamp(endOfDay)),
+    orderBy('date', 'desc'),
+  );
+  const snapshot = await getDocs(q);
 
-  return snapshot.docs.map(doc => {
-    const data = doc.data() as Omit<Movement, 'id'>;
+  return snapshot.docs.map(docSnap => {
+    const data = docSnap.data() as Omit<Movement, 'id'>;
     const dateObj = timestampToDate(data.date);
     const formattedDate = `${String(dateObj.getDate()).padStart(2, '0')}/${String(
       dateObj.getMonth() + 1,
     ).padStart(2, '0')}/${dateObj.getFullYear()}`;
 
     return {
-      id: doc.id,
+      id: docSnap.id,
       description: data.description,
       value: data.value,
       type: data.type,
@@ -133,23 +144,25 @@ export const getMovementsByTypeAndDate = async (
   const endOfDay = new Date(date);
   endOfDay.setHours(23, 59, 59, 999);
 
-  const snapshot = await movementsCollection
-    .where('userId', '==', user.uid)
-    .where('type', '==', type)
-    .where('date', '>=', dateToTimestamp(startOfDay))
-    .where('date', '<=', dateToTimestamp(endOfDay))
-    .orderBy('date', 'desc')
-    .get();
+  const q = query(
+    movementsCollection,
+    where('userId', '==', user.uid),
+    where('type', '==', type),
+    where('date', '>=', dateToTimestamp(startOfDay)),
+    where('date', '<=', dateToTimestamp(endOfDay)),
+    orderBy('date', 'desc'),
+  );
+  const snapshot = await getDocs(q);
 
-  return snapshot.docs.map(doc => {
-    const data = doc.data() as Omit<Movement, 'id'>;
+  return snapshot.docs.map(docSnap => {
+    const data = docSnap.data() as Omit<Movement, 'id'>;
     const dateObj = timestampToDate(data.date);
     const formattedDate = `${String(dateObj.getDate()).padStart(2, '0')}/${String(
       dateObj.getMonth() + 1,
     ).padStart(2, '0')}/${dateObj.getFullYear()}`;
 
     return {
-      id: doc.id,
+      id: docSnap.id,
       description: data.description,
       value: data.value,
       type: data.type,
@@ -174,17 +187,19 @@ export const getBalanceByDate = async (
   const endOfDay = new Date(date);
   endOfDay.setHours(23, 59, 59, 999);
 
-  const snapshot = await movementsCollection
-    .where('userId', '==', user.uid)
-    .where('date', '>=', dateToTimestamp(startOfDay))
-    .where('date', '<=', dateToTimestamp(endOfDay))
-    .get();
+  const q = query(
+    movementsCollection,
+    where('userId', '==', user.uid),
+    where('date', '>=', dateToTimestamp(startOfDay)),
+    where('date', '<=', dateToTimestamp(endOfDay)),
+  );
+  const snapshot = await getDocs(q);
 
   let totalReceita = 0;
   let totalDespesa = 0;
 
-  snapshot.docs.forEach(doc => {
-    const data = doc.data() as Omit<Movement, 'id'>;
+  snapshot.docs.forEach(docSnap => {
+    const data = docSnap.data() as Omit<Movement, 'id'>;
     if (data.type === 'receita') {
       totalReceita += data.value;
     } else {

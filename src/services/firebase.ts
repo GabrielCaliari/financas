@@ -1,11 +1,17 @@
-// Firebase configuration and types
+// Firebase configuration and types - API modular (React Native Firebase v22+)
 import auth, {FirebaseAuthTypes} from '@react-native-firebase/auth';
-import firestore, {FirebaseFirestoreTypes} from '@react-native-firebase/firestore';
+import {
+  getFirestore,
+  collection,
+  doc,
+  Timestamp,
+  type FirebaseFirestoreTypes,
+} from '@react-native-firebase/firestore';
 import storage from '@react-native-firebase/storage';
 
 // Export Firebase instances
 export const firebaseAuth = auth;
-export const db = firestore();
+export const db = getFirestore();
 export const firebaseStorage = storage();
 
 // Types
@@ -31,16 +37,16 @@ export interface Movement {
   createdAt: FirebaseTimestamp;
 }
 
-// Collections references
-export const usersCollection = db.collection('users');
-export const movementsCollection = db.collection('movements');
+// Collection references (modular)
+export const usersCollection = collection(db, 'users');
+export const movementsCollection = collection(db, 'movements');
 
 // Helper to convert Firestore timestamp to Date
 export const timestampToDate = (timestamp: FirebaseTimestamp): Date => {
   return timestamp.toDate();
 };
 
-// Helper to convert Date to Firestore timestamp
+// Helper to convert Date to Firestore timestamp (modular)
 export const dateToTimestamp = (date: Date): FirebaseTimestamp => {
-  return firestore.Timestamp.fromDate(date);
+  return Timestamp.fromDate(date);
 };

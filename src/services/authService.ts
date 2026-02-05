@@ -1,11 +1,11 @@
 import {
   firebaseAuth,
-  usersCollection,
+  db,
   dateToTimestamp,
   User,
 } from './firebase';
 import {getAuth, onAuthStateChanged as onAuthStateChangedModular} from '@react-native-firebase/auth';
-import firestore from '@react-native-firebase/firestore';
+import {getDoc, setDoc, doc} from '@react-native-firebase/firestore';
 
 export interface AuthUser {
   id: string;
@@ -25,8 +25,8 @@ export const signInWithEmail = async (
   );
   const uid = userCredential.user.uid;
 
-  // Get user data from Firestore
-  const userDoc = await usersCollection.doc(uid).get();
+  // Get user data from Firestore (modular API)
+  const userDoc = await getDoc(doc(db, 'users', uid));
 
   if (!userDoc.exists) {
     throw new Error('Usuário não encontrado no banco de dados');
@@ -63,7 +63,7 @@ export const signUpWithEmail = async (
     createdAt: dateToTimestamp(new Date()),
   };
 
-  await usersCollection.doc(uid).set(userData);
+  await setDoc(doc(db, 'users', uid), userData);
 
   return {
     id: uid,
@@ -100,7 +100,7 @@ export const onAuthStateChanged = (
   return onAuthStateChangedModular(getAuth(), async firebaseUser => {
     if (firebaseUser) {
       try {
-        const userDoc = await usersCollection.doc(firebaseUser.uid).get();
+        const userDoc = await getDoc(doc(db, 'users', firebaseUser.uid));
         if (userDoc.exists) {
           const userData = userDoc.data() as User;
           callback({

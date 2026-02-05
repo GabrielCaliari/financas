@@ -1,4 +1,5 @@
-import {usersCollection, firebaseAuth, User} from './firebase';
+import {db, firebaseAuth, User} from './firebase';
+import {getDoc, updateDoc, doc} from '@react-native-firebase/firestore';
 
 export interface UserUpdateData {
   name?: string;
@@ -8,7 +9,7 @@ export interface UserUpdateData {
 
 // Get user data from Firestore
 export const getUserData = async (userId: string): Promise<User | null> => {
-  const userDoc = await usersCollection.doc(userId).get();
+  const userDoc = await getDoc(doc(db, 'users', userId));
 
   if (!userDoc.exists) {
     return null;
@@ -31,7 +32,7 @@ export const updateUserProfile = async (
   }
 
   // Update Firestore document
-  await usersCollection.doc(userId).update(data);
+  await updateDoc(doc(db, 'users', userId), data);
 
   // Update Firebase Auth profile if name changed
   if (data.name) {
