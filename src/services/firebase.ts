@@ -7,12 +7,13 @@ import {
   Timestamp,
   type FirebaseFirestoreTypes,
 } from '@react-native-firebase/firestore';
-import storage from '@react-native-firebase/storage';
+import {getApp} from '@react-native-firebase/app';
+import {getStorage} from '@react-native-firebase/storage';
 
-// Export Firebase instances
+// Export Firebase instances (modular API)
 export const firebaseAuth = auth;
 export const db = getFirestore();
-export const firebaseStorage = storage();
+export const firebaseStorage = getStorage(getApp());
 
 // Types
 export type FirebaseUser = FirebaseAuthTypes.User;

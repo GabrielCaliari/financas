@@ -3,8 +3,8 @@ import {
   dateToTimestamp,
   timestampToDate,
   Movement,
-  firebaseAuth,
 } from './firebase';
+import {getAuth} from '@react-native-firebase/auth';
 import {
   getDocs,
   addDoc,
@@ -37,7 +37,7 @@ export interface MovementDisplay {
 export const createMovement = async (
   data: MovementInput,
 ): Promise<string> => {
-  const user = firebaseAuth().currentUser;
+  const user = getAuth().currentUser;
   if (!user) {
     throw new Error('Usuário não autenticado');
   }
@@ -61,7 +61,7 @@ export const updateMovement = async (
   id: string,
   data: MovementInput,
 ): Promise<void> => {
-  const user = firebaseAuth().currentUser;
+  const user = getAuth().currentUser;
   if (!user) {
     throw new Error('Usuário não autenticado');
   }
@@ -77,7 +77,7 @@ export const updateMovement = async (
 
 // Delete a movement
 export const deleteMovement = async (id: string): Promise<void> => {
-  const user = firebaseAuth().currentUser;
+  const user = getAuth().currentUser;
   if (!user) {
     throw new Error('Usuário não autenticado');
   }
@@ -89,7 +89,7 @@ export const deleteMovement = async (id: string): Promise<void> => {
 export const getMovementsByDate = async (
   date: Date,
 ): Promise<MovementDisplay[]> => {
-  const user = firebaseAuth().currentUser;
+  const user = getAuth().currentUser;
   if (!user) {
     throw new Error('Usuário não autenticado');
   }
@@ -133,7 +133,7 @@ export const getMovementsByTypeAndDate = async (
   type: 'receita' | 'despesa',
   date: Date,
 ): Promise<MovementDisplay[]> => {
-  const user = firebaseAuth().currentUser;
+  const user = getAuth().currentUser;
   if (!user) {
     throw new Error('Usuário não autenticado');
   }
@@ -176,7 +176,7 @@ export const getMovementsByTypeAndDate = async (
 export const getBalanceByDate = async (
   date: Date,
 ): Promise<{saldo: number; tag: string}> => {
-  const user = firebaseAuth().currentUser;
+  const user = getAuth().currentUser;
   if (!user) {
     throw new Error('Usuário não autenticado');
   }

@@ -1,4 +1,5 @@
-import {db, firebaseAuth, User} from './firebase';
+import {db, User} from './firebase';
+import {getAuth, updateProfile, updateEmail} from '@react-native-firebase/auth';
 import {getDoc, updateDoc, doc} from '@react-native-firebase/firestore';
 
 export interface UserUpdateData {
@@ -26,29 +27,24 @@ export const updateUserProfile = async (
   userId: string,
   data: UserUpdateData,
 ): Promise<void> => {
-  const user = firebaseAuth().currentUser;
+  const user = getAuth().currentUser;
   if (!user) {
     throw new Error('Usuário não autenticado');
   }
 
-  // Update Firestore document
   await updateDoc(doc(db, 'users', userId), data);
 
-  // Update Firebase Auth profile if name changed
   if (data.name) {
-    await user.updateProfile({
-      displayName: data.name,
-    });
+    await updateProfile(user, {displayName: data.name});
   }
 
-  // Update email in Firebase Auth if changed
   if (data.email && data.email !== user.email) {
-    await user.updateEmail(data.email);
+    await updateEmail(user, data.email);
   }
 };
 
 // Get current user ID
 export const getCurrentUserId = (): string | null => {
-  const user = firebaseAuth().currentUser;
+  const user = getAuth().currentUser;
   return user ? user.uid : null;
 };

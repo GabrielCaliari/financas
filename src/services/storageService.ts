@@ -1,8 +1,9 @@
-import {firebaseStorage, firebaseAuth} from './firebase';
+import {firebaseStorage} from './firebase';
+import {getAuth} from '@react-native-firebase/auth';
 
 // Upload avatar image to Firebase Storage
 export const uploadAvatar = async (localUri: string): Promise<string> => {
-  const user = firebaseAuth().currentUser;
+  const user = getAuth().currentUser;
   if (!user) {
     throw new Error('Usuário não autenticado');
   }
@@ -21,7 +22,7 @@ export const uploadAvatar = async (localUri: string): Promise<string> => {
 
 // Delete avatar from Firebase Storage
 export const deleteAvatar = async (): Promise<void> => {
-  const user = firebaseAuth().currentUser;
+  const user = getAuth().currentUser;
   if (!user) {
     throw new Error('Usuário não autenticado');
   }

@@ -1,10 +1,14 @@
+import {db, dateToTimestamp, User} from './firebase';
 import {
-  firebaseAuth,
-  db,
-  dateToTimestamp,
-  User,
-} from './firebase';
-import {getAuth, onAuthStateChanged as onAuthStateChangedModular} from '@react-native-firebase/auth';
+  getAuth,
+  onAuthStateChanged as onAuthStateChangedModular,
+  signInWithEmailAndPassword as signInWithEmailAndPasswordModular,
+  createUserWithEmailAndPassword as createUserWithEmailAndPasswordModular,
+  signOut as signOutModular,
+  EmailAuthProvider,
+  reauthenticateWithCredential,
+  updatePassword as updatePasswordModular,
+} from '@react-native-firebase/auth';
 import {getDoc, setDoc, doc} from '@react-native-firebase/firestore';
 
 export interface AuthUser {
@@ -19,7 +23,8 @@ export const signInWithEmail = async (
   email: string,
   password: string,
 ): Promise<AuthUser> => {
-  const userCredential = await firebaseAuth().signInWithEmailAndPassword(
+  const userCredential = await signInWithEmailAndPasswordModular(
+    getAuth(),
     email,
     password,
   );
@@ -48,8 +53,9 @@ export const signUpWithEmail = async (
   password: string,
   name: string,
 ): Promise<AuthUser> => {
-  // Create user in Firebase Auth
-  const userCredential = await firebaseAuth().createUserWithEmailAndPassword(
+  // Create user in Firebase Auth (modular API)
+  const userCredential = await createUserWithEmailAndPasswordModular(
+    getAuth(),
     email,
     password,
   );
@@ -73,14 +79,14 @@ export const signUpWithEmail = async (
   };
 };
 
-// Sign out
+// Sign out (modular API)
 export const signOut = async (): Promise<void> => {
-  await firebaseAuth().signOut();
+  await signOutModular(getAuth());
 };
 
 // Get current user
 export const getCurrentUser = (): AuthUser | null => {
-  const firebaseUser = firebaseAuth().currentUser;
+  const firebaseUser = getAuth().currentUser;
   if (!firebaseUser) {
     return null;
   }
@@ -121,23 +127,20 @@ export const onAuthStateChanged = (
   });
 };
 
-// Update password
+// Update password (modular API)
 export const updatePassword = async (
   currentPassword: string,
   newPassword: string,
 ): Promise<void> => {
-  const user = firebaseAuth().currentUser;
+  const user = getAuth().currentUser;
   if (!user || !user.email) {
     throw new Error('Usuário não autenticado');
   }
 
-  // Re-authenticate user before changing password
-  const credential = firebaseAuth.EmailAuthProvider.credential(
+  const credential = EmailAuthProvider.credential(
     user.email,
     currentPassword,
   );
-  await user.reauthenticateWithCredential(credential);
-
-  // Update password
-  await user.updatePassword(newPassword);
+  await reauthenticateWithCredential(user, credential);
+  await updatePasswordModular(user, newPassword);
 };
