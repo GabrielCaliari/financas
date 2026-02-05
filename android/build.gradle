@@ -27,3 +27,16 @@ allprojects {
         mavenCentral()
     }
 }
+
+// Habilita buildConfig em bibliotecas que usam BuildConfig (ex: react-native-image-picker)
+subprojects { subproject ->
+    subproject.afterEvaluate {
+        if (subproject.plugins.hasPlugin("com.android.library")) {
+            subproject.android {
+                buildFeatures {
+                    buildConfig true
+                }
+            }
+        }
+    }
+}
