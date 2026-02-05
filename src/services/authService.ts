@@ -1,4 +1,10 @@
-import {firebaseAuth, usersCollection, dateToTimestamp, User} from './firebase';
+import {
+  firebaseAuth,
+  usersCollection,
+  dateToTimestamp,
+  User,
+} from './firebase';
+import {getAuth, onAuthStateChanged as onAuthStateChangedModular} from '@react-native-firebase/auth';
 import firestore from '@react-native-firebase/firestore';
 
 export interface AuthUser {
@@ -87,11 +93,11 @@ export const getCurrentUser = (): AuthUser | null => {
   };
 };
 
-// Listen to auth state changes
+// Listen to auth state changes (modular API - React Native Firebase v22+)
 export const onAuthStateChanged = (
   callback: (user: AuthUser | null) => void,
 ) => {
-  return firebaseAuth().onAuthStateChanged(async firebaseUser => {
+  return onAuthStateChangedModular(getAuth(), async firebaseUser => {
     if (firebaseUser) {
       try {
         const userDoc = await usersCollection.doc(firebaseUser.uid).get();
