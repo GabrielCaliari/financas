@@ -6,6 +6,7 @@ import {ThemeProvider as StyledThemeProvider} from 'styled-components/native';
 import Routes from './src/routes';
 import AuthProvider from './src/contexts/auth';
 import {ThemeProvider, useTheme} from './src/contexts/ThemeContext';
+import {ToastProvider} from './src/contexts/ToastContext';
 import {GestureHandlerRootView} from 'react-native-gesture-handler';
 
 function AppContent() {
@@ -13,11 +14,13 @@ function AppContent() {
   const {colors, isDark} = theme;
   return (
     <StyledThemeProvider theme={theme}>
-      <StatusBar
-        backgroundColor={colors.background}
-        barStyle={isDark ? 'light-content' : 'dark-content'}
-      />
-      <Routes />
+      <ToastProvider>
+        <StatusBar
+          backgroundColor={colors.background}
+          barStyle={isDark ? 'light-content' : 'dark-content'}
+        />
+        <Routes />
+      </ToastProvider>
     </StyledThemeProvider>
   );
 }
