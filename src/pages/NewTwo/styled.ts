@@ -1,40 +1,35 @@
 import styled from 'styled-components/native';
 
-// Estilo de fundo da tela
 export const Background = styled.View`
   flex: 1;
-  background-color: #121212;
+  background-color: ${props => props.theme?.colors?.background ?? '#121212'};
 `;
 
-// Estilo do campo de entrada de valor
 export const InputValue = styled.TextInput`
-  background-color: transparent; /* Fundo transparente */
-  font-size: 30px; /* Tamanho maior para o valor */
-  font-weight: bold; /* Deixar o valor em negrito */
-  color: #fff; /* Cor branca para o texto */
+  background-color: transparent;
+  font-size: 30px;
+  font-weight: ${props => props.theme?.typography?.weights?.bold ?? '700'};
+  color: ${props => props.theme?.colors?.text ?? '#FFFFFF'};
   margin-left: 10px;
-  width: 100%; /* Ocupa toda a largura */
+  width: 100%;
 `;
 
-// Estilo do botão de enviar
 export const SubmitButton = styled.TouchableOpacity`
   height: 50px;
   width: 90%;
   justify-content: center;
   align-items: center;
-  background-color: red;
+  background-color: ${props => props.theme?.colors?.expense ?? '#C62828'};
   border-radius: 4px;
   margin-top: 20px;
 `;
 
-// Estilo do texto do botão de enviar
 export const SubmitText = styled.Text`
-  color: white;
+  color: ${props => props.theme?.colors?.primaryContrast ?? '#FFFFFF'};
   font-size: 21px;
   font-weight: bold;
 `;
 
-// Estilo do botão de cancelar
 export const ButtonCancel = styled.TouchableOpacity`
   margin-left: 30px;
   align-items: center;
@@ -43,16 +38,14 @@ export const ButtonCancel = styled.TouchableOpacity`
   padding-top: 20px;
 `;
 
-// Estilo do texto do botão de cancelar
 export const ButtonText = styled.Text`
   font-size: 15px;
   align-items: center;
   justify-content: center;
   padding-top: 15px;
-  color: white;
+  color: ${props => props.theme?.colors?.text ?? '#FFFFFF'};
 `;
 
-// Estilo do cabeçalho da tela
 export const ViewHeader = styled.View`
   flex-direction: row;
   align-items: center;
@@ -61,7 +54,6 @@ export const ViewHeader = styled.View`
   padding-inline: 10px;
 `;
 
-// Estilo da área de entrada
 export const ViewInput = styled.View`
   height: 50px;
   width: 90%;
@@ -71,34 +63,30 @@ export const ViewInput = styled.View`
   margin-bottom: 14px;
   border-radius: 5px;
   flex-direction: row;
-  align-items: center; /* Alinhar o ícone e o input no centro vertical */
-  justify-content: flex-start; /* Alinhar ícone e input à esquerda */
+  align-items: center;
+  justify-content: flex-start;
 `;
 
-// Estilo do campo de entrada de descrição
 export const InputDescription = styled.TextInput`
-  flex: 1; /* Flexível para preencher o restante do espaço */
+  flex: 1;
   height: 100%;
   font-size: 17px;
   border-radius: 4px;
-  color: white;
+  color: ${props => props.theme?.colors?.text ?? '#FFFFFF'};
   padding-left: 10px;
 `;
 
-// Estilo da área para valor
 export const ViewValue = styled.View`
   margin-top: 10px;
   padding: 18px;
 `;
 
-// Estilo do texto do valor
 export const TextValue = styled.Text`
-  color: white;
-  font-size: 18px;
+  color: ${props => props.theme?.colors?.text ?? '#FFFFFF'};
+  font-size: ${props => props.theme?.typography?.sizes?.lg ?? 18}px;
   margin-left: 15px;
 `;
 
-// Estilo do container da carteira
 export const WalletInputContainer = styled.View`
   flex-direction: row;
   align-items: center;
@@ -107,11 +95,10 @@ export const WalletInputContainer = styled.View`
   padding-left: 22px;
 `;
 
-// Estilo do texto da carteira
 export const WalletInputText = styled.Text`
-  font-size: 18px;
-  color: white; /* Cor do texto */
-  margin-left: 10px; /* Espaçamento à esquerda do texto */
+  font-size: ${props => props.theme?.typography?.sizes?.lg ?? 18}px;
+  color: ${props => props.theme?.colors?.text ?? '#FFFFFF'};
+  margin-left: 10px;
 `;
 
 export const ViewPicker = styled.View`
@@ -120,7 +107,7 @@ export const ViewPicker = styled.View`
 
 export const AreaColor = styled.View`
   flex: 1;
-  background-color: #1e1e1e;
+  background-color: ${props => props.theme?.colors?.surface ?? '#1e1e1e'};
   margin-left: 14px;
   margin-right: 14px;
   margin-bottom: 50px;
@@ -129,7 +116,7 @@ export const AreaColor = styled.View`
 
 export const Separator = styled.View`
   height: 1px;
-  background-color: rgba(255, 255, 255, 0.3);
+  background-color: ${props => props.theme?.colors?.border ?? 'rgba(255, 255, 255, 0.3)'};
   width: 100%;
   position: absolute;
   bottom: 0;
@@ -140,22 +127,22 @@ export const PaymentOption = styled.View`
   padding: 10px;
   margin-bottom: 5px;
   align-items: center;
-  width: 140px; /* Diminuindo a largura da caixa */
+  width: 140px;
   border-radius: 5px;
   height: 40px;
-  background-color: #1e1e1e;
+  background-color: ${props => props.theme?.colors?.surface ?? '#1e1e1e'};
 `;
 
 export const SelectedPaymentOption = styled(PaymentOption)`
   margin-left: 10px;
   align-items: center;
   justify-content: center;
-  background-color: red;
+  background-color: ${props => props.theme?.colors?.expense ?? '#C62828'};
 `;
 
 export const PaymentText = styled.Text`
-  color: white;
-  font-size: 16px;
+  color: ${props => props.theme?.colors?.primaryContrast ?? '#FFFFFF'};
+  font-size: ${props => props.theme?.typography?.sizes?.body ?? 16}px;
 `;
 
 export const ViweFlat = styled.View`

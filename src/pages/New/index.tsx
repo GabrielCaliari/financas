@@ -33,6 +33,7 @@ import Back from 'react-native-vector-icons/Ionicons';
 import CustomModal from '../../components/CustomModal';
 import CustomModalDelete from '../../components/CustomModalDelete';
 import {createMovement, updateMovement} from '../../services/movementService';
+import {useTheme} from '../../contexts/ThemeContext';
 
 // As opções de método de pagamento
 const paymentMethods = ['Dinheiro', 'Crédito', 'Débito', 'Pix'] as const;
@@ -41,6 +42,7 @@ type PaymentMethod = (typeof paymentMethods)[number];
 const New = () => {
   const navigation = useNavigation();
   const route = useRoute();
+  const {colors} = useTheme();
   const [modalVisible, setModalVisible] = useState(false);
   const [errorModalVisible, setErrorModalVisible] = useState(false);
 
@@ -165,7 +167,7 @@ const New = () => {
       <Background>
         <ViewHeader>
           <ButtonCancel onPress={() => navigation.goBack()}>
-            <Back name="arrow-back" color="white" size={30} />
+            <Back name="arrow-back" color={colors.text} size={30} />
           </ButtonCancel>
           <Header titulo="Registrando" />
         </ViewHeader>
@@ -174,7 +176,7 @@ const New = () => {
           <TextValue>Valor da receita</TextValue>
           <InputValue
             placeholder="R$ 0,00"
-            placeholderTextColor="white"
+            placeholderTextColor={colors.textSecondary}
             keyboardType="numeric"
             autoFocus={true}
             value={displayValue}
@@ -189,13 +191,13 @@ const New = () => {
                 placeholder="Descrição desse registro"
                 value={labelInput}
                 onChangeText={text => setLabelInput(text)}
-                placeholderTextColor="white"
+                placeholderTextColor={colors.textSecondary}
               />
               <Separator />
             </ViewInput>
 
             <WalletInputContainer>
-              <Back name="wallet" size={20} color="white" />
+              <Back name="wallet" size={20} color={colors.text} />
               <WalletInputText>Selecionar :</WalletInputText>
 
               <FlatList
