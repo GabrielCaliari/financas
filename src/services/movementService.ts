@@ -22,6 +22,7 @@ export interface MovementInput {
   type: 'receita' | 'despesa';
   payment_method: 'Dinheiro' | 'Crédito' | 'Débito' | 'Pix';
   date: Date;
+  categoryId?: string | null;
 }
 
 export interface MovementDisplay {
@@ -31,6 +32,7 @@ export interface MovementDisplay {
   type: 'receita' | 'despesa';
   payment_method: 'Dinheiro' | 'Crédito' | 'Débito' | 'Pix';
   date: string; // formatted as dd/MM/yyyy
+  categoryId?: string | null;
 }
 
 // Create a new movement
@@ -42,7 +44,7 @@ export const createMovement = async (
     throw new Error('Usuário não autenticado');
   }
 
-  const movementData = {
+  const movementData: Record<string, unknown> = {
     userId: user.uid,
     description: data.description,
     value: data.value,
@@ -51,6 +53,7 @@ export const createMovement = async (
     date: dateToTimestamp(data.date),
     createdAt: dateToTimestamp(new Date()),
   };
+  if (data.categoryId != null) movementData.categoryId = data.categoryId;
 
   const docRef = await addDoc(movementsCollection, movementData);
   return docRef.id;
@@ -66,13 +69,15 @@ export const updateMovement = async (
     throw new Error('Usuário não autenticado');
   }
 
-  await updateDoc(doc(movementsCollection, id), {
+  const updates: Record<string, unknown> = {
     description: data.description,
     value: data.value,
     type: data.type,
     payment_method: data.payment_method,
     date: dateToTimestamp(data.date),
-  });
+  };
+  if (data.categoryId !== undefined) updates.categoryId = data.categoryId;
+  await updateDoc(doc(movementsCollection, id), updates);
 };
 
 // Delete a movement
@@ -124,6 +129,7 @@ export const getMovementsByDate = async (
       type: data.type,
       payment_method: data.payment_method,
       date: formattedDate,
+      categoryId: data.categoryId ?? null,
     };
   });
 };
@@ -168,6 +174,7 @@ export const getMovementsByTypeAndDate = async (
       type: data.type,
       payment_method: data.payment_method,
       date: formattedDate,
+      categoryId: data.categoryId ?? null,
     };
   });
 };

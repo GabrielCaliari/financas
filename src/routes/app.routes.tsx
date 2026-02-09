@@ -15,6 +15,10 @@ import BalanceR from '../pages/BalanceR';
 import BalanceD from '../pages/BalanceD';
 import UserProfileEdit from '../pages/UserProfileEdit';
 import Info from '../pages/Info';
+import Wallets from '../pages/Wallets';
+import WalletForm from '../pages/WalletForm';
+import CreditCards from '../pages/CreditCards';
+import CreditCardForm from '../pages/CreditCardForm';
 
 import { BottonCustom, ModalContainer, ModalContent } from '../components/CustomDrawer/styled';
 import { useTheme as useAppTheme } from '../contexts/ThemeContext';
@@ -208,6 +212,10 @@ function AppRoutes() {
       <Stack.Screen name="BalanceD" component={BalanceD} />
       <Stack.Screen name="ProfileEdit" component={UserProfileEdit} />
       <Stack.Screen name="Info" component={Info} />
+      <Stack.Screen name="Wallets" component={Wallets} />
+      <Stack.Screen name="WalletForm" component={WalletForm} />
+      <Stack.Screen name="CreditCards" component={CreditCards} />
+      <Stack.Screen name="CreditCardForm" component={CreditCardForm} />
     </Stack.Navigator>
   );
 }

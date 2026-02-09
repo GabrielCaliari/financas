@@ -27,6 +27,9 @@ import {
   Keyboard,
   FlatList,
   Alert,
+  View,
+  TouchableOpacity,
+  Text,
 } from 'react-native';
 import {useNavigation, useRoute} from '@react-navigation/native';
 import Back from 'react-native-vector-icons/Ionicons';
@@ -35,6 +38,7 @@ import CustomModalDelete from '../../components/CustomModalDelete';
 import {createMovement, updateMovement} from '../../services/movementService';
 import {useTheme} from '../../contexts/ThemeContext';
 import {useToast} from '../../contexts/ToastContext';
+import {useCategories} from '../../hooks/useCategories';
 
 // As opções de método de pagamento
 const paymentMethods = ['Dinheiro', 'Crédito', 'Débito', 'Pix'] as const;
@@ -81,6 +85,11 @@ const New = () => {
   const [paymentMethod, setPaymentMethod] = useState<PaymentMethod>(
     route.params?.payment_method || 'Dinheiro',
   );
+  const [categoryId, setCategoryId] = useState<string | null>(
+    (route.params as {categoryId?: string})?.categoryId ?? null,
+  );
+
+  const {categories} = useCategories('receita');
 
   // Define `isEditing` como true se estivermos no modo de edição
   useEffect(() => {
@@ -128,6 +137,7 @@ const New = () => {
         type,
         payment_method: paymentMethod,
         date: new Date(),
+        categoryId: categoryId || undefined,
       };
 
       if (isEditing && route.params?.id) {
@@ -141,7 +151,7 @@ const New = () => {
       setLabelInput('');
       setDisplayValue('');
       setNumericValue('');
-      navigation.navigate('Home', {update: true});
+      navigation.navigate('Dashboard', {update: true});
     } catch (error) {
       Alert.alert('Erro', 'Ocorreu um erro ao registrar a receita');
     }
@@ -197,6 +207,49 @@ const New = () => {
               />
               <Separator />
             </ViewInput>
+
+            <View style={{width: '90%', marginBottom: 14}}>
+              <Text style={{fontSize: 14, color: colors.textSecondary, marginBottom: 8}}>
+                Categoria
+              </Text>
+              <View style={{flexDirection: 'row', flexWrap: 'wrap', gap: 8}}>
+                <TouchableOpacity
+                  onPress={() => setCategoryId(null)}
+                  style={{
+                    paddingVertical: 8,
+                    paddingHorizontal: 12,
+                    borderRadius: 8,
+                    backgroundColor: categoryId === null ? colors.primary : colors.surface,
+                  }}>
+                  <Text
+                    style={{
+                      fontSize: 14,
+                      color: categoryId === null ? colors.primaryContrast : colors.text,
+                    }}>
+                    Nenhuma
+                  </Text>
+                </TouchableOpacity>
+                {categories.map(cat => (
+                  <TouchableOpacity
+                    key={cat.id}
+                    onPress={() => setCategoryId(cat.id)}
+                    style={{
+                      paddingVertical: 8,
+                      paddingHorizontal: 12,
+                      borderRadius: 8,
+                      backgroundColor: categoryId === cat.id ? colors.primary : colors.surface,
+                    }}>
+                    <Text
+                      style={{
+                        fontSize: 14,
+                        color: categoryId === cat.id ? colors.primaryContrast : colors.text,
+                      }}>
+                      {cat.name}
+                    </Text>
+                  </TouchableOpacity>
+                ))}
+              </View>
+            </View>
 
             <WalletInputContainer>
               <Back name="wallet" size={20} color={colors.text} />

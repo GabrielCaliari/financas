@@ -36,6 +36,8 @@ export interface Movement {
   payment_method: 'Dinheiro' | 'Crédito' | 'Débito' | 'Pix';
   date: FirebaseTimestamp;
   createdAt: FirebaseTimestamp;
+  /** Opcional: id da categoria (modelagem evoluída) */
+  categoryId?: string | null;
 }
 
 // Collection references (modular)

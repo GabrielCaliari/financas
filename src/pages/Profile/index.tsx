@@ -26,6 +26,8 @@ import Back from 'react-native-vector-icons/Ionicons';
 import IconUser from 'react-native-vector-icons/AntDesign';
 import IconInfo from 'react-native-vector-icons/Feather';
 import IconLogOut from 'react-native-vector-icons/Feather';
+import IconWallet from 'react-native-vector-icons/MaterialIcons';
+import IconCreditCard from 'react-native-vector-icons/MaterialIcons';
 
 const Profile = () => {
   const {user, signOut} = useContext(AuthContext);
@@ -38,6 +40,14 @@ const Profile = () => {
 
   const handleInfo = () => {
     navigation.navigate('Info');
+  };
+
+  const handleWallets = () => {
+    navigation.navigate('Wallets');
+  };
+
+  const handleCreditCards = () => {
+    navigation.navigate('CreditCards');
   };
 
   return (
@@ -96,6 +106,32 @@ const Profile = () => {
           />
           <EditButton onPress={handleEditProfile}>
             <EditText>Editar perfil</EditText>
+          </EditButton>
+          <Separator />
+        </ViewInput>
+
+        <ViewInput>
+          <IconWallet
+            name="account-balance-wallet"
+            size={20}
+            color={colors.text}
+            style={{paddingTop: 2, paddingRight: 8}}
+          />
+          <EditButton onPress={handleWallets}>
+            <EditText>Carteiras</EditText>
+          </EditButton>
+          <Separator />
+        </ViewInput>
+
+        <ViewInput>
+          <IconCreditCard
+            name="credit-card"
+            size={20}
+            color={colors.text}
+            style={{paddingTop: 2, paddingRight: 8}}
+          />
+          <EditButton onPress={handleCreditCards}>
+            <EditText>Cartões</EditText>
           </EditButton>
           <Separator />
         </ViewInput>
