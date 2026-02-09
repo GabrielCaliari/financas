@@ -25,6 +25,7 @@ import {KeyboardAwareScrollView} from 'react-native-keyboard-aware-scroll-view';
 import CustomModalUpdate from '../../components/CustomModalUpdate';
 import {uploadAvatar} from '../../services/storageService';
 import {updatePassword} from '../../services/authService';
+import {useTheme} from '../../contexts/ThemeContext';
 
 interface IFormInputs {
   name: string;
@@ -58,6 +59,7 @@ const formSchema = yup.object({
 
 const UserProfileEdit = () => {
   const navigation = useNavigation();
+  const {colors} = useTheme();
   const [currentSecure, setCurrentSecure] = useState(true);
   const [confirmSecure, setConfirmSecure] = useState(true);
   const [confirmAgainSecure, setConfirmAgainSecure] = useState(true);
@@ -149,11 +151,11 @@ const UserProfileEdit = () => {
 
   return (
     <>
-      <KeyboardAwareScrollView style={{backgroundColor: '#121212'}}>
+      <KeyboardAwareScrollView style={{backgroundColor: colors.background}}>
         <Container>
           <ViewHeader>
             <ButtonCancel onPress={() => navigation.goBack()}>
-              <Back name="arrow-back" color="white" size={30} />
+              <Back name="arrow-back" color={colors.text} size={30} />
             </ButtonCancel>
             <Header titulo="Edição de perfil" />
           </ViewHeader>
@@ -171,7 +173,8 @@ const UserProfileEdit = () => {
                 control={control}
                 name="name"
                 placeholder="Nome completo"
-                textColor="white"
+                textColor={colors.text}
+                placeholderTextColor={colors.textSecondary}
               />
               <ErrorTextWrapper>{errors.name?.message}</ErrorTextWrapper>
             </ViewDescription>
@@ -185,7 +188,8 @@ const UserProfileEdit = () => {
                 name="email"
                 placeholder="Email"
                 keyboardType="email-address"
-                textColor="white"
+                textColor={colors.text}
+                placeholderTextColor={colors.textSecondary}
               />
               <ErrorTextWrapper>{errors.email?.message}</ErrorTextWrapper>
             </ViewDescription>
@@ -200,13 +204,14 @@ const UserProfileEdit = () => {
                 control={control}
                 name="currentPassword"
                 placeholder="********"
-                textColor="white"
+                textColor={colors.text}
+                placeholderTextColor={colors.textSecondary}
               />
               <IconEye
                 onPress={handleOnPressEye}
                 name={currentSecure ? 'eye-off' : 'eye'}
                 size={20}
-                color="white"
+                color={colors.text}
               />
               <ErrorTextWrapper>
                 {errors.currentPassword?.message}
@@ -222,13 +227,14 @@ const UserProfileEdit = () => {
                 control={control}
                 name="newPassword"
                 placeholder="********"
-                textColor="white"
+                textColor={colors.text}
+                placeholderTextColor={colors.textSecondary}
               />
               <IconEye
                 onPress={handleOnPressConfirmEye}
                 name={confirmSecure ? 'eye-off' : 'eye'}
                 size={20}
-                color="white"
+                color={colors.text}
               />
               <ErrorTextWrapper>{errors.newPassword?.message}</ErrorTextWrapper>
             </ViewDescription>
@@ -242,13 +248,14 @@ const UserProfileEdit = () => {
                 control={control}
                 name="confirmPassword"
                 placeholder="********"
-                textColor="white"
+                textColor={colors.text}
+                placeholderTextColor={colors.textSecondary}
               />
               <IconEye
                 onPress={handleOnPressConfirmAgainEye}
                 name={confirmAgainSecure ? 'eye-off' : 'eye'}
                 size={20}
-                color="white"
+                color={colors.text}
               />
               <ErrorTextWrapper>
                 {errors.confirmPassword?.message}

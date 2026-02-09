@@ -6,7 +6,7 @@ import {
   ModalContent,
   ButtonFilter,
 } from './styled';
-
+import {useTheme} from '../../contexts/ThemeContext';
 import {Calendar, LocaleConfig} from 'react-native-calendars';
 import {ptBR} from './localeCalendar';
 
@@ -14,6 +14,7 @@ LocaleConfig.locales['pt-br'] = ptBR;
 LocaleConfig.defaultLocale = 'pt-br';
 
 const CalendarModal = ({setVisible, handleFilter}) => {
+  const {colors} = useTheme();
   const [dateNow, setDateNow] = useState(new Date());
   const [markeddates, setMarkedDates] = useState({});
 
@@ -24,8 +25,8 @@ const CalendarModal = ({setVisible, handleFilter}) => {
 
     markedDay[date.dateString] = {
       selected: true,
-      selectedColor: '#3b3dbf',
-      textColor: '#FFF',
+      selectedColor: colors.primary,
+      textColor: colors.primaryContrast,
     };
     setMarkedDates(markedDay);
   }
@@ -47,9 +48,9 @@ const CalendarModal = ({setVisible, handleFilter}) => {
           markedDates={markeddates}
           enableSwipeMonths={true}
           theme={{
-            todayTextColor: '#F00f00',
-            selectedDayBackgroundColor: '#00adf5',
-            selectedDayTextColor: '#FFF',
+            todayTextColor: colors.error,
+            selectedDayBackgroundColor: colors.primary,
+            selectedDayTextColor: colors.primaryContrast,
           }}
         />
         <ButtonFilter onPress={handleFilterDate}>

@@ -7,13 +7,15 @@ interface Props extends TextInputProps {
   control: Control;
   name: string;
   error?: string;
-  textColor?: string; // Nova propriedade para definir a cor do texto
+  textColor?: string;
+  placeholderTextColor?: string;
 }
 
 export const InputControl: React.FunctionComponent<Props> = ({
   control,
   name,
-  textColor = 'black', // Cor padrão é preto
+  textColor = 'black',
+  placeholderTextColor,
   ...otherProps
 }) => {
   return (
@@ -25,8 +27,8 @@ export const InputControl: React.FunctionComponent<Props> = ({
             onChangeText={onChange}
             value={value}
             {...otherProps}
-            placeholderTextColor="white"
-            style={{color: textColor}} // Aplica a cor do texto
+            placeholderTextColor={placeholderTextColor}
+            style={{color: textColor}}
           />
         )}
         name={name}

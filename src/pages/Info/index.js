@@ -1,12 +1,94 @@
-import React from 'react';
+import React, {useMemo} from 'react';
 import {Text, View, StyleSheet, TouchableOpacity} from 'react-native';
 import {ScrollView} from 'react-native-gesture-handler';
 import Back from 'react-native-vector-icons/Ionicons';
 import Header from '../../components/Header';
 import {useNavigation} from '@react-navigation/native';
+import {useTheme} from '../../contexts/ThemeContext';
 
 const Info = () => {
   const navigation = useNavigation();
+  const {colors, typography} = useTheme();
+  const styles = useMemo(
+    () =>
+      StyleSheet.create({
+        container: {
+          flex: 1,
+          padding: 20,
+          backgroundColor: colors.background,
+        },
+        heading: {
+          fontSize: typography.sizes.headline,
+          fontWeight: typography.weights.bold,
+          marginBottom: 10,
+          color: colors.text,
+        },
+        subHeading: {
+          fontSize: typography.sizes.body,
+          marginBottom: 15,
+          color: colors.text,
+        },
+        paragraph: {
+          fontSize: typography.sizes.sm,
+          marginBottom: 10,
+          lineHeight: 20,
+          color: colors.text,
+        },
+        sectionHeading: {
+          fontSize: typography.sizes.title,
+          fontWeight: typography.weights.bold,
+          marginTop: 15,
+          marginBottom: 10,
+          color: colors.text,
+        },
+        subSectionHeading: {
+          fontSize: typography.sizes.lg,
+          fontWeight: typography.weights.bold,
+          marginBottom: 5,
+          color: colors.text,
+        },
+        listItem: {
+          flexDirection: 'row',
+          marginBottom: 8,
+        },
+        listText: {
+          fontSize: typography.sizes.sm,
+          lineHeight: 20,
+          color: colors.text,
+        },
+        bold: {
+          fontWeight: typography.weights.bold,
+          color: colors.text,
+        },
+        link: {
+          color: colors.primary,
+          textDecorationLine: 'underline',
+        },
+        email: {
+          flexDirection: 'row',
+          marginBottom: 38,
+        },
+        buttoncancel: {
+          position: 'absolute',
+          left: 10,
+          top: 20,
+          alignItems: 'center',
+          justifyContent: 'center',
+          paddingTop: 10,
+          paddingBottom: 10,
+        },
+        viewheader: {
+          flexDirection: 'row',
+          alignItems: 'center',
+          marginTop: 5,
+          marginBottom: 20,
+          paddingLeft: 3,
+          width: '100%',
+          justifyContent: 'space-between',
+        },
+      }),
+    [colors, typography],
+  );
 
   return (
     <ScrollView style={styles.container}>
@@ -14,7 +96,7 @@ const Info = () => {
         <TouchableOpacity
           onPress={() => navigation.goBack()}
           style={styles.buttoncancel}>
-          <Back name="arrow-back" color="white" size={30} />
+          <Back name="arrow-back" color={colors.text} size={30} />
         </TouchableOpacity>
         <Header titulo="Sobre" />
       </View>
@@ -147,84 +229,5 @@ const Info = () => {
     </ScrollView>
   );
 };
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    padding: 20,
-    backgroundColor: '#121212',
-  },
-  heading: {
-    fontSize: 24,
-    fontWeight: 'bold',
-    marginBottom: 10,
-    color: 'white',
-  },
-  subHeading: {
-    fontSize: 16,
-    marginBottom: 15,
-    color: 'white',
-  },
-  paragraph: {
-    fontSize: 14,
-    marginBottom: 10,
-    lineHeight: 20,
-    color: 'white',
-  },
-  sectionHeading: {
-    fontSize: 20,
-    fontWeight: 'bold',
-    marginTop: 15,
-    marginBottom: 10,
-    color: 'white',
-  },
-  subSectionHeading: {
-    fontSize: 18,
-    fontWeight: 'bold',
-    marginBottom: 5,
-    color: 'white',
-  },
-  listItem: {
-    flexDirection: 'row',
-    marginBottom: 8,
-    color: 'white',
-  },
-  listText: {
-    fontSize: 14,
-    lineHeight: 20,
-    color: 'white',
-  },
-  bold: {
-    fontWeight: 'bold',
-    color: 'white',
-  },
-  link: {
-    color: 'blue',
-    textDecorationLine: 'underline',
-  },
-  email: {
-    flexDirection: 'row',
-    marginBottom: 38,
-    color: 'white',
-  },
-  buttoncancel: {
-    position: 'absolute',
-    left: 10,
-    top: 20,
-    alignItems: 'center',
-    justifyContent: 'center',
-    paddingTop: 10,
-    paddingBottom: 10,
-  },
-  viewheader: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    marginTop: 5,
-    marginBottom: 20,
-    paddingLeft: 3,
-    width: '100%',
-    justifyContent: 'space-between',
-  },
-});
 
 export default Info;
