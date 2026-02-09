@@ -1,4 +1,5 @@
 import React, {useContext} from 'react';
+import {Switch, View} from 'react-native';
 import {
   ButtonCancel,
   Container,
@@ -29,7 +30,7 @@ import IconLogOut from 'react-native-vector-icons/Feather';
 const Profile = () => {
   const {user, signOut} = useContext(AuthContext);
   const navigation = useNavigation();
-  const {colors} = useTheme();
+  const {colors, isDark, toggleTheme} = useTheme();
 
   const handleEditProfile = () => {
     navigation.navigate('ProfileEdit');
@@ -66,6 +67,24 @@ const Profile = () => {
       <Message>Hey, bem vindo de volta!</Message>
 
       <Name numberOfLines={1}>{user && user.name}</Name>
+
+      <View
+        style={{
+          flexDirection: 'row',
+          alignItems: 'center',
+          justifyContent: 'space-between',
+          width: '90%',
+          marginBottom: 16,
+          paddingHorizontal: 4,
+        }}>
+        <EditText>Modo escuro</EditText>
+        <Switch
+          value={isDark}
+          onValueChange={toggleTheme}
+          trackColor={{false: colors.border, true: colors.primary}}
+          thumbColor={colors.primaryContrast}
+        />
+      </View>
 
       <Area>
         <ViewInput>
