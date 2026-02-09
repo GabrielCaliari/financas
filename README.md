@@ -133,7 +133,7 @@ Você também pode incluir screenshots do app na pasta do repositório e referen
 - [ ] Gráficos e relatórios (resumo mensal, por categoria)
 - [X] Categorias personalizadas para receitas e despesas
 - [ ] Exportar dados (PDF, planilha)
-- [ ] Modo escuro
+- [X] Modo escuro (em implementação no redesign)
 - [ ] Metas e orçamento mensal
 - [ ] Lembretes de contas (notificações)
 - [ ] Suporte a múltiplas contas/carteiras

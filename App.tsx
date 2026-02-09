@@ -4,17 +4,32 @@ import {StatusBar} from 'react-native';
 import {NavigationContainer} from '@react-navigation/native';
 import Routes from './src/routes';
 import AuthProvider from './src/contexts/auth';
+import {ThemeProvider, useTheme} from './src/contexts/ThemeContext';
 import {GestureHandlerRootView} from 'react-native-gesture-handler';
+
+function AppContent() {
+  const {colors, isDark} = useTheme();
+  return (
+    <>
+      <StatusBar
+        backgroundColor={colors.background}
+        barStyle={isDark ? 'light-content' : 'dark-content'}
+      />
+      <Routes />
+    </>
+  );
+}
 
 const App = () => {
   return (
     <GestureHandlerRootView style={{flex: 1}}>
-      <NavigationContainer>
-        <AuthProvider>
-          <StatusBar backgroundColor="#F0F4FF" barStyle="dark-content" />
-          <Routes />
-        </AuthProvider>
-      </NavigationContainer>
+      <ThemeProvider>
+        <NavigationContainer>
+          <AuthProvider>
+            <AppContent />
+          </AuthProvider>
+        </NavigationContainer>
+      </ThemeProvider>
     </GestureHandlerRootView>
   );
 };
