@@ -20,9 +20,11 @@ import {Alert, Modal, TouchableOpacity} from 'react-native';
 import Icon from 'react-native-vector-icons/EvilIcons';
 import HistoricList from '../../components/HistoricList';
 import CalendarModal from '../../components/CalendarModal';
+import EmptyState from '../../components/EmptyState';
 import notifee, {AuthorizationStatus} from '@notifee/react-native';
 import {AuthContext} from '../../contexts/auth';
 import {useTheme} from '../../contexts/ThemeContext';
+import {useToast} from '../../contexts/ToastContext';
 import {
   getMovementsByDate,
   getBalanceByDate,
@@ -33,6 +35,7 @@ import {
 const Home = () => {
   const navigation = useNavigation();
   const {colors} = useTheme();
+  const toast = useToast();
   const [modalVisible, setModalVisible] = useState(false);
   const [listBalance, setListBalance] = useState<{saldo: number; tag: string}[]>([]);
   const [dateMovements, setDateMovements] = useState(new Date());
@@ -74,7 +77,8 @@ const Home = () => {
   async function handleDelete(id: string) {
     try {
       await deleteMovement(id);
-      fetchMovements(); // Recarregar movimentações
+      fetchMovements();
+      toast.show('Movimentação excluída');
     } catch (err) {
       Alert.alert('Erro', 'Não foi possível excluir a movimentação.');
     }
@@ -172,8 +176,15 @@ const Home = () => {
           </TouchableOpacity>
         )}
         showsVerticalScrollIndicator={false}
-        contentContainerStyle={{paddingBottom: 20}}
+        contentContainerStyle={{paddingBottom: 20, flexGrow: 1}}
         ItemSeparatorComponent={() => <Separator />}
+        ListEmptyComponent={
+          <EmptyState
+            icon="receipt-long"
+            title="Nenhuma movimentação"
+            message="Não há movimentações neste período. Use o calendário para escolher outra data ou adicione uma nova receita ou despesa."
+          />
+        }
       />
 
       <Modal visible={modalVisible} animationType="fade" transparent={true}>
