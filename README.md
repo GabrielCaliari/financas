@@ -47,6 +47,8 @@ Você também pode incluir screenshots do app na pasta do repositório e referen
 
 ### 🔔 Outros
 
+- **Modo escuro** – Tema claro ou escuro selecionável no Perfil (preferência salva localmente)
+- **Feedback visual** – Toast ao registrar, editar ou excluir movimentações
 - **Notificações** – Suporte a permissões (Notifee)
 - **Dados em nuvem** – Sincronização via Firebase Firestore e Storage
 
@@ -133,7 +135,7 @@ Você também pode incluir screenshots do app na pasta do repositório e referen
 - [ ] Gráficos e relatórios (resumo mensal, por categoria)
 - [X] Categorias personalizadas para receitas e despesas
 - [ ] Exportar dados (PDF, planilha)
-- [X] Modo escuro (em implementação no redesign)
+- [X] Modo escuro (tema claro/escuro selecionável no Perfil)
 - [ ] Metas e orçamento mensal
 - [ ] Lembretes de contas (notificações)
 - [ ] Suporte a múltiplas contas/carteiras
@@ -144,10 +146,11 @@ Você também pode incluir screenshots do app na pasta do repositório e referen
 ```
 src/
 ├── assets/          # Imagens (logo, avatar, cover)
-├── components/      # Componentes reutilizáveis (Header, modais, calendário, listas, etc.)
-├── contexts/       # Contexto de autenticação (AuthContext)
+├── components/      # Componentes reutilizáveis (Header, modais, calendário, listas, EmptyState, etc.)
+├── contexts/       # AuthContext, ThemeContext (tema claro/escuro), ToastContext (feedback)
 ├── pages/          # Telas (Home, SignIn, SignUp, New, Profile, BalanceR, BalanceD, etc.)
 ├── routes/         # Rotas (auth e app com tabs e stack)
+├── theme/          # Cores, espaçamento e tipografia (tema claro e escuro)
 └── services/       # Serviços (Firebase, auth, movimentações, usuário, storage)
 ```
 
