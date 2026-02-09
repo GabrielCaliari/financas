@@ -15,6 +15,7 @@ import CalendarModal from '../../components/CalendarModal';
 import Back from 'react-native-vector-icons/Ionicons';
 import FilterD from '../../components/FilterD';
 import Separator from '../../components/Separator';
+import EmptyState from '../../components/EmptyState';
 import {
   getMovementsByTypeAndDate,
   MovementDisplay,
@@ -77,8 +78,15 @@ const BalanceD = () => {
         keyExtractor={item => item.id}
         renderItem={({item}) => <FilterD data={item} />}
         showsVerticalScrollIndicator={false}
-        contentContainerStyle={{paddingHorizontal: 10, paddingBottom: 20}}
+        contentContainerStyle={{paddingHorizontal: 10, paddingBottom: 20, flexGrow: 1}}
         ItemSeparatorComponent={Separator}
+        ListEmptyComponent={
+          <EmptyState
+            icon="trending-down"
+            title="Nenhuma despesa"
+            message="Não há despesas registradas para a data selecionada. Altere a data pelo calendário ou adicione uma nova despesa."
+          />
+        }
       />
 
       <Modal visible={modalVisible} animationType="fade" transparent={true}>

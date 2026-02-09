@@ -15,6 +15,7 @@ import Icon from 'react-native-vector-icons/EvilIcons';
 import CalendarModal from '../../components/CalendarModal';
 import Back from 'react-native-vector-icons/Ionicons';
 import Separator from '../../components/Separator';
+import EmptyState from '../../components/EmptyState';
 import {
   getMovementsByTypeAndDate,
   MovementDisplay,
@@ -77,8 +78,15 @@ const BalanceR = () => {
         keyExtractor={item => item.id}
         renderItem={({item}) => <FilterR data={item} />}
         showsVerticalScrollIndicator={false}
-        contentContainerStyle={{paddingHorizontal: 10, paddingBottom: 20}}
+        contentContainerStyle={{paddingHorizontal: 10, paddingBottom: 20, flexGrow: 1}}
         ItemSeparatorComponent={Separator}
+        ListEmptyComponent={
+          <EmptyState
+            icon="trending-up"
+            title="Nenhuma receita"
+            message="Não há receitas registradas para a data selecionada. Altere a data pelo calendário ou adicione uma nova receita."
+          />
+        }
       />
 
       <Modal visible={modalVisible} animationType="fade" transparent={true}>

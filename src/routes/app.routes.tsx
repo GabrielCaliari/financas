@@ -5,7 +5,7 @@ import Home from '../pages/Home';
 import New from '../pages/New';
 import Profile from '../pages/Profile';
 import Icon from 'react-native-vector-icons/MaterialIcons';
-import {Modal, Text, TouchableOpacity} from 'react-native';
+import {Modal, Text, TouchableOpacity, View} from 'react-native';
 import {useNavigation} from '@react-navigation/native';
 import {useTheme} from '../contexts/ThemeContext';
 
@@ -113,40 +113,90 @@ function Tabs() {
           <ModalContent>
             <Text
               style={{
-                fontSize: typography.sizes.lg,
-                marginBottom: 20,
+                fontSize: typography.sizes.title,
+                marginBottom: 8,
                 color: colors.text,
                 fontWeight: typography.weights.semibold,
               }}>
-              Adicionar:
+              O que deseja adicionar?
+            </Text>
+            <Text
+              style={{
+                fontSize: typography.sizes.sm,
+                marginBottom: 24,
+                color: colors.textSecondary,
+              }}>
+              Escolha o tipo de movimentação
             </Text>
 
             <TouchableOpacity
-              style={{marginVertical: 10}}
+              style={{
+                flexDirection: 'row',
+                alignItems: 'center',
+                marginVertical: 12,
+                paddingVertical: 12,
+                paddingHorizontal: 4,
+              }}
+              activeOpacity={0.7}
               onPress={() => {
                 setModalVisible(false);
                 navigation.navigate('Receita', {type: 'receita'});
               }}>
-              <Text style={{fontSize: typography.sizes.body, color: colors.text}}>
-                ➕ Receita
+              <Icon
+                name="add-circle-outline"
+                size={24}
+                color={colors.income}
+                style={{marginRight: 12}}
+              />
+              <Text
+                style={{
+                  fontSize: typography.sizes.body,
+                  color: colors.text,
+                  fontWeight: typography.weights.medium,
+                }}>
+                Receita
               </Text>
             </TouchableOpacity>
 
             <TouchableOpacity
-              style={{marginVertical: 10}}
+              style={{
+                flexDirection: 'row',
+                alignItems: 'center',
+                marginVertical: 12,
+                paddingVertical: 12,
+                paddingHorizontal: 4,
+              }}
+              activeOpacity={0.7}
               onPress={() => {
                 setModalVisible(false);
                 navigation.navigate('Despesa', {type: 'despesa'});
               }}>
-              <Text style={{fontSize: typography.sizes.body, color: colors.text}}>
-                ➖ Despesa
+              <Icon
+                name="remove-circle-outline"
+                size={24}
+                color={colors.expense}
+                style={{marginRight: 12}}
+              />
+              <Text
+                style={{
+                  fontSize: typography.sizes.body,
+                  color: colors.text,
+                  fontWeight: typography.weights.medium,
+                }}>
+                Despesa
               </Text>
             </TouchableOpacity>
 
             <TouchableOpacity
-              style={{marginTop: 20}}
+              style={{marginTop: 24, paddingVertical: 8}}
               onPress={() => setModalVisible(false)}>
-              <Text style={{color: colors.error}}>Cancelar</Text>
+              <Text
+                style={{
+                  fontSize: typography.sizes.sm,
+                  color: colors.textSecondary,
+                }}>
+                Cancelar
+              </Text>
             </TouchableOpacity>
           </ModalContent>
         </ModalContainer>

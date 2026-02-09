@@ -34,6 +34,7 @@ import CustomModal from '../../components/CustomModal';
 import CustomModalDelete from '../../components/CustomModalDelete';
 import {createMovement, updateMovement} from '../../services/movementService';
 import {useTheme} from '../../contexts/ThemeContext';
+import {useToast} from '../../contexts/ToastContext';
 
 // As opções de método de pagamento
 const paymentMethods = ['Dinheiro', 'Crédito', 'Débito', 'Pix'] as const;
@@ -43,6 +44,7 @@ const New = () => {
   const navigation = useNavigation();
   const route = useRoute();
   const {colors} = useTheme();
+  const toast = useToast();
   const [modalVisible, setModalVisible] = useState(false);
   const [errorModalVisible, setErrorModalVisible] = useState(false);
 
@@ -129,11 +131,11 @@ const New = () => {
       };
 
       if (isEditing && route.params?.id) {
-        // Atualiza a receita existente
         await updateMovement(route.params.id, movementData);
+        toast.show('Receita atualizada');
       } else {
-        // Cria uma nova receita
         await createMovement(movementData);
+        toast.show('Receita registrada');
       }
 
       setLabelInput('');

@@ -34,6 +34,7 @@ import CustomModal from '../../components/CustomModal';
 import CustomModalDelete from '../../components/CustomModalDelete';
 import {createMovement, updateMovement} from '../../services/movementService';
 import {useTheme} from '../../contexts/ThemeContext';
+import {useToast} from '../../contexts/ToastContext';
 
 // As opções de método de pagamento
 const paymentMethods = ['Dinheiro', 'Crédito', 'Débito', 'Pix'] as const;
@@ -43,6 +44,7 @@ const NewTwo = () => {
   const navigation = useNavigation();
   const route = useRoute();
   const {colors} = useTheme();
+  const toast = useToast();
   const [modalVisible, setModalVisible] = useState(false);
   const [errorModalVisible, setErrorModalVisible] = useState(false);
 
@@ -129,11 +131,11 @@ const NewTwo = () => {
       };
 
       if (isEditing && route.params?.id) {
-        // Atualiza a despesa existente
         await updateMovement(route.params.id, movementData);
+        toast.show('Despesa atualizada');
       } else {
-        // Cria uma nova despesa
         await createMovement(movementData);
+        toast.show('Despesa registrada');
       }
 
       setLabelInput('');
