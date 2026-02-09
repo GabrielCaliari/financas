@@ -19,6 +19,8 @@ import Wallets from '../pages/Wallets';
 import WalletForm from '../pages/WalletForm';
 import CreditCards from '../pages/CreditCards';
 import CreditCardForm from '../pages/CreditCardForm';
+import Categories from '../pages/Categories';
+import CategoryForm from '../pages/CategoryForm';
 
 import { BottonCustom, ModalContainer, ModalContent } from '../components/CustomDrawer/styled';
 import { useTheme as useAppTheme } from '../contexts/ThemeContext';
@@ -216,6 +218,8 @@ function AppRoutes() {
       <Stack.Screen name="WalletForm" component={WalletForm} />
       <Stack.Screen name="CreditCards" component={CreditCards} />
       <Stack.Screen name="CreditCardForm" component={CreditCardForm} />
+      <Stack.Screen name="Categories" component={Categories} />
+      <Stack.Screen name="CategoryForm" component={CategoryForm} />
     </Stack.Navigator>
   );
 }

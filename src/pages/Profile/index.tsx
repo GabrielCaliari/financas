@@ -28,6 +28,7 @@ import IconInfo from 'react-native-vector-icons/Feather';
 import IconLogOut from 'react-native-vector-icons/Feather';
 import IconWallet from 'react-native-vector-icons/MaterialIcons';
 import IconCreditCard from 'react-native-vector-icons/MaterialIcons';
+import IconCategory from 'react-native-vector-icons/MaterialIcons';
 
 const Profile = () => {
   const {user, signOut} = useContext(AuthContext);
@@ -48,6 +49,10 @@ const Profile = () => {
 
   const handleCreditCards = () => {
     navigation.navigate('CreditCards');
+  };
+
+  const handleCategories = () => {
+    navigation.navigate('Categories');
   };
 
   return (
@@ -132,6 +137,19 @@ const Profile = () => {
           />
           <EditButton onPress={handleCreditCards}>
             <EditText>Cartões</EditText>
+          </EditButton>
+          <Separator />
+        </ViewInput>
+
+        <ViewInput>
+          <IconCategory
+            name="category"
+            size={20}
+            color={colors.text}
+            style={{paddingTop: 2, paddingRight: 8}}
+          />
+          <EditButton onPress={handleCategories}>
+            <EditText>Categorias</EditText>
           </EditButton>
           <Separator />
         </ViewInput>

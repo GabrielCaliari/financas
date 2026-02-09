@@ -116,6 +116,7 @@ const Home = () => {
         value: item.value,
         type: item.type,
         payment_method: item.payment_method,
+        categoryId: item.categoryId ?? undefined,
       });
     } else if (item.type === 'despesa') {
       navigation.navigate('Despesa', {
@@ -124,6 +125,7 @@ const Home = () => {
         value: item.value,
         type: item.type,
         payment_method: item.payment_method,
+        categoryId: item.categoryId ?? undefined,
       });
     }
   }

@@ -212,13 +212,15 @@ const New = () => {
               <Text style={{fontSize: 14, color: colors.textSecondary, marginBottom: 8}}>
                 Categoria
               </Text>
-              <View style={{flexDirection: 'row', flexWrap: 'wrap', gap: 8}}>
+              <View style={{flexDirection: 'row', flexWrap: 'wrap'}}>
                 <TouchableOpacity
                   onPress={() => setCategoryId(null)}
                   style={{
                     paddingVertical: 8,
                     paddingHorizontal: 12,
                     borderRadius: 8,
+                    marginRight: 8,
+                    marginBottom: 8,
                     backgroundColor: categoryId === null ? colors.primary : colors.surface,
                   }}>
                   <Text
@@ -237,6 +239,8 @@ const New = () => {
                       paddingVertical: 8,
                       paddingHorizontal: 12,
                       borderRadius: 8,
+                      marginRight: 8,
+                      marginBottom: 8,
                       backgroundColor: categoryId === cat.id ? colors.primary : colors.surface,
                     }}>
                     <Text
