@@ -19,6 +19,7 @@ import {
 } from './styled';
 import Header from '../../components/Header';
 import {AuthContext} from '../../contexts/auth';
+import {useTheme} from '../../contexts/ThemeContext';
 import {useNavigation} from '@react-navigation/native';
 import Back from 'react-native-vector-icons/Ionicons';
 import IconUser from 'react-native-vector-icons/AntDesign';
@@ -28,6 +29,7 @@ import IconLogOut from 'react-native-vector-icons/Feather';
 const Profile = () => {
   const {user, signOut} = useContext(AuthContext);
   const navigation = useNavigation();
+  const {colors} = useTheme();
 
   const handleEditProfile = () => {
     navigation.navigate('ProfileEdit');
@@ -41,7 +43,7 @@ const Profile = () => {
     <Container>
       <ViewHeader>
         <ButtonCancel onPress={() => navigation.goBack()}>
-          <Back name="arrow-back" color="white" size={30} />
+          <Back name="arrow-back" color={colors.text} size={30} />
         </ButtonCancel>
         <Header titulo="Perfil" />
       </ViewHeader>
@@ -70,7 +72,7 @@ const Profile = () => {
           <IconUser
             name="user"
             size={20}
-            color="white"
+            color={colors.text}
             style={{paddingTop: 2, paddingRight: 8}}
           />
           <EditButton onPress={handleEditProfile}>
@@ -83,7 +85,7 @@ const Profile = () => {
           <IconInfo
             name="info"
             size={20}
-            color="white"
+            color={colors.text}
             style={{paddingTop: 2, paddingRight: 8}}
           />
           <EditButton onPress={handleInfo}>
@@ -96,7 +98,7 @@ const Profile = () => {
           <IconLogOut
             name="log-out"
             size={20}
-            color="white"
+            color={colors.text}
             style={{paddingTop: 2, paddingRight: 8}}
           />
           <LogoutButton onPress={() => signOut()}>
