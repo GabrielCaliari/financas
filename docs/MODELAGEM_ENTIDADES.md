@@ -185,10 +185,13 @@ Um orçamento por (usuário, categoria, mês).
 - **Tipos de domínio (Date):** `src/types/entities.ts`
 - **Tipos Firestore (Timestamp):** `src/types/firestore.ts`
 - **Barrel:** `src/types/index.ts`
+- **Coleções:** `src/services/firebase.ts` (users, movements, wallets, categories, transactions, budgets, subscriptions, creditCards, invoices)
+- **Serviços (um por entidade):** `src/services/walletService.ts`, `categoryService.ts`, `transactionService.ts`, `budgetService.ts`, `subscriptionService.ts`, `creditCardService.ts`, `invoiceService.ts`
+- **Hooks:** `src/hooks/useWallets.ts`, `useCategories.ts`, `useTransactions.ts`, `useBudgets.ts`, `useSubscriptions.ts`, `useCreditCards.ts`, `useInvoices.ts` (barrel: `src/hooks/index.ts`)
 
-Serviços devem:
-- Ler do Firestore e converter `Timestamp` → `Date` para retornar entidades.
-- Receber entidades com `Date` e converter `Date` → `Timestamp` ao escrever.
+Serviços:
+- Leem do Firestore e convertem `Timestamp` → `Date` para retornar entidades.
+- Recebem inputs com `Date` e convertem `Date` → `Timestamp` ao escrever.
 
 ---
 
