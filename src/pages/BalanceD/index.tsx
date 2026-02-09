@@ -1,6 +1,7 @@
 import React, {useEffect, useState} from 'react';
 import {Alert, Modal, TouchableOpacity, View} from 'react-native';
 import Header from '../../components/Header';
+import {useTheme} from '../../contexts/ThemeContext';
 import {
   ButtonCancel,
   List,
@@ -20,6 +21,7 @@ import {
 } from '../../services/movementService';
 
 const BalanceD = () => {
+  const {colors} = useTheme();
   const [movements, setMovements] = useState<MovementDisplay[]>([]);
   const [dateMovements, setDateMovements] = useState(new Date());
   const isFocused = useIsFocused();
@@ -57,16 +59,16 @@ const BalanceD = () => {
   }
 
   return (
-    <View style={{flex: 1, backgroundColor: 'black'}}>
+    <View style={{flex: 1, backgroundColor: colors.background}}>
       <ViewHeader style={{justifyContent: 'space-between'}}>
         <ButtonCancel onPress={() => navigation.goBack()}>
-          <Back name="arrow-back" color="white" size={30} />
+          <Back name="arrow-back" color={colors.text} size={30} />
         </ButtonCancel>
         <Header titulo="Despesa" />
       </ViewHeader>
       <Area>
         <TouchableOpacity onPress={() => setModalVisible(true)}>
-          <Icon name="calendar" color="white" size={30} />
+          <Icon name="calendar" color={colors.text} size={30} />
         </TouchableOpacity>
         <Title>Últimas movimentações</Title>
       </Area>

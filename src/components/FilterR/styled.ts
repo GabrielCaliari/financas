@@ -13,7 +13,10 @@ export const Container = styled.View`
 `;
 
 export const IconView = styled.View`
-  background-color: ${props => (props.tipo === 'despesa' ? 'red' : '#049301')};
+  background-color: ${props =>
+    props.tipo === 'despesa'
+      ? (props.theme?.colors?.expense ?? 'red')
+      : (props.theme?.colors?.income ?? '#049301')};
   padding: 5px;
   border-radius: 50px;
   width: 30px;
@@ -28,14 +31,14 @@ export const ViewTextAndIcon = styled.View`
 `;
 
 export const TipoText = styled.Text`
-  color: white;
-  font-size: 16px;
+  color: ${props => props.theme?.colors?.text ?? '#FFFFFF'};
+  font-size: ${props => props.theme?.typography?.sizes?.body ?? 16}px;
   line-height: 22px;
 `;
 
 export const ValorText = styled.Text`
-  color: white;
-  font-size: 18px;
+  color: ${props => props.theme?.colors?.text ?? '#FFFFFF'};
+  font-size: ${props => props.theme?.typography?.sizes?.lg ?? 18}px;
 `;
 
 export const DescricaoContainer = styled.View`
@@ -52,7 +55,7 @@ export const PaymentMethodIconContainer = styled.View`
 
 export const Separator = styled.View`
   height: 1px;
-  background-color: rgba(255, 255, 255, 0.3);
+  background-color: ${props => props.theme?.colors?.border ?? 'rgba(255, 255, 255, 0.3)'};
   width: 100%;
   position: absolute;
   bottom: 0;
