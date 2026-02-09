@@ -16,15 +16,18 @@ export const Tipo = styled.View`
 `;
 
 export const TipoText = styled.Text`
-  color: white;
-  font-size: 16px;
-  margin-left: 10px; /* Adiciona um pequeno espaçamento entre o ícone e a descrição */
-  line-height: 22px; /* Ajusta a altura da linha para melhor alinhamento */
+  color: ${props => props.theme?.colors?.text ?? '#FFFFFF'};
+  font-size: ${props => props.theme?.typography?.sizes?.body ?? 16}px;
+  margin-left: 10px;
+  line-height: 22px;
 `;
 
 export const IconView = styled.View`
   flex-direction: row;
-  background-color: ${props => (props.tipo === 'despesa' ? 'red' : '#049301')};
+  background-color: ${props =>
+    props.tipo === 'despesa'
+      ? (props.theme?.colors?.expense ?? 'red')
+      : (props.theme?.colors?.income ?? '#049301')};
   padding: 5px; /* Reduz o preenchimento interno para diminuir o tamanho do fundo */
   border-radius: 50px; /* Mantém o formato redondo */
   width: 30px; /* Ajuste o tamanho para ser proporcional ao ícone */
@@ -35,19 +38,19 @@ export const IconView = styled.View`
 `;
 
 export const ValorText = styled.Text`
-  color: white;
-  font-size: 18px;
-  margin-left: 20px; /* Adiciona espaçamento entre a descrição e o valor */
+  color: ${props => props.theme?.colors?.text ?? '#FFFFFF'};
+  font-size: ${props => props.theme?.typography?.sizes?.lg ?? 18}px;
+  margin-left: 20px;
 `;
 
 export const ViewDescription = styled.View`
   flex-direction: row;
-  justify-content: space-between; /* Distribui o espaço entre os elementos */
+  justify-content: space-between;
   align-items: center;
   width: 100%;
   padding-bottom: 10px;
   border-bottom-width: 1px;
-  border-bottom-color: white;
+  border-bottom-color: ${props => props.theme?.colors?.border ?? '#FFFFFF'};
 `;
 
 export const DescricaoContainer = styled.View`
@@ -58,7 +61,7 @@ export const DescricaoContainer = styled.View`
 
 export const Separator = styled.View`
   height: 1px;
-  background-color: rgba(255, 255, 255, 0.3); /* Branco com 30% de opacidade */
+  background-color: ${props => props.theme?.colors?.border ?? 'rgba(255, 255, 255, 0.3)'};
   width: 100%;
   position: absolute;
   bottom: 0;
@@ -67,7 +70,7 @@ export const Separator = styled.View`
 
 export const List = styled.FlatList`
   flex: 1;
-  background-color: #1e1e1e;
+  background-color: ${props => props.theme?.colors?.surface ?? '#1e1e1e'};
   margin-left: 18px;
   margin-right: 18px;
   margin-bottom: 70px;
@@ -96,11 +99,11 @@ export const ButtonText = styled.Text`
   align-items: center;
   justify-content: center;
   padding-top: 15px;
-  color: white;
+  color: ${props => props.theme?.colors?.text ?? '#FFFFFF'};
   padding-left: 10px;
 `;
 export const Area = styled.View`
-  background-color: #1e1e1e;
+  background-color: ${props => props.theme?.colors?.surface ?? '#1e1e1e'};
   border-top-left-radius: 18px;
   border-top-right-radius: 18px;
   flex-direction: row;
@@ -111,9 +114,9 @@ export const Area = styled.View`
 
 export const Title = styled.Text`
   margin-left: 4px;
-  color: white;
+  color: ${props => props.theme?.colors?.text ?? '#FFFFFF'};
   margin-top: 5px;
   margin-bottom: 14px;
-  font-weight: bold;
-  font-size: 18px;
+  font-weight: ${props => props.theme?.typography?.weights?.bold ?? '700'};
+  font-size: ${props => props.theme?.typography?.sizes?.lg ?? 18}px;
 `;
