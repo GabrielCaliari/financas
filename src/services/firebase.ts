@@ -42,6 +42,15 @@ export interface Movement {
 export const usersCollection = collection(db, 'users');
 export const movementsCollection = collection(db, 'movements');
 
+// Novas coleções (modelagem evoluída)
+export const walletsCollection = collection(db, 'wallets');
+export const categoriesCollection = collection(db, 'categories');
+export const transactionsCollection = collection(db, 'transactions');
+export const budgetsCollection = collection(db, 'budgets');
+export const subscriptionsCollection = collection(db, 'subscriptions');
+export const creditCardsCollection = collection(db, 'creditCards');
+export const invoicesCollection = collection(db, 'invoices');
+
 // Helper to convert Firestore timestamp to Date
 export const timestampToDate = (timestamp: FirebaseTimestamp): Date => {
   return timestamp.toDate();
