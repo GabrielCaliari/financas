@@ -41,9 +41,10 @@ export function ToastProvider({children}: {children: React.ReactNode}) {
 
   return (
     <ToastContext.Provider value={value}>
-      {children}
-      {visible && (
-        <Animated.View
+      <View style={{flex: 1}}>
+        {children}
+        {visible && (
+          <Animated.View
           style={[
             styles.wrapper,
             {
@@ -66,9 +67,10 @@ export function ToastProvider({children}: {children: React.ReactNode}) {
               },
             ]}>
             {message}
-          </Text>
-        </Animated.View>
-      )}
+            </Text>
+          </Animated.View>
+        )}
+      </View>
     </ToastContext.Provider>
   );
 }
