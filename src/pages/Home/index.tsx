@@ -27,7 +27,6 @@ import {useTheme} from '../../contexts/ThemeContext';
 import {useToast} from '../../contexts/ToastContext';
 import {
   getMovementsByDate,
-  getBalanceByDate,
   deleteMovement,
   MovementDisplay,
 } from '../../services/movementService';
@@ -54,23 +53,44 @@ const Home = () => {
   }, []);
 
   useEffect(() => {
-    if (isFocused) {
+    if (isFocused && user) {
       fetchMovements();
     }
-  }, [dateMovements, isFocused]);
+  }, [dateMovements, isFocused, user]);
 
   async function fetchMovements() {
+    if (!user) return;
     try {
       const movementsData = await getMovementsByDate(dateMovements);
-      const balanceData = await getBalanceByDate(dateMovements);
+      const totalReceita = movementsData
+        .filter(m => m.type === 'receita')
+        .reduce((acc, m) => acc + m.value, 0);
+      const totalDespesa = movementsData
+        .filter(m => m.type === 'despesa')
+        .reduce((acc, m) => acc + m.value, 0);
+      const balanceData = {
+        saldo: totalReceita - totalDespesa,
+        tag: 'saldo' as const,
+      };
 
       setMovements(movementsData);
       setListBalance([balanceData]);
-    } catch (error) {
-      Alert.alert(
-        'Erro',
-        'Não foi possível carregar as movimentações. Tente novamente.',
-      );
+    } catch (error: any) {
+      const isIndexError =
+        error?.code === 'firestore/failed-precondition' ||
+        (typeof error?.message === 'string' &&
+          error.message.toLowerCase().includes('index'));
+      const message = isIndexError
+        ? 'A base de dados ainda está sendo configurada. Veja o arquivo docs/FIRESTORE_INDEXES.md para criar o índice necessário no Firebase. Depois tente novamente em alguns minutos.'
+        : 'Não foi possível carregar as movimentações. Verifique sua conexão e tente novamente.';
+      if (__DEV__ && error?.message) {
+        console.warn('[Home] Erro ao carregar movimentações:', error.message);
+        if (error?.message?.includes('https://')) {
+          const link = error.message.match(/https:\/\/[^\s)]+/)?.[0];
+          if (link) console.warn('Link do Firebase:', link);
+        }
+      }
+      Alert.alert('Erro', message);
     }
   }
 
