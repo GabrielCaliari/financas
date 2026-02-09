@@ -21,6 +21,7 @@ import CreditCards from '../pages/CreditCards';
 import CreditCardForm from '../pages/CreditCardForm';
 import Categories from '../pages/Categories';
 import CategoryForm from '../pages/CategoryForm';
+import Transfer from '../pages/Transfer';
 
 import { BottonCustom, ModalContainer, ModalContent } from '../components/CustomDrawer/styled';
 import { useTheme as useAppTheme } from '../contexts/ThemeContext';
@@ -103,10 +104,10 @@ function AddModal({ visible, onClose }: { visible: boolean; onClose: () => void 
           <TouchableOpacity
             style={{ flexDirection: 'row', alignItems: 'center', marginVertical: 12, paddingVertical: 12, paddingHorizontal: 4 }}
             activeOpacity={0.7}
-            onPress={() => { onClose(); }}>
-            <Icon name="swap-horiz" size={24} color={colors.textSecondary} style={{ marginRight: 12 }} />
-            <Text style={{ fontSize: typography.sizes.body, color: colors.textSecondary, fontWeight: typography.weights.medium }}>
-              Transferência (em breve)
+            onPress={() => closeAndNavigate('Transfer')}>
+            <Icon name="swap-horiz" size={24} color={colors.primary} style={{ marginRight: 12 }} />
+            <Text style={{ fontSize: typography.sizes.body, color: colors.text, fontWeight: typography.weights.medium }}>
+              Transferência
             </Text>
           </TouchableOpacity>
 
@@ -220,6 +221,7 @@ function AppRoutes() {
       <Stack.Screen name="CreditCardForm" component={CreditCardForm} />
       <Stack.Screen name="Categories" component={Categories} />
       <Stack.Screen name="CategoryForm" component={CategoryForm} />
+      <Stack.Screen name="Transfer" component={Transfer} />
     </Stack.Navigator>
   );
 }

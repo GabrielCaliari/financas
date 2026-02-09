@@ -65,7 +65,7 @@ Conferência do que **já está no app** e do que **ainda falta** em relação a
 - [ ] **Busca textual por descrição**
 
 ### Adicionar
-- [ ] **Transferência** (tela/fluxo completo)
+- [x] **Transferência** (tela/fluxo completo)
 - [ ] **Cartão de crédito** (tela/fluxo completo)
 - [x] **Categorias** nas telas de receita/despesa (usar `categories` + `categoryId`)
 - [ ] **Parcelamento automático** (gerar N transações)
@@ -87,7 +87,7 @@ Conferência do que **já está no app** e do que **ainda falta** em relação a
 - [ ] **Compra no crédito** não alterar saldo da carteira imediatamente
 - [ ] **Parcelamento** gerar N transações futuras automaticamente
 - [ ] **Recorrência** criar próximas ocorrências (ex.: mensal) via scheduler
-- [ ] **Transferência** debitar de uma carteira e creditar em outra
+- [x] **Transferência** debitar de uma carteira e creditar em outra
 
 ### Inteligência / Insights
 - [ ] Maior gasto do mês
