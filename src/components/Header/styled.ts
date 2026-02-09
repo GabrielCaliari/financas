@@ -12,8 +12,9 @@ export const Container = styled.SafeAreaView`
 `;
 
 export const Title = styled.Text`
-  font-size: 20px;
-  color: white;
+  font-size: ${props => props.theme?.typography?.sizes?.title ?? 20}px;
+  font-weight: ${props => props.theme?.typography?.weights?.semibold ?? '600'};
+  color: ${props => props.theme?.colors?.text ?? '#FFFFFF'};
 `;
 
 export const ButtonMenu = styled.TouchableOpacity`
