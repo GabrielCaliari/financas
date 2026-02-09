@@ -22,6 +22,7 @@ import HistoricList from '../../components/HistoricList';
 import CalendarModal from '../../components/CalendarModal';
 import notifee, {AuthorizationStatus} from '@notifee/react-native';
 import {AuthContext} from '../../contexts/auth';
+import {useTheme} from '../../contexts/ThemeContext';
 import {
   getMovementsByDate,
   getBalanceByDate,
@@ -31,6 +32,7 @@ import {
 
 const Home = () => {
   const navigation = useNavigation();
+  const {colors} = useTheme();
   const [modalVisible, setModalVisible] = useState(false);
   const [listBalance, setListBalance] = useState<{saldo: number; tag: string}[]>([]);
   const [dateMovements, setDateMovements] = useState(new Date());
@@ -153,7 +155,7 @@ const Home = () => {
 
       <Area>
         <TouchableOpacity onPress={() => setModalVisible(true)}>
-          <Icon name="calendar" color="white" size={30} />
+          <Icon name="calendar" color={colors.text} size={30} />
         </TouchableOpacity>
         <Title>Últimas movimentações</Title>
       </Area>
