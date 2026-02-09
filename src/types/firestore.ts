@@ -1,14 +1,12 @@
 /**
  * Tipos dos documentos como armazenados no Firestore (com Timestamp).
- * Use estes tipos ao ler/escrever nas coleções.
- * Converta para as entidades de domínio (Date) na camada de serviço.
+ * Corpo do documento (sem id); id = document id.
  */
 
 import type { FirebaseFirestoreTypes } from '@react-native-firebase/firestore';
 
 export type Timestamp = FirebaseFirestoreTypes.Timestamp;
 
-/** Substitui Date por Timestamp em T */
 type WithTimestamp<T> = {
   [K in keyof T]: T[K] extends Date
     ? Timestamp
@@ -17,9 +15,9 @@ type WithTimestamp<T> = {
     : T[K];
 };
 
-// Re-export dos enums (não mudam)
 export type {
-  TransactionType,
+  FinancialType,
+  TransactionStatus,
   WalletType,
   PaymentMethod,
   InvoiceStatus,
@@ -31,21 +29,18 @@ import type {
   Wallet,
   Category,
   Transaction,
+  InvoiceItem,
   Budget,
   Subscription,
   CreditCard,
   Invoice,
 } from './entities';
 
-/**
- * Corpo do documento no Firestore (sem id; o id é o document id).
- * Use: doc.data() as WalletDocument; entity = { id: doc.id, ...data } + conversão Timestamp -> Date.
- */
-
 export type UserDocument = WithTimestamp<Omit<User, 'id'>>;
 export type WalletDocument = WithTimestamp<Omit<Wallet, 'id'>>;
 export type CategoryDocument = WithTimestamp<Omit<Category, 'id'>>;
 export type TransactionDocument = WithTimestamp<Omit<Transaction, 'id'>>;
+export type InvoiceItemDocument = WithTimestamp<Omit<InvoiceItem, 'id'>>;
 export type BudgetDocument = WithTimestamp<Omit<Budget, 'id'>>;
 export type SubscriptionDocument = WithTimestamp<Omit<Subscription, 'id'>>;
 export type CreditCardDocument = WithTimestamp<Omit<CreditCard, 'id'>>;

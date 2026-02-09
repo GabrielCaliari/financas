@@ -52,6 +52,7 @@ export const budgetsCollection = collection(db, 'budgets');
 export const subscriptionsCollection = collection(db, 'subscriptions');
 export const creditCardsCollection = collection(db, 'creditCards');
 export const invoicesCollection = collection(db, 'invoices');
+export const invoiceItemsCollection = collection(db, 'invoice_items');
 
 // Helper to convert Firestore timestamp to Date
 export const timestampToDate = (timestamp: FirebaseTimestamp): Date => {

@@ -15,59 +15,98 @@ import {
   where,
   orderBy,
 } from '@react-native-firebase/firestore';
-import type {
-  Transaction,
-  TransactionType,
-  PaymentMethod,
-  RecurrenceRule,
-} from '../types/entities';
+import type { Transaction } from '../types/entities';
 import type { TransactionDocument } from '../types/firestore';
+import { calculateAccountBalance } from '../engine/balanceEngine';
+import * as walletService from './walletService';
 
-function docToTransaction(
-  docId: string,
-  data: TransactionDocument,
-): Transaction {
+/** Documento no Firestore pode ser novo (accountId, amount, financialType, status) ou legado (walletId, value, type) */
+type TransactionDoc = TransactionDocument & {
+  walletId?: string;
+  value?: number;
+  type?: string;
+};
+
+function docToTransaction(docId: string, data: TransactionDoc): Transaction {
+  const date = timestampToDate(data.date)!;
+  const createdAt = timestampToDate(data.createdAt)!;
+  const updatedAt = data.updatedAt ? timestampToDate(data.updatedAt)! : createdAt;
+
+  if (data.financialType != null && data.status != null && data.amount != null && data.accountId != null) {
+    return {
+      id: docId,
+      userId: data.userId,
+      description: data.description ?? '',
+      amount: data.amount,
+      date,
+      categoryId: data.categoryId ?? null,
+      accountId: data.accountId,
+      financialType: data.financialType,
+      status: data.status,
+      createdAt,
+      updatedAt,
+      parentTransactionId: data.parentTransactionId ?? null,
+      invoiceId: data.invoiceId ?? null,
+      recurrenceId: data.recurrenceId ?? null,
+      targetAccountId: data.targetAccountId ?? null,
+    };
+  }
+
+  const accountId = (data.accountId ?? data.walletId) ?? '';
+  const value = data.value ?? 0;
+  const type = data.type ?? 'despesa';
+  const amount = type === 'receita' ? value : -(value || 0);
+  if (data.targetWalletId != null || (data as { targetAccountId?: string }).targetAccountId != null) {
+    const targetId = (data as { targetAccountId?: string }).targetAccountId ?? data.targetWalletId;
+    return {
+      id: docId,
+      userId: data.userId,
+      description: data.description ?? '',
+      amount: -Math.abs(value),
+      date,
+      categoryId: data.categoryId ?? null,
+      accountId,
+      financialType: 'cash',
+      status: 'posted',
+      createdAt,
+      updatedAt,
+      parentTransactionId: null,
+      invoiceId: data.invoiceId ?? null,
+      recurrenceId: null,
+      targetAccountId: targetId ?? null,
+    };
+  }
   return {
     id: docId,
     userId: data.userId,
-    walletId: data.walletId,
-    type: data.type as TransactionType,
-    value: data.value,
-    description: data.description,
+    description: data.description ?? '',
+    amount,
+    date,
     categoryId: data.categoryId ?? null,
-    paymentMethod: (data.paymentMethod as PaymentMethod | null) ?? null,
-    date: timestampToDate(data.date)!,
-    createdAt: timestampToDate(data.createdAt)!,
-    targetWalletId: data.targetWalletId ?? null,
-    creditCardId: data.creditCardId ?? null,
-    invoiceId: data.invoiceId ?? null,
-    installmentGroupId: data.installmentGroupId ?? null,
-    installmentNumber: data.installmentNumber,
-    installmentTotal: data.installmentTotal,
-    recurrenceRule: (data.recurrenceRule as RecurrenceRule | null) ?? null,
-    recurrenceEndDate: data.recurrenceEndDate
-      ? timestampToDate(data.recurrenceEndDate) ?? null
-      : null,
-    recurrenceParentId: data.recurrenceParentId ?? null,
+    accountId,
+    financialType: 'cash',
+    status: 'posted',
+    createdAt,
+    updatedAt,
+    parentTransactionId: null,
+    invoiceId: null,
+    recurrenceId: null,
+    targetAccountId: null,
   };
 }
 
 export interface CreateTransactionInput {
-  walletId: string;
-  type: TransactionType;
-  value: number;
+  accountId: string;
+  amount: number;
   description: string;
-  categoryId?: string | null;
-  paymentMethod?: PaymentMethod | null;
   date: Date;
-  targetWalletId?: string | null;
-  creditCardId?: string | null;
+  categoryId?: string | null;
+  financialType?: Transaction['financialType'];
+  status?: Transaction['status'];
+  targetAccountId?: string | null;
+  parentTransactionId?: string | null;
   invoiceId?: string | null;
-  installmentGroupId?: string | null;
-  installmentNumber?: number;
-  installmentTotal?: number;
-  recurrenceRule?: RecurrenceRule | null;
-  recurrenceEndDate?: Date | null;
+  recurrenceId?: string | null;
 }
 
 export async function createTransaction(
@@ -77,56 +116,61 @@ export async function createTransaction(
   if (!user) throw new Error('Usuário não autenticado');
 
   const now = new Date();
+  const financialType = data.financialType ?? 'cash';
+  const status = data.status ?? 'posted';
+
   const docData: Record<string, unknown> = {
     userId: user.uid,
-    walletId: data.walletId,
-    type: data.type,
-    value: data.value,
+    accountId: data.accountId,
+    amount: data.amount,
     description: data.description,
-    categoryId: data.categoryId ?? null,
-    paymentMethod: data.paymentMethod ?? null,
     date: dateToTimestamp(data.date),
+    categoryId: data.categoryId ?? null,
+    financialType,
+    status,
     createdAt: dateToTimestamp(now),
+    updatedAt: dateToTimestamp(now),
+    parentTransactionId: data.parentTransactionId ?? null,
+    invoiceId: data.invoiceId ?? null,
+    recurrenceId: data.recurrenceId ?? null,
+    targetAccountId: data.targetAccountId ?? null,
   };
-  if (data.targetWalletId != null) docData.targetWalletId = data.targetWalletId;
-  if (data.creditCardId != null) docData.creditCardId = data.creditCardId;
-  if (data.invoiceId != null) docData.invoiceId = data.invoiceId;
-  if (data.installmentGroupId != null)
-    docData.installmentGroupId = data.installmentGroupId;
-  if (data.installmentNumber != null)
-    docData.installmentNumber = data.installmentNumber;
-  if (data.installmentTotal != null)
-    docData.installmentTotal = data.installmentTotal;
-  if (data.recurrenceRule != null) docData.recurrenceRule = data.recurrenceRule;
-  if (data.recurrenceEndDate != null)
-    docData.recurrenceEndDate = dateToTimestamp(data.recurrenceEndDate);
 
   const ref = await addDoc(transactionsCollection, docData);
+
+  if (financialType === 'cash' && status === 'posted') {
+    await recomputeAndUpdateBalances(user.uid, [
+      data.accountId,
+      ...(data.targetAccountId ? [data.targetAccountId] : []),
+    ]);
+  }
   return ref.id;
 }
 
 export interface TransactionFilters {
-  walletId?: string;
-  type?: TransactionType;
+  accountId?: string;
+  financialType?: Transaction['financialType'];
   categoryId?: string;
   startDate?: Date;
   endDate?: Date;
 }
 
-export async function getTransactionsByUserId(
+function buildBaseQuery(
   userId: string,
   filters?: TransactionFilters,
-): Promise<Transaction[]> {
+  accountField?: 'accountId' | 'walletId',
+  accountValue?: string,
+) {
   let q = query(
     transactionsCollection,
     where('userId', '==', userId),
     orderBy('date', 'desc'),
   );
-  if (filters?.walletId) {
-    q = query(q, where('walletId', '==', filters.walletId));
+  if (accountField && accountValue) {
+    q = query(q, where(accountField, '==', accountValue));
   }
-  if (filters?.type) {
-    q = query(q, where('type', '==', filters.type));
+  if (filters?.financialType) {
+    q = query(q, where('financialType', '==', filters.financialType));
   }
   if (filters?.categoryId) {
     q = query(q, where('categoryId', '==', filters.categoryId));
@@ -137,22 +181,67 @@ export async function getTransactionsByUserId(
   if (filters?.endDate) {
     q = query(q, where('date', '<=', dateToTimestamp(filters.endDate)));
   }
-  const snapshot = await getDocs(q);
-  return snapshot.docs.map(d =>
-    docToTransaction(d.id, d.data() as TransactionDocument),
-  );
+  return q;
+}
+
+export async function getTransactionsByUserId(
+  userId: string,
+  filters?: TransactionFilters,
+): Promise<Transaction[]> {
+  const accountId = filters?.accountId;
+  let list: Transaction[];
+
+  if (accountId) {
+    const [snapNew, snapLegacy] = await Promise.all([
+      getDocs(buildBaseQuery(userId, filters, 'accountId', accountId)),
+      getDocs(buildBaseQuery(userId, filters, 'walletId', accountId)),
+    ]);
+    const byId = new Map<string, Transaction>();
+    for (const d of snapNew.docs) {
+      const t = docToTransaction(d.id, d.data() as TransactionDoc);
+      byId.set(t.id, t);
+    }
+    for (const d of snapLegacy.docs) {
+      if (!byId.has(d.id)) {
+        byId.set(d.id, docToTransaction(d.id, d.data() as TransactionDoc));
+      }
+    }
+    list = Array.from(byId.values());
+  } else {
+    const snapshot = await getDocs(buildBaseQuery(userId, filters));
+    list = snapshot.docs.map(d =>
+      docToTransaction(d.id, d.data() as TransactionDoc),
+    );
+  }
+  list.sort((a, b) => b.date.getTime() - a.date.getTime());
+  return list;
+}
+
+async function recomputeAndUpdateBalances(
+  userId: string,
+  accountIds: string[],
+): Promise<void> {
+  const [transactions, wallets] = await Promise.all([
+    getTransactionsByUserId(userId),
+    walletService.getWalletsByUserId(userId),
+  ]);
+  const toUpdate = accountIds.length ? accountIds : wallets.map(w => w.id);
+  for (const accountId of toUpdate) {
+    const balance = calculateAccountBalance(accountId, transactions);
+    await walletService.updateWalletBalance(accountId, balance);
+  }
 }
 
 export async function getTransactionsByDateRange(
   userId: string,
   startDate: Date,
   endDate: Date,
-  walletId?: string,
+  accountId?: string,
 ): Promise<Transaction[]> {
   return getTransactionsByUserId(userId, {
     startDate,
     endDate,
-    walletId,
+    accountId,
   });
 }
 
@@ -164,20 +253,18 @@ export async function getTransactionById(
 
   const snap = await getDoc(doc(transactionsCollection, transactionId));
   if (!snap.exists()) return null;
-  const data = snap.data() as TransactionDocument;
+  const data = snap.data() as TransactionDoc;
   if (data.userId !== user.uid) return null;
   return docToTransaction(snap.id, data);
 }
 
 export interface UpdateTransactionInput {
-  walletId?: string;
-  type?: TransactionType;
-  value?: number;
+  accountId?: string;
+  amount?: number;
   description?: string;
   categoryId?: string | null;
-  paymentMethod?: PaymentMethod | null;
   date?: Date;
-  targetWalletId?: string | null;
+  targetAccountId?: string | null;
 }
 
 export async function updateTransaction(
@@ -187,24 +274,38 @@ export async function updateTransaction(
   const user = getAuth().currentUser;
   if (!user) throw new Error('Usuário não autenticado');
 
-  const updates: Record<string, unknown> = {};
-  if (data.walletId != null) updates.walletId = data.walletId;
-  if (data.type != null) updates.type = data.type;
-  if (data.value != null) updates.value = data.value;
+  const current = await getTransactionById(transactionId);
+  if (!current) return;
+
+  const updates: Record<string, unknown> = {
+    updatedAt: dateToTimestamp(new Date()),
+  };
+  if (data.accountId != null) updates.accountId = data.accountId;
+  if (data.amount != null) updates.amount = data.amount;
   if (data.description != null) updates.description = data.description;
   if (data.categoryId !== undefined) updates.categoryId = data.categoryId;
-  if (data.paymentMethod !== undefined)
-    updates.paymentMethod = data.paymentMethod;
   if (data.date != null) updates.date = dateToTimestamp(data.date);
-  if (data.targetWalletId !== undefined)
-    updates.targetWalletId = data.targetWalletId;
+  if (data.targetAccountId !== undefined)
+    updates.targetAccountId = data.targetAccountId;
 
-  if (Object.keys(updates).length === 0) return;
+  if (Object.keys(updates).length <= 1) return;
   await updateDoc(doc(transactionsCollection, transactionId), updates);
+
+  const affected = [current.accountId, current.targetAccountId].filter(Boolean);
+  if (data.accountId) affected.push(data.accountId);
+  if (data.targetAccountId) affected.push(data.targetAccountId);
+  await recomputeAndUpdateBalances(user.uid, [...new Set(affected)]);
 }
 
 export async function deleteTransaction(transactionId: string): Promise<void> {
   const user = getAuth().currentUser;
   if (!user) throw new Error('Usuário não autenticado');
+
+  const current = await getTransactionById(transactionId);
+  if (!current) return;
+
   await deleteDoc(doc(transactionsCollection, transactionId));
+
+  const affected = [current.accountId, current.targetAccountId].filter(Boolean);
+  await recomputeAndUpdateBalances(user.uid, affected);
 }

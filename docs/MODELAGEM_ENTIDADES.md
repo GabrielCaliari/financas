@@ -1,10 +1,29 @@
 # Modelagem de entidades — App financeiro pessoal
 
-Este documento descreve a modelagem de dados do aplicativo (evolução do Finanças), alinhada ao Product Spec. **Uma entidade = uma coleção no Firestore** (nunca misturar tipos em um documento).
+Este documento descreve a modelagem de dados do aplicativo (evolução do Finanças). **Uma entidade = uma coleção no Firestore** (nunca misturar tipos em um documento).
+
+> **Modelo definitivo (motor contábil):** O plano técnico orientado ao **motor financeiro** (caixa x competência x fatura) está em **`PLANO_TECNICO_MOTOR_FINANCEIRO.md`**. A **Transaction definitiva** usa `financialType` (cash | commitment | invoice), `status` (pending | posted | paid), `amount` (com sinal) e `accountId`; existe ainda a entidade **invoice_items** para o sub-ledger do cartão. A implementação deve seguir a Fase 2 desse plano antes de novas telas.
 
 ---
 
-## Visão geral
+## Modelo definitivo (Fase 2 — referência)
+
+Resumo do que passa a valer após a Fase 2 (detalhes em `PLANO_TECNICO_MOTOR_FINANCEIRO.md`):
+
+**Transaction (definitiva)**  
+- `id`, `userId`, `description`, `amount` (com sinal), `date`, `categoryId`, `accountId`  
+- `financialType`: `"cash"` | `"commitment"` | `"invoice"`  
+- `status`: `"pending"` | `"posted"` | `"paid"`  
+- `parentTransactionId`, `invoiceId`, `recurrenceId` (opcionais)  
+- **Regra:** só `financialType === "cash"` e `status === "posted"` alteram saldo da conta.
+
+**InvoiceItem (nova coleção `invoice_items`)**  
+- `id`, `userId`, `creditCardId`, `invoiceId` (quando fatura fechada), `description`, `amount`, `date`, `categoryId`, `createdAt`  
+- Compra no crédito cria invoice_item; fatura soma itens; pagar fatura gera transação cash.
+
+---
+
+## Visão geral (modelo atual até Fase 2)
 
 | Entidade      | Coleção Firestore | Responsabilidade |
 |---------------|-------------------|------------------|

@@ -25,8 +25,8 @@ export default function Transactions() {
   const { transactions, loading, error } = useTransactions();
   const { wallets } = useWallets();
 
-  const getWalletName = (walletId: string) =>
-    wallets.find(w => w.id === walletId)?.name ?? 'Carteira';
+  const getWalletName = (accountId: string) =>
+    wallets.find(w => w.id === accountId)?.name ?? 'Carteira';
 
   if (loading) {
     return (
@@ -75,22 +75,26 @@ export default function Transactions() {
             </EmptyMessage>
           </EmptyContainer>
         }
-        renderItem={({ item }) => (
-          <ItemCard>
-            <ItemDescription>{item.description}</ItemDescription>
-            <ItemMeta>
-              {format(item.date, "dd MMM yyyy", { locale: ptBR })} · {getWalletName(item.walletId)}
-            </ItemMeta>
-            <ItemValue
-              style={{
-                color: item.type === 'receita' ? colors.income : colors.expense,
-                marginTop: 4,
-              }}>
-              {item.type === 'receita' ? '+' : item.type === 'transferencia' ? '→' : '-'} R${' '}
-              {item.value.toFixed(2).replace('.', ',')}
-            </ItemValue>
-          </ItemCard>
-        )}
+        renderItem={({ item }) => {
+          const isTransfer = !!item.targetAccountId;
+          const isIncome = item.amount >= 0 && !isTransfer;
+          return (
+            <ItemCard>
+              <ItemDescription>{item.description}</ItemDescription>
+              <ItemMeta>
+                {format(item.date, "dd MMM yyyy", { locale: ptBR })} · {getWalletName(item.accountId)}
+              </ItemMeta>
+              <ItemValue
+                style={{
+                  color: isIncome ? colors.income : colors.expense,
+                  marginTop: 4,
+                }}>
+                {isIncome ? '+' : isTransfer ? '→' : '-'} R${' '}
+                {Math.abs(item.amount).toFixed(2).replace('.', ',')}
+              </ItemValue>
+            </ItemCard>
+          );
+        }}
       />
     </Container>
   );

@@ -17,6 +17,11 @@ import {
 import type { Wallet, WalletType } from '../types/entities';
 import type { WalletDocument } from '../types/firestore';
 
+/**
+ * Saldo (balance) é cache recalculado pelo motor em transactionService
+ * após create/update/delete de transações. Não altere saldo fora desse fluxo.
+ */
+
 function docToWallet(docId: string, data: WalletDocument): Wallet {
   return {
     id: docId,

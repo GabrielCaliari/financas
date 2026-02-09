@@ -21,7 +21,6 @@ import { useTheme } from '../../contexts/ThemeContext';
 import { useWallets } from '../../hooks/useWallets';
 import { useToast } from '../../contexts/ToastContext';
 import * as transactionService from '../../services/transactionService';
-import * as walletService from '../../services/walletService';
 
 const formatCurrency = (value: string) => {
   const onlyNums = value.replace(/[^0-9]/g, '');
@@ -75,16 +74,12 @@ export default function Transfer() {
     setSaving(true);
     try {
       await transactionService.createTransaction({
-        walletId: sourceWalletId,
-        type: 'transferencia',
-        value: numericValue,
+        accountId: sourceWalletId,
+        amount: -numericValue,
         description: description.trim() || `Transferência para ${targetWallet.name}`,
         date: new Date(),
-        targetWalletId,
+        targetAccountId: targetWalletId,
       });
-
-      await walletService.updateWalletBalance(sourceWalletId, sourceWallet.balance - numericValue);
-      await walletService.updateWalletBalance(targetWalletId, targetWallet.balance + numericValue);
 
       refetchWallets();
       toast.show('Transferência realizada');

@@ -79,18 +79,22 @@ export default function Dashboard() {
               </EmptyMessage>
             </EmptyState>
           ) : (
-            recentTransactions.map(t => (
-              <Card key={t.id} style={{ marginBottom: 8 }}>
-                <CardTitle>{t.description}</CardTitle>
-                <CardValue
-                  style={{
-                    fontSize: 16,
-                    color: t.type === 'receita' ? colors.income : colors.expense,
-                  }}>
-                  {t.type === 'receita' ? '+' : '-'} R$ {t.value.toFixed(2).replace('.', ',')}
-                </CardValue>
-              </Card>
-            ))
+            recentTransactions.map(t => {
+              const isTransfer = !!t.targetAccountId;
+              const isIncome = t.amount >= 0 && !isTransfer;
+              return (
+                <Card key={t.id} style={{ marginBottom: 8 }}>
+                  <CardTitle>{t.description}</CardTitle>
+                  <CardValue
+                    style={{
+                      fontSize: 16,
+                      color: isIncome ? colors.income : colors.expense,
+                    }}>
+                    {isIncome ? '+' : isTransfer ? '→' : '-'} R$ {Math.abs(t.amount).toFixed(2).replace('.', ',')}
+                  </CardValue>
+                </Card>
+              );
+            })
           )}
         </Content>
       </Scroll>
