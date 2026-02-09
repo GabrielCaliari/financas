@@ -6,6 +6,21 @@ App de controle financeiro pessoal para Android e iOS, desenvolvido com React Na
 ![TypeScript](https://img.shields.io/badge/TypeScript-3178C6?style=for-the-badge&logo=typescript&logoColor=white)
 ![Firebase](https://img.shields.io/badge/Firebase-FFCA28?style=for-the-badge&logo=firebase&logoColor=black)
 
+## 📱 Demonstração
+
+> Adicione aqui um link para vídeo demonstrativo (YouTube, Loom, etc.). Exemplo:
+> [![Vídeo Demonstrativo](https://img.youtube.com/vi/SEU_VIDEO_ID/0.jpg)](https://youtu.be/SEU_VIDEO_ID)  
+> Clique na imagem para assistir.
+
+Você também pode incluir screenshots do app na pasta do repositório e referenciá-las aqui, por exemplo:
+
+<!--
+<p align="center">
+  <img alt="Tela Home" src="./docs/screenshots/home.png" width="45%">
+  <img alt="Tela de Receitas" src="./docs/screenshots/receitas.png" width="45%">
+</p>
+-->
+
 ## 📌 Funcionalidades
 
 ### 🔐 Autenticação
@@ -112,6 +127,17 @@ App de controle financeiro pessoal para Android e iOS, desenvolvido com React Na
 - Dados de movimentações e usuário na nuvem (Firestore e Storage)
 - Edição e exclusão de movimentações
 - Layout preparado para uso no dia a dia
+
+## 🚀 Roadmap
+
+- [ ] Gráficos e relatórios (resumo mensal, por categoria)
+- [X] Categorias personalizadas para receitas e despesas
+- [ ] Exportar dados (PDF, planilha)
+- [ ] Modo escuro
+- [ ] Metas e orçamento mensal
+- [ ] Lembretes de contas (notificações)
+- [ ] Suporte a múltiplas contas/carteiras
+- [ ] Widget na tela inicial (Android/iOS)
 
 ## 📂 Estrutura do projeto
 
