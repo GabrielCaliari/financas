@@ -67,9 +67,9 @@ Conferência do que **já está no app** e do que **ainda falta** em relação a
 ### Adicionar
 - [ ] **Transferência** (tela/fluxo completo)
 - [ ] **Cartão de crédito** (tela/fluxo completo)
+- [x] **Categorias** nas telas de receita/despesa (usar `categories` + `categoryId`)
 - [ ] **Parcelamento automático** (gerar N transações)
 - [ ] **Recorrência** (e scheduler para próximas ocorrências)
-- [ ] **Categorias** nas telas de receita/despesa (usar `categories` + `categoryId`)
 - [ ] **Anexos** (futuro)
 
 ### Planejamento
@@ -78,8 +78,8 @@ Conferência do que **já está no app** e do que **ainda falta** em relação a
 - [ ] **Faturas:** tela de fatura (fatura atual, próximas, status, pagar)
 
 ### Perfil
-- [ ] **Carteiras** (CRUD no Perfil ou tela dedicada)
-- [ ] **Cartões** (CRUD no Perfil ou tela dedicada)
+- [x] **Carteiras** (CRUD no Perfil ou tela dedicada)
+- [x] **Cartões** (CRUD no Perfil ou tela dedicada)
 - [ ] **Exportar dados**
 
 ### Regras de negócio

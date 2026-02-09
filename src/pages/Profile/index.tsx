@@ -1,5 +1,5 @@
 import React, {useContext} from 'react';
-import {Switch, View} from 'react-native';
+import {Switch, View, ScrollView} from 'react-native';
 import {
   ButtonCancel,
   Container,
@@ -64,57 +64,48 @@ const Profile = () => {
         <Header titulo="Perfil" />
       </ViewHeader>
 
-      <UserWrapper>
-        <UserInfo>
-          <UserAvatarButton disabled={true}>
-            <UserAvatar
-              source={
-                user.avatarUrl
-                  ? {uri: user.avatarUrl}
-                  : require('../../assets/avatar.png')
-              }
-              resizeMethod="auto"
-            />
-          </UserAvatarButton>
-        </UserInfo>
-      </UserWrapper>
+      <ScrollView
+        style={{flex: 1, width: '100%'}}
+        contentContainerStyle={{paddingBottom: 100}}
+        showsVerticalScrollIndicator={false}>
+        <UserWrapper>
+          <UserInfo>
+            <UserAvatarButton disabled={true}>
+              <UserAvatar
+                source={
+                  user.avatarUrl
+                    ? {uri: user.avatarUrl}
+                    : require('../../assets/avatar.png')
+                }
+                resizeMethod="auto"
+              />
+            </UserAvatarButton>
+          </UserInfo>
+        </UserWrapper>
 
-      <Message>Hey, bem vindo de volta!</Message>
+        <Message>Hey, bem vindo de volta!</Message>
 
-      <Name numberOfLines={1}>{user && user.name}</Name>
+        <Name numberOfLines={1}>{user && user.name}</Name>
 
-      <View
-        style={{
-          flexDirection: 'row',
-          alignItems: 'center',
-          justifyContent: 'space-between',
-          width: '90%',
-          marginBottom: 16,
-          paddingHorizontal: 4,
-        }}>
-        <EditText>Modo escuro</EditText>
-        <Switch
-          value={isDark}
-          onValueChange={toggleTheme}
-          trackColor={{false: colors.border, true: colors.primary}}
-          thumbColor={colors.primaryContrast}
-        />
-      </View>
-
-      <Area>
-        <ViewInput>
-          <IconUser
-            name="user"
-            size={20}
-            color={colors.text}
-            style={{paddingTop: 2, paddingRight: 8}}
+        <View
+          style={{
+            flexDirection: 'row',
+            alignItems: 'center',
+            justifyContent: 'space-between',
+            width: '90%',
+            marginBottom: 16,
+            paddingHorizontal: 4,
+          }}>
+          <EditText>Modo escuro</EditText>
+          <Switch
+            value={isDark}
+            onValueChange={toggleTheme}
+            trackColor={{false: colors.border, true: colors.primary}}
+            thumbColor={colors.primaryContrast}
           />
-          <EditButton onPress={handleEditProfile}>
-            <EditText>Editar perfil</EditText>
-          </EditButton>
-          <Separator />
-        </ViewInput>
+        </View>
 
+        <Area>
         <ViewInput>
           <IconWallet
             name="account-balance-wallet"
@@ -155,6 +146,19 @@ const Profile = () => {
         </ViewInput>
 
         <ViewInput>
+          <IconUser
+            name="user"
+            size={20}
+            color={colors.text}
+            style={{paddingTop: 2, paddingRight: 8}}
+          />
+          <EditButton onPress={handleEditProfile}>
+            <EditText>Editar perfil</EditText>
+          </EditButton>
+          <Separator />
+        </ViewInput>
+
+        <ViewInput>
           <IconInfo
             name="info"
             size={20}
@@ -179,6 +183,7 @@ const Profile = () => {
           </LogoutButton>
         </ViewInput>
       </Area>
+      </ScrollView>
     </Container>
   );
 };
