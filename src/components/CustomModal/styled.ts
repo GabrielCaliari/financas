@@ -2,29 +2,30 @@ import styled from 'styled-components/native';
 
 export const Overlay = styled.View`
   flex: 1;
-  background-color: rgba(0, 0, 0, 0.6);
+  background-color: ${props => props.theme?.colors?.overlay ?? 'rgba(0, 0, 0, 0.6)'};
   justify-content: center;
   align-items: center;
 `;
 
 export const ModalContainer = styled.View`
   width: 80%;
-  background-color: white;
+  background-color: ${props => props.theme?.colors?.surface ?? '#FFFFFF'};
   border-radius: 10px;
   padding: 20px;
   align-items: center;
 `;
 
 export const Title = styled.Text`
-  font-size: 18px;
-  font-weight: bold;
+  font-size: ${props => props.theme?.typography?.sizes?.lg ?? 18}px;
+  font-weight: ${props => props.theme?.typography?.weights?.bold ?? '700'};
   margin-bottom: 15px;
+  color: ${props => props.theme?.colors?.text ?? '#333'};
 `;
 
 export const Info = styled.Text`
-  font-size: 16px;
+  font-size: ${props => props.theme?.typography?.sizes?.body ?? 16}px;
   margin-bottom: 10px;
-  color: #333;
+  color: ${props => props.theme?.colors?.textSecondary ?? '#333'};
 `;
 
 export const ButtonContainer = styled.View`
@@ -34,7 +35,7 @@ export const ButtonContainer = styled.View`
 
 export const CancelButton = styled.TouchableOpacity`
   flex: 1;
-  border-color: #ccc;
+  border-color: ${props => props.theme?.colors?.border ?? '#ccc'};
   border-width: 1px;
   border-radius: 5px;
   padding: 10px;
@@ -44,7 +45,7 @@ export const CancelButton = styled.TouchableOpacity`
 
 export const ContinueButton = styled.TouchableOpacity`
   flex: 1;
-  background-color: #4caf50;
+  background-color: ${props => props.theme?.colors?.primary ?? '#04c200'};
   border-radius: 5px;
   padding: 10px;
   align-items: center;
@@ -52,9 +53,9 @@ export const ContinueButton = styled.TouchableOpacity`
 `;
 
 export const CancelButtonText = styled.Text`
-  color: #333;
+  color: ${props => props.theme?.colors?.textSecondary ?? '#333'};
 `;
 
 export const ContinueButtonText = styled.Text`
-  color: white;
+  color: ${props => props.theme?.colors?.primaryContrast ?? '#FFFFFF'};
 `;

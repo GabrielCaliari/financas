@@ -7,6 +7,7 @@ import Profile from '../pages/Profile';
 import Icon from 'react-native-vector-icons/MaterialIcons';
 import {Modal, Text, TouchableOpacity} from 'react-native';
 import {useNavigation} from '@react-navigation/native';
+import {useTheme} from '../contexts/ThemeContext';
 
 import {
   BottonCustom,
@@ -43,17 +44,18 @@ const CustomTabButton = ({children, onPress}) => (
 function Tabs() {
   const [modalVisible, setModalVisible] = useState(false);
   const navigation = useNavigation();
+  const {colors, typography} = useTheme();
 
   return (
     <>
       <Tab.Navigator
         screenOptions={({route}) => ({
           tabBarIcon: ({color, size}) => getTabBarIcon(route, color, size),
-          tabBarActiveTintColor: '#04C200',
-          tabBarInactiveTintColor: 'gray',
+          tabBarActiveTintColor: colors.tabActive,
+          tabBarInactiveTintColor: colors.tabInactive,
           tabBarStyle: {
-            height: 50, // Ajusta altura da tab bar
-            backgroundColor: '#121212',
+            height: 50,
+            backgroundColor: colors.tabBar,
             borderTopLeftRadius: 20,
             borderTopRightRadius: 20,
             position: 'absolute',
@@ -71,7 +73,7 @@ function Tabs() {
           component={Home}
           options={{
             tabBarItemStyle: {
-              marginRight: 30, // Aumenta o espaço à direita de Home
+              marginRight: 30,
             },
           }}
         />
@@ -79,10 +81,12 @@ function Tabs() {
         <Tab.Screen
           name="Add"
           options={{
-            tabBarIcon: () => <Icon name="add" size={32} color="white" />,
+            tabBarIcon: () => (
+              <Icon name="add" size={32} color={colors.primaryContrast} />
+            ),
             tabBarButton: props => (
               <CustomTabButton {...props} onPress={() => setModalVisible(true)}>
-                <Icon name="add" size={32} color="white" />
+                <Icon name="add" size={32} color={colors.primaryContrast} />
               </CustomTabButton>
             ),
           }}>
@@ -94,7 +98,7 @@ function Tabs() {
           component={Profile}
           options={{
             tabBarItemStyle: {
-              marginLeft: 30, // Aumenta o espaço à esquerda de Profile
+              marginLeft: 30,
             },
           }}
         />
@@ -107,7 +111,15 @@ function Tabs() {
         onRequestClose={() => setModalVisible(false)}>
         <ModalContainer>
           <ModalContent>
-            <Text style={{fontSize: 18, marginBottom: 20}}>Adicionar:</Text>
+            <Text
+              style={{
+                fontSize: typography.sizes.lg,
+                marginBottom: 20,
+                color: colors.text,
+                fontWeight: typography.weights.semibold,
+              }}>
+              Adicionar:
+            </Text>
 
             <TouchableOpacity
               style={{marginVertical: 10}}
@@ -115,7 +127,9 @@ function Tabs() {
                 setModalVisible(false);
                 navigation.navigate('Receita', {type: 'receita'});
               }}>
-              <Text style={{fontSize: 16}}>➕ Receita</Text>
+              <Text style={{fontSize: typography.sizes.body, color: colors.text}}>
+                ➕ Receita
+              </Text>
             </TouchableOpacity>
 
             <TouchableOpacity
@@ -124,13 +138,15 @@ function Tabs() {
                 setModalVisible(false);
                 navigation.navigate('Despesa', {type: 'despesa'});
               }}>
-              <Text style={{fontSize: 16}}>➖ Despesa</Text>
+              <Text style={{fontSize: typography.sizes.body, color: colors.text}}>
+                ➖ Despesa
+              </Text>
             </TouchableOpacity>
 
             <TouchableOpacity
               style={{marginTop: 20}}
               onPress={() => setModalVisible(false)}>
-              <Text style={{color: 'red'}}>Cancelar</Text>
+              <Text style={{color: colors.error}}>Cancelar</Text>
             </TouchableOpacity>
           </ModalContent>
         </ModalContainer>
